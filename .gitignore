@@ -2,3 +2,5 @@
 out/
 resources/
 EternalConflictClient.iml
+libs/
+*.iml
