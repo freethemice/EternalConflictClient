@@ -4,6 +4,7 @@ import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -31,13 +32,25 @@ public class Launcher {
         mainFrame.setResizable(false);
 
         mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(Color.RED);
+        mainPanel.setBackground(Color.GRAY);
         if (serverUp) mainPanel.setBackground(Color.BLUE);
+
+
 
         Icon loginimg = new ImageIcon("resources/launcher/Login.png");
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
+
+        JMenuBar menu = new JMenuBar();
+        mainFrame.setJMenuBar(menu);
+
+        JMenu settings = new JMenu("Settings");
+        menu.add(settings);
+
+        JMenuItem about = new JMenuItem("About");
+        JMenuItem options = new JMenuItem("Options");
+        JMenuItem exit = new JMenuItem("Exit");
 
         login = new JButton(loginimg);
         login.setPressedIcon(pressedlogin);
@@ -56,14 +69,28 @@ public class Launcher {
         progress = new JProgressBar();
 
         JLabel passlabel = new JLabel("Password");
+        passlabel.setForeground(Color.BLACK);
 
         JLabel usernamelabel = new JLabel("Username");
+        usernamelabel.setForeground(Color.BLACK);
+
+        JLabel connection = new JLabel("Server connection:");
+        connection.setForeground(Color.BLACK);
+
+        JLabel serverstate = new JLabel(String.valueOf(serverUp));
+        if(serverUp)serverstate.setForeground(Color.GREEN);
+        if(!serverUp)serverstate.setForeground(Color.RED);
 
         passwordText = new JPasswordField(16);
 
         usernameText = new JTextField(16);
 
         GridBagConstraints constraints = new GridBagConstraints();
+
+        settings.add(about);
+        settings.add(options);
+        settings.add(exit);
+
 
         constraints.insets = new Insets(3, 3, 3, 3);
         constraints.gridx = 0;
@@ -90,6 +117,14 @@ public class Launcher {
         constraints.gridy = 1;
         mainPanel.add(usernameText,constraints);
 
+        constraints.gridx = 3;
+        constraints.gridy = 1;
+        mainPanel.add(connection, constraints);
+
+        constraints.gridx = 3;
+        constraints.gridy = 2;
+        mainPanel.add(serverstate,constraints);
+
         constraints.gridx = 1;
         constraints.gridy= 2;
         mainPanel.add(passlabel,constraints);
@@ -100,6 +135,7 @@ public class Launcher {
         mainPanel.add(progress,constraints);
         mainFrame.add(mainPanel,BorderLayout.BEFORE_FIRST_LINE);
         mainFrame.pack();
+
     }
 
     public ButtonListener getButtonListener() {
