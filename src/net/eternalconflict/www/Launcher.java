@@ -1,10 +1,12 @@
 package net.eternalconflict.www;
 
+import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -14,18 +16,21 @@ public class Launcher {
     private JButton login;
     private JButton update;
     private JButton register;
+    private JLabel Info;
     private JProgressBar progress;
     private JPasswordField passwordText;
     private JTextField usernameText;
     public static Launcher instance;
+    private List<DownloadHolder> filesNeeded;
     public Launcher(boolean serverUp) {
         instance = this;
+        filesNeeded = new ArrayList<DownloadHolder>();
         buttonListener = new ButtonListener();
 
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         mainFrame = new JFrame("Eternal Conflict Launcher");
         mainFrame.setVisible(true);
-        mainFrame.setSize(500, 200);
+        mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
@@ -61,6 +66,7 @@ public class Launcher {
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
         update.addActionListener(buttonListener);
+        update.setVisible(false);
 
         register = new JButton(regesterimg);
         register.setPreferredSize(new Dimension(81,23));
@@ -76,6 +82,9 @@ public class Launcher {
 
         JLabel connection = new JLabel("Server connection:");
         connection.setForeground(Color.BLACK);
+
+        Info = new JLabel(" ");
+        Info.setForeground(Color.BLACK);
 
         JLabel serverstate = new JLabel(String.valueOf(serverUp));
         if(serverUp)serverstate.setForeground(Color.GREEN);
@@ -129,15 +138,69 @@ public class Launcher {
         constraints.gridy= 2;
         mainPanel.add(passlabel,constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 10;
-
+        constraints.gridx = 2;
+        constraints.gridy = 3;
         mainPanel.add(progress,constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        mainPanel.add(Info,constraints);
+
+
         mainFrame.add(mainPanel,BorderLayout.BEFORE_FIRST_LINE);
         mainFrame.pack();
 
+
     }
 
+    public JLabel getInfo() {
+        return Info;
+    }
+
+    public List<DownloadHolder> getFilesNeeded() {
+        return filesNeeded;
+    }
+
+    public void setUpdate()
+    {
+        ConfigFile latest = EternalConflict.getLatestInfo("http://www.firesoftitan.com/ec/info.data");
+
+        progress.setVisible(false);
+        filesNeeded.clear();
+        boolean updatebln = false;
+        if (!EternalConflict.versionInfo.getString("resources").equals(latest.getString("resources")))
+        {
+            String downloadFile = latest.getString("resources_download");
+            DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("resources"), "resources");
+            filesNeeded.add(downloadHolder);
+
+            System.out.println("Resources update needed: ");
+            System.out.println(downloadFile);
+            updatebln = true;
+        }
+        if (!EternalConflict.versionInfo.getString("libraries").equals(latest.getString("libraries")))
+        {
+            String downloadFile = latest.getString("libraries_download");
+            DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("libraries"), "libraries");
+            filesNeeded.add(downloadHolder);
+
+            System.out.println("Libraries update needed: ");
+            System.out.println(downloadFile);
+            updatebln = true;
+        }
+        if (!EternalConflict.versionInfo.getString("game").equals(latest.getString("game")))
+        {
+            String downloadFile = latest.getString("game_download");
+            DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
+            filesNeeded.add(downloadHolder);
+
+            System.out.println("Game update needed: ");
+            System.out.println(downloadFile);
+            updatebln = true;
+        }
+        this.update.setVisible(updatebln);
+        this.login.setEnabled(!updatebln);
+    }
     public ButtonListener getButtonListener() {
         return buttonListener;
     }
