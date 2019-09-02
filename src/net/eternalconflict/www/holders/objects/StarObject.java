@@ -4,10 +4,9 @@ import net.eternalconflict.www.enums.ObjectTypeEnum;
 import net.eternalconflict.www.enums.subtypes.StarTypeEnum;
 import net.eternalconflict.www.holders.CoordinatesHolder;
 
-public class StarObject extends DefaultObject{
+public class StarObject extends DefaultObject {
 
 
-    private float size = -1; // size is radius
     private StarTypeEnum starType;
 
     public StarObject(String name) {
@@ -34,21 +33,11 @@ public class StarObject extends DefaultObject{
         super(id, name, coordinatesHolder);
         objectType = ObjectTypeEnum.STAR;
     }
-
-    public void setSize(double size) {
-        this.size = (float) size;
-    }
-
     @Override
     public void setupHud()
     {
-        super.setupHud("textures/planets/hud/planet_ring_purple.png");
+        super.setupHud("textures/planets/hud/planet_ring_yellow.png");
     }
-
-    public double getSize() {
-        return size;
-    }
-
     public StarTypeEnum getStarType() {
         return starType;
     }

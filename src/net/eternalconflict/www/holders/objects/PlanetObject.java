@@ -4,9 +4,8 @@ import net.eternalconflict.www.enums.ObjectTypeEnum;
 import net.eternalconflict.www.enums.subtypes.PlanetTypeEnum;
 import net.eternalconflict.www.holders.CoordinatesHolder;
 
-public class PlanetObject extends DefaultObject{
+public class PlanetObject extends DefaultObject {
 
-    private double size = -1; // size is radius
     private PlanetTypeEnum planetType;
 
     public PlanetObject(String name) {
@@ -38,13 +37,6 @@ public class PlanetObject extends DefaultObject{
     {
         super.setupHud("textures/planets/hud/planet_ring_purple.png");
     }
-    public void setSize(double size) {
-        this.size = size;
-    }
-
-    public double getSize() {
-        return size;
-    }
 
     public PlanetTypeEnum getPlanetType() {
         return planetType;
@@ -53,5 +45,4 @@ public class PlanetObject extends DefaultObject{
     public void setPlanetType(PlanetTypeEnum planetType) {
         this.planetType = planetType;
     }
-
 }

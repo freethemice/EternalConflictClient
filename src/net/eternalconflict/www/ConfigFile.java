@@ -6,6 +6,7 @@ import net.eternalconflict.www.holders.CoordinatesHolder;
 import net.eternalconflict.www.holders.objects.DefaultObject;
 import net.eternalconflict.www.holders.objects.PlanetObject;
 import net.eternalconflict.www.holders.objects.StarObject;
+import net.eternalconflict.www.holders.objects.StationObject;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
@@ -215,6 +216,21 @@ public class ConfigFile {
                 String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
                 prop.setProperty(key, saving);
             }
+            else if (value instanceof StationObject)
+            {
+                StationObject stationObject = (StationObject) value;
+                ConfigFile cf = new ConfigFile();
+                cf.set("i.header", "station");
+                cf.set("i.c", stationObject.getPosition());
+                cf.set("i.owner", stationObject.getOwnerID());
+                cf.set("i.id", stationObject.getId());
+                cf.set("i.name", stationObject.getName());
+                cf.set("i.d", stationObject.getDestination());
+                cf.set("i.v", stationObject.getVelocity());
+                cf.set("i.size", stationObject.getSize());
+                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                prop.setProperty(key, saving);
+            }
             else
             {
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -251,9 +267,12 @@ public class ConfigFile {
             if (!configFile.containsKey("i.header")) return null;
             String header = configFile.getString("i.header");
             CoordinatesHolder c;
+            CoordinatesHolder d;
             double size;
+            double v;
             String id;
             String name;
+            String owner;
 
             switch (header.toLowerCase()) {
                 case "star":
@@ -276,11 +295,26 @@ public class ConfigFile {
                     planetObject.setPlanetType(planetTypeEnum);
                     planetObject.setSize(size);
                     return planetObject;
+                case "station":
+                    c = configFile.getCoordinates("i.c");
+                    v = configFile.getDouble("i.v");
+                    size = configFile.getDouble("i.size");
+                    owner = configFile.getString("i.owner");
+                    id = configFile.getString("i.id");
+                    name = configFile.getString("i.name");
+                    d = configFile.getCoordinates("i.d");
+                    StationObject stationObject = new StationObject(owner, id, name, c);
+                    stationObject.setDestination(d);
+                    stationObject.setSize(size);
+                    stationObject.setVelocity(v);
+                    return stationObject;
                 default:
                     c = configFile.getCoordinates("i.c");
+                    size = configFile.getDouble("i.size");
                     id = configFile.getString("i.id");
                     name = configFile.getString("i.name");
                     DefaultObject defaultObject = new DefaultObject(id, name, c);
+                    defaultObject.setSize(size);
                     return defaultObject;
             }
         }

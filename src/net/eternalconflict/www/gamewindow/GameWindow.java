@@ -11,6 +11,7 @@ import net.eternalconflict.www.holders.PlayerHolder;
 import net.eternalconflict.www.holders.objects.DefaultObject;
 import net.eternalconflict.www.holders.objects.PlanetObject;
 import net.eternalconflict.www.holders.objects.StarObject;
+import net.eternalconflict.www.holders.objects.StationObject;
 import net.eternalconflict.www.maps.SolarSystemMap;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -143,13 +144,24 @@ public class GameWindow implements IGameLogic {
                 }
                 if (defaultObject instanceof StarObject) {
                     StarObject starObject = (StarObject)defaultObject;
-                    sunObject = defaultObject;
+                    if (sunObject == null) sunObject = defaultObject;
                     GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), starObject.getStarType().getName()));
                     star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
                     star.setScale((float) ((StarObject) defaultObject).getSize() );
                     starObject.setGameItem(star);
                     planets.add(star);
-            }
+                 }
+                if (defaultObject instanceof StationObject) {
+
+                    StationObject starObject = (StationObject)defaultObject;
+                    sunObject = defaultObject;
+                    System.out.println("Station Found!");
+                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "StationBeta"));
+                    star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
+                    star.setScale((float) ((StationObject) defaultObject).getSize() );
+                    starObject.setGameItem(star);
+                    planets.add(star);
+                }
 
     i++;
 
