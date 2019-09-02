@@ -309,8 +309,22 @@ public class GameWindow implements IGameLogic {
         if (window.isKeyPressed(GLFW_KEY_SPACE))
         {
             GameItem gameItem = cursor.getSelected();
-            DefaultObject defaultObject = getDefaultObject(gameItem);
-            selectObject(defaultObject);
+            if (gameItem != null) {
+                DefaultObject defaultObject = getDefaultObject(gameItem);
+                selectObject(defaultObject);
+            }
+            else
+            {
+                List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+                for(DefaultObject defaultObject: allthings) {
+                    GuiWindow hud = defaultObject.getHudOverlay();
+                    if (defaultObject.getHudOverlay() != null) {
+                        if (defaultObject.isMouseOnMe(mouseInput)) {
+                            selectObject(defaultObject);
+                        }
+                    }
+                }
+            }
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             sceneChanged = true;
