@@ -197,8 +197,8 @@ public class Launcher {
         constraints.gridy = 4;
         mainPanel.add(Info,constraints);
 
-        constraints.gridx = 5;
-        constraints.gridy = 1;
+        constraints.gridx = 3;
+        constraints.gridy = 3;
         mainPanel.add(scrollpane, constraints);
 
 
