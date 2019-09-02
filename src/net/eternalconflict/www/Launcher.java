@@ -199,6 +199,7 @@ public class Launcher {
         this.update.setVisible(updatebln);
         this.login.setEnabled(!updatebln);
         if (!EternalConflict.serverUp) this.login.setEnabled(false);
+        
         mainFrame.pack();
 
     }
