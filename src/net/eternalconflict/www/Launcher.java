@@ -4,6 +4,8 @@ import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +98,18 @@ public class Launcher {
 
         usernameText = new JTextField(16);
 
+        JTextPane console = new JTextPane();
+        SimpleAttributeSet set = new SimpleAttributeSet();
+
+        console.setCharacterAttributes(set, true);
+        console.setEditable(false);
+        console.setSize(300, 500);
+
+        set = new SimpleAttributeSet();
+        StyleConstants.setItalic(set, true);
+
+        JScrollPane scrollpane = new JScrollPane(console);
+
         GridBagConstraints constraints = new GridBagConstraints();
 
 
@@ -143,6 +157,10 @@ public class Launcher {
         constraints.gridx = 1;
         constraints.gridy = 4;
         mainPanel.add(Info,constraints);
+
+        constraints.gridx = 5;
+        constraints.gridy = 1;
+        mainPanel.add(scrollpane, constraints);
 
 
         mainFrame.add(mainPanel,BorderLayout.CENTER);
