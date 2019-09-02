@@ -25,9 +25,6 @@ public class DefaultObject {
     {
         allids.add(id);
     }
-    public GuiWindow hudOverlay = null;
-    public GuiWindow overlay = null;
-    public GameItem gameItem;
 
     public static String getNewID()
     {
@@ -51,6 +48,90 @@ public class DefaultObject {
     {
 
     }
+    protected CoordinatesHolder position;
+    protected String name;
+    protected String id;
+    protected double size = -1; // size is radius
+    protected ObjectTypeEnum objectType;
+    public GuiWindow hudOverlay = null;
+    public GuiWindow overlay = null;
+    public GameItem gameItem;
+
+    public DefaultObject(String id, String name)
+    {
+        this.id = id;
+        this.name = name;
+        this.position = new CoordinatesHolder(0,0);
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public DefaultObject(String id, String name, double x,double z)
+    {
+        this.id = id;
+        this.name = name;
+        this.position = new CoordinatesHolder(x, z);
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public DefaultObject(String id, String name, CoordinatesHolder coordinatesHolder)
+    {
+        this.id = id;
+        this.name = name;
+        this.position = coordinatesHolder.clone();
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public DefaultObject(String name)
+    {
+        this.id = DefaultObject.getNewID();
+        this.name = name;
+        this.position = new CoordinatesHolder(0, 0);
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public DefaultObject(String name, double x, double z)
+    {
+        this.id = DefaultObject.getNewID();
+        this.name = name;
+        this.position = new CoordinatesHolder(x, z);
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public DefaultObject(String name, CoordinatesHolder coordinatesHolder)
+    {
+        this.id = DefaultObject.getNewID();
+        this.name = name;
+        this.position = coordinatesHolder.clone();
+        objectType = ObjectTypeEnum.DEFAULT;
+    }
+    public ObjectTypeEnum getObjectType() {
+        return objectType;
+    }
+    public CoordinatesHolder getPosition() {
+        return position;
+    }
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+    public void setPosition(double x, double z) {
+        this.position = new CoordinatesHolder(x, z);
+    }
+    public void setPosition(CoordinatesHolder position) {
+        this.position = position.clone();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
     public boolean isMouseOnMe(MouseInput mouseInput)
     {
         if (hudOverlay != null) {
@@ -106,79 +187,5 @@ public class DefaultObject {
 
     public void setGameItem(GameItem gameItem) {
         this.gameItem = gameItem;
-    }
-
-    protected CoordinatesHolder position;
-    protected String name;
-    protected String id;
-    protected ObjectTypeEnum objectType;
-    public DefaultObject(String id, String name)
-    {
-        this.id = id;
-        this.name = name;
-        this.position = new CoordinatesHolder(0,0);
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-    public DefaultObject(String id, String name, double x,double z)
-    {
-        this.id = id;
-        this.name = name;
-        this.position = new CoordinatesHolder(x, z);
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-    public DefaultObject(String id, String name, CoordinatesHolder coordinatesHolder)
-    {
-        this.id = id;
-        this.name = name;
-        this.position = coordinatesHolder.clone();
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-    public DefaultObject(String name)
-    {
-        this.id = DefaultObject.getNewID();
-        this.name = name;
-        this.position = new CoordinatesHolder(0, 0);
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-    public DefaultObject(String name, double x, double z)
-    {
-        this.id = DefaultObject.getNewID();
-        this.name = name;
-        this.position = new CoordinatesHolder(x, z);
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-    public DefaultObject(String name, CoordinatesHolder coordinatesHolder)
-    {
-        this.id = DefaultObject.getNewID();
-        this.name = name;
-        this.position = coordinatesHolder.clone();
-        objectType = ObjectTypeEnum.DEFAULT;
-    }
-
-    public ObjectTypeEnum getObjectType() {
-        return objectType;
-    }
-
-    public CoordinatesHolder getPosition() {
-        return position;
-    }
-
-    public void setPosition(double x, double z) {
-        this.position = new CoordinatesHolder(x, z);
-    }
-    public void setPosition(CoordinatesHolder position) {
-        this.position = position.clone();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
     }
 }

@@ -30,6 +30,13 @@ public class PlayerOwnedObject extends DefaultObject {
         this.destination = new CoordinatesHolder(0,0);
     }
 
+    public PlayerOwnedObject(String OwnerID, String id, String name, CoordinatesHolder c) {
+        super(name, id, c);
+        this.OwnerID = OwnerID;
+        this.destination = new CoordinatesHolder(0,0);
+    }
+
+
     public void setDestination(CoordinatesHolder destination) {
         this.destination = destination.clone();
     }

@@ -19,7 +19,7 @@ public class Window {
     /**
      * Distance to the near plane
      */
-    public static final float Z_NEAR = 0.0001f;
+    public static final float Z_NEAR = 0.00001f;
 
     /**
      * Distance to the far plane
