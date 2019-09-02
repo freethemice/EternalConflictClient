@@ -7,8 +7,13 @@ import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -42,7 +47,6 @@ public class Launcher {
         mainPanel.setBackground(Color.LIGHT_GRAY);
         if (serverUp) mainPanel.setBackground(Color.BLUE);
 
-
         Icon loginimg = new ImageIcon("resources/launcher/Login.png");
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
@@ -50,16 +54,51 @@ public class Launcher {
 
         JMenuBar menu = new JMenuBar();
         JMenu settings = new JMenu("Settings");
+
         JMenuItem about = new JMenuItem("About");
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame about = new JFrame("About");
+                JOptionPane.showMessageDialog(about, "This is the launcher for Eteran conflict", "About", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        });
+        about.setMnemonic(KeyEvent.VK_A);
+        KeyStroke cntrlAKey = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
+        about.setAccelerator(cntrlAKey);
+
         JMenuItem options = new JMenuItem("Options");
+        options.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame options = new JFrame("Options and Settings");
+                JOptionPane.showMessageDialog(options, "This is a place holder for the opthions button.", "Options and settings ", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        options.setMnemonic(KeyEvent.VK_O);
+        KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
+        options.setAccelerator(cntrlOKey);
+
         JMenuItem exit = new JMenuItem("Exit");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        exit.setMnemonic(KeyEvent.VK_E);
+        KeyStroke cntrlEKey = KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK);
+        exit.setAccelerator(cntrlEKey);
 
         menu.add(settings);
         settings.add(about);
         settings.add(options);
+        settings.addSeparator();
         settings.add(exit);
 
         mainFrame.setJMenuBar(menu);
+
 
         login = new JButton(loginimg);
         login.setPressedIcon(pressedlogin);
@@ -110,8 +149,8 @@ public class Launcher {
 
         JScrollPane scrollpane = new JScrollPane(console);
 
-        GridBagConstraints constraints = new GridBagConstraints();
 
+        GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.insets = new Insets(3, 3, 3, 3);
         constraints.gridx = 0;
@@ -166,7 +205,6 @@ public class Launcher {
         mainFrame.add(mainPanel,BorderLayout.CENTER);
         mainFrame.pack();
 
-
     }
 
     public JLabel getInfo() {
@@ -210,7 +248,7 @@ public class Launcher {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Game update needed: ");
+            System.out.println("Game update needed: " );
             System.out.println(downloadFile);
             updatebln = true;
         }
