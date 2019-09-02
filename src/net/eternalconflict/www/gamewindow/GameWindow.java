@@ -65,6 +65,7 @@ public class GameWindow implements IGameLogic {
     private GuiWindow guiWindow;
 
     private DefaultObject sunObject = null;
+    private DefaultObject selectedObject = null;
 
     private float cameraMoveSpeed = 1;
     public static GameWindow instance;
@@ -217,11 +218,7 @@ public class GameWindow implements IGameLogic {
             guiWindow.setVisible(false);
 
             if (sunObject != null) {
-                GameItem gameItem = sunObject.getGameItem();
-                gameItem.setSelected(false);
-                camera.setPosition(gameItem.getPosition().x + gameItem.getScale() * 2, gameItem.getPosition().y + gameItem.getScale() * 2, gameItem.getPosition().z + gameItem.getScale() * 2);
-                camera.setRotation(32f, -43f, 0);
-                GameWindow.instance.setCameraMoveSpeed(gameItem.getScale() / 2);
+                selectObject(sunObject);
 
             }
 
@@ -231,6 +228,23 @@ public class GameWindow implements IGameLogic {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void selectObject(DefaultObject selectMe) {
+        if (selectMe == null) return;
+        selectedObject = selectMe;
+        List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+        for(DefaultObject defaultObject: allthings)
+        {
+            GameItem gameItem = defaultObject.getGameItem();
+            gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
+        }
+
+        GameItem gameItem = selectMe.getGameItem();
+        gameItem.setSelected(false);
+        camera.setPosition(gameItem.getPosition().x + gameItem.getScale() * 2, gameItem.getPosition().y + gameItem.getScale() * 2, gameItem.getPosition().z + gameItem.getScale() * 2);
+        camera.setRotation(32f, -43f, 0);
+        GameWindow.instance.setCameraMoveSpeed(gameItem.getScale() / 2);
     }
 
     private void setupLights() {
@@ -254,6 +268,15 @@ public class GameWindow implements IGameLogic {
         sceneLight.setPointLightList( new PointLight[] {pointLight});
     }
 
+    public DefaultObject getDefaultObject(GameItem gameItem)
+    {
+        List<DefaultObject> all = PlayerHolder.player.getViewing().getObjects();
+        for(DefaultObject defaultObject: all)
+        {
+            if (defaultObject.getGameItem() == gameItem) return defaultObject;
+        }
+        return null;
+    }
     @Override
     public void input(Window window, MouseInput mouseInput) {
         sceneChanged = false;
@@ -281,22 +304,13 @@ public class GameWindow implements IGameLogic {
         }
         if (window.isKeyPressed(GLFW_KEY_X))
         {
-            GameItem gameItem = sunObject.getGameItem();
-            gameItem.setSelected(false);
-            camera.setPosition(gameItem.getPosition().x + gameItem.getScale() * 2, gameItem.getPosition().y + gameItem.getScale() * 2, gameItem.getPosition().z + gameItem.getScale() * 2);
-            camera.setRotation(32f, -43f, 0);
-            GameWindow.instance.setCameraMoveSpeed(gameItem.getScale() / 2);
+            selectObject(sunObject);
         }
         if (window.isKeyPressed(GLFW_KEY_SPACE))
         {
             GameItem gameItem = cursor.getSelected();
-            if (gameItem != null) {
-                gameItem.setSelected(false);
-                camera.setPosition(gameItem.getPosition().x + gameItem.getScale() * 2, gameItem.getPosition().y + gameItem.getScale() * 2, gameItem.getPosition().z + gameItem.getScale() * 2);
-                camera.setRotation(32f, -43f, 0);
-                GameWindow.instance.setCameraMoveSpeed(gameItem.getScale() / 2);
-            }
-
+            DefaultObject defaultObject = getDefaultObject(gameItem);
+            selectObject(defaultObject);
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             sceneChanged = true;
