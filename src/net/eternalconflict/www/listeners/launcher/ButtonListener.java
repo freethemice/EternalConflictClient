@@ -63,6 +63,7 @@ public class ButtonListener implements ActionListener {
                             launcher.getUpdate().setEnabled(true);
                             launcher.getUpdate().setVisible(false);
                             launcher.getLogin().setEnabled(true);
+                            if (!EternalConflict.serverUp) launcher.getLogin().setEnabled(false);
                             launcher.getMainFrame().setTitle("Eternal Conflict Launcher");
                             launcher.setUpdate();
                             this.cancel();

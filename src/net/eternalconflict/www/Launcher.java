@@ -37,9 +37,8 @@ public class Launcher {
         mainFrame.setResizable(false);
 
         mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(Color.GRAY);
+        mainPanel.setBackground(Color.LIGHT_GRAY);
         if (serverUp) mainPanel.setBackground(Color.BLUE);
-
 
 
         Icon loginimg = new ImageIcon("resources/launcher/Login.png");
@@ -48,14 +47,17 @@ public class Launcher {
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
 
         JMenuBar menu = new JMenuBar();
-        mainFrame.setJMenuBar(menu);
-
         JMenu settings = new JMenu("Settings");
-        menu.add(settings);
-
         JMenuItem about = new JMenuItem("About");
         JMenuItem options = new JMenuItem("Options");
         JMenuItem exit = new JMenuItem("Exit");
+
+        menu.add(settings);
+        settings.add(about);
+        settings.add(options);
+        settings.add(exit);
+
+        mainFrame.setJMenuBar(menu);
 
         login = new JButton(loginimg);
         login.setPressedIcon(pressedlogin);
@@ -95,10 +97,6 @@ public class Launcher {
         usernameText = new JTextField(16);
 
         GridBagConstraints constraints = new GridBagConstraints();
-
-        settings.add(about);
-        settings.add(options);
-        settings.add(exit);
 
 
         constraints.insets = new Insets(3, 3, 3, 3);
@@ -147,7 +145,7 @@ public class Launcher {
         mainPanel.add(Info,constraints);
 
 
-        mainFrame.add(mainPanel,BorderLayout.BEFORE_FIRST_LINE);
+        mainFrame.add(mainPanel,BorderLayout.CENTER);
         mainFrame.pack();
 
 
@@ -200,6 +198,9 @@ public class Launcher {
         }
         this.update.setVisible(updatebln);
         this.login.setEnabled(!updatebln);
+        if (!EternalConflict.serverUp) this.login.setEnabled(false);
+        mainFrame.pack();
+
     }
     public ButtonListener getButtonListener() {
         return buttonListener;

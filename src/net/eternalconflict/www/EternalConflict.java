@@ -33,6 +33,7 @@ public class EternalConflict {
     public static Window.WindowOptions opts;
     public static GameEngine gameEng;
     public static ConfigFile versionInfo;
+    public static boolean serverUp;
 
     public static void main(String args[]) throws IOException {
 
@@ -43,7 +44,7 @@ public class EternalConflict {
         ListenerHandler.instance.addListener(new SocketListener());
         ListenerHandler.instance.addListener(new ConsoleListener());
 
-        boolean serverUp = false;
+        serverUp = false;
         try {
             new SocketHandler();
             SocketHandler.instance.start();
