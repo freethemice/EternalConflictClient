@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static net.eternalconflict.www.EternalConflict.versionInfo;
+
 public class Launcher {
     private ButtonListener buttonListener;
     private Dimension dim;
@@ -35,7 +37,7 @@ public class Launcher {
         buttonListener = new ButtonListener();
 
         dim = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame = new JFrame("Eternal Conflict Launcher");
+        mainFrame = new JFrame("Eternal Conflict Launcher. version: 0.090219");
         mainFrame.setVisible(true);
         mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,13 +56,15 @@ public class Launcher {
 
         JMenuBar menu = new JMenuBar();
         JMenu settings = new JMenu("Settings");
+        settings.setToolTipText("Launcher settings.");
 
         JMenuItem about = new JMenuItem("About");
+        about.setToolTipText("About the Game.");
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame about = new JFrame("About");
-                JOptionPane.showMessageDialog(about, "This is the launcher for Eteran conflict", "About", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. " , "About", JOptionPane.INFORMATION_MESSAGE);
             }
 
         });
@@ -69,11 +73,12 @@ public class Launcher {
         about.setAccelerator(cntrlAKey);
 
         JMenuItem options = new JMenuItem("Options");
+        options.setToolTipText("Launcher options.");
         options.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame options = new JFrame("Options and Settings");
-                JOptionPane.showMessageDialog(options, "This is a place holder for the opthions button.", "Options and settings ", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(options, "This is a place holder for the opthions button.", "Options and settings ", JOptionPane.ERROR_MESSAGE);
             }
         });
         options.setMnemonic(KeyEvent.VK_O);
@@ -81,10 +86,19 @@ public class Launcher {
         options.setAccelerator(cntrlOKey);
 
         JMenuItem exit = new JMenuItem("Exit");
+        exit.setToolTipText("Exit the Launcher.");
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+
+                String message = "You are about to exit the launcher do you wish to continue?";
+                String title = "Do you really want to exit the launcher?";
+
+                int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+                if(reply == JOptionPane.YES_OPTION)
+                {
+                    System.exit(0);
+                }
             }
         });
         exit.setMnemonic(KeyEvent.VK_E);
@@ -104,15 +118,19 @@ public class Launcher {
         login.setPressedIcon(pressedlogin);
         login.setPreferredSize(new Dimension(81,23));
         login.addActionListener(buttonListener);
+        if (serverUp) login.setToolTipText("Login and play the game.");
+        if (!serverUp) login.setToolTipText("Server connection problom.");
         if (!serverUp) login.setEnabled(false);
 
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
         update.addActionListener(buttonListener);
+        update.setToolTipText("An update is available.");
         update.setVisible(false);
 
         register = new JButton(regesterimg);
         register.setPreferredSize(new Dimension(81,23));
+        register.setToolTipText("If you do not have an account click this button.");
         register.addActionListener(buttonListener);
 
         progress = new JProgressBar();
@@ -134,14 +152,17 @@ public class Launcher {
         if(!serverUp)serverstate.setForeground(Color.RED);
 
         passwordText = new JPasswordField(16);
+        passwordText.setToolTipText("Enter password");
 
         usernameText = new JTextField(16);
+        usernameText.setToolTipText("Enter Username");
 
         JTextPane console = new JTextPane();
         SimpleAttributeSet set = new SimpleAttributeSet();
 
         console.setCharacterAttributes(set, true);
         console.setEditable(false);
+        console.setToolTipText("System console.");
         console.setSize(300, 500);
 
         set = new SimpleAttributeSet();
@@ -222,7 +243,7 @@ public class Launcher {
         progress.setVisible(false);
         filesNeeded.clear();
         boolean updatebln = false;
-        if (!EternalConflict.versionInfo.getString("resources").equals(latest.getString("resources")))
+        if (!versionInfo.getString("resources").equals(latest.getString("resources")))
         {
             String downloadFile = latest.getString("resources_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("resources"), "resources");
@@ -232,7 +253,7 @@ public class Launcher {
             System.out.println(downloadFile);
             updatebln = true;
         }
-        if (!EternalConflict.versionInfo.getString("libraries").equals(latest.getString("libraries")))
+        if (!versionInfo.getString("libraries").equals(latest.getString("libraries")))
         {
             String downloadFile = latest.getString("libraries_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("libraries"), "libraries");
@@ -242,7 +263,7 @@ public class Launcher {
             System.out.println(downloadFile);
             updatebln = true;
         }
-        if (!EternalConflict.versionInfo.getString("game").equals(latest.getString("game")))
+        if (!versionInfo.getString("game").equals(latest.getString("game")))
         {
             String downloadFile = latest.getString("game_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
