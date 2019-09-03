@@ -1,19 +1,17 @@
 package net.eternalconflict.www;
 
+import net.eternalconflict.www.handlers.ConsoleHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -29,8 +27,11 @@ public class Launcher {
     private JTextField usernameText;
     public static Launcher instance;
     private List<DownloadHolder> filesNeeded;
-    public Launcher(boolean serverUp) {
+    public Launcher() {
         instance = this;
+
+
+
         filesNeeded = new ArrayList<DownloadHolder>();
         buttonListener = new ButtonListener();
 
@@ -40,12 +41,11 @@ public class Launcher {
         mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-        mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
         mainFrame.setResizable(false);
 
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(Color.LIGHT_GRAY);
-        if (serverUp) mainPanel.setBackground(Color.BLUE);
+        if (EternalConflict.serverUp) mainPanel.setBackground(Color.BLUE);
 
         Icon loginimg = new ImageIcon("resources/launcher/Login.png");
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
@@ -104,7 +104,7 @@ public class Launcher {
         login.setPressedIcon(pressedlogin);
         login.setPreferredSize(new Dimension(81,23));
         login.addActionListener(buttonListener);
-        if (!serverUp) login.setEnabled(false);
+        if (!EternalConflict.serverUp) login.setEnabled(false);
 
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
@@ -129,26 +129,20 @@ public class Launcher {
         Info = new JLabel(" ");
         Info.setForeground(Color.BLACK);
 
-        JLabel serverstate = new JLabel(String.valueOf(serverUp));
-        if(serverUp)serverstate.setForeground(Color.GREEN);
-        if(!serverUp)serverstate.setForeground(Color.RED);
+        JLabel serverstate = new JLabel(String.valueOf(EternalConflict.serverUp));
+        if(EternalConflict.serverUp)serverstate.setForeground(Color.GREEN);
+        if(!EternalConflict.serverUp)serverstate.setForeground(Color.RED);
 
         passwordText = new JPasswordField(16);
 
         usernameText = new JTextField(16);
 
-        JTextPane console = new JTextPane();
-        SimpleAttributeSet set = new SimpleAttributeSet();
 
-        console.setCharacterAttributes(set, true);
-        console.setEditable(false);
-        console.setSize(300, 500);
+        JTextArea textArea = new JTextArea (25, 80);
+        textArea.setEditable (false);
 
-        set = new SimpleAttributeSet();
-        StyleConstants.setItalic(set, true);
-
-        JScrollPane scrollpane = new JScrollPane(console);
-
+        ConsoleHandler out = new ConsoleHandler (textArea);
+        System.setOut (new PrintStream(out));
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -197,13 +191,25 @@ public class Launcher {
         constraints.gridy = 4;
         mainPanel.add(Info,constraints);
 
-        constraints.gridx = 3;
-        constraints.gridy = 3;
-        mainPanel.add(scrollpane, constraints);
-
+        //constraints.gridx = 1;
+        //constraints.gridy = 3;
+        //mainFrame.setLayout (new BorderLayout ());
 
         mainFrame.add(mainPanel,BorderLayout.CENTER);
+
+        mainFrame.add (
+                new JScrollPane (
+                        textArea,
+                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+                BorderLayout.SOUTH);
+
         mainFrame.pack();
+        mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
+
+        String status = "offline.";
+        if (EternalConflict.serverUp) status = "online.";
+        System.out.println("Server Status: " + status);
 
     }
 

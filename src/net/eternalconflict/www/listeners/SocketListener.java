@@ -43,7 +43,9 @@ public class SocketListener implements SocketInterface {
                     if (EternalConflict.gameEng == null)
                     {
                         EternalConflict.openGame();
-                        Launcher.instance.getMainFrame().setVisible(false);
+                        //Launcher.instance.getMainFrame().setVisible(false);
+                        Launcher.instance.getMainPanel().setVisible(false);
+                        Launcher.instance.getMainFrame().pack();
                     }
                     return;
             }
