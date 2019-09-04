@@ -45,13 +45,6 @@ public class EternalConflict {
         ListenerHandler.instance.addListener(new ConsoleListener());
 
         serverUp = false;
-        try {
-            new SocketHandler();
-            SocketHandler.instance.start();
-            serverUp =  true;
-        } catch (Exception e) {
-            System.out.println("Can't Connect To Server.");
-        }
 
         versionInfo = new ConfigFile("saves", "launcher.info");
         versionInfo.loadFromFile();
@@ -75,6 +68,9 @@ public class EternalConflict {
 
         Launcher launcher = new Launcher();
         launcher.setUpdate();
+
+        connectToServer();
+
 
 /*
         String line=null;
@@ -104,6 +100,17 @@ public class EternalConflict {
 
         }*/
 
+    }
+
+    private static void connectToServer() {
+        try {
+            new SocketHandler();
+            SocketHandler.instance.start();
+            serverUp =  true;
+            Launcher.instance.updateStatus();
+        } catch (Exception e) {
+            System.out.println("Can't Connect To Server.");
+        }
     }
 
     public static void extractZip(String fileName, DownloadHolder downloadHolder, JProgressBar jProgressBar)

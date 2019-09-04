@@ -25,6 +25,7 @@ public class Launcher {
     private JProgressBar progress;
     private JPasswordField passwordText;
     private JTextField usernameText;
+    private JLabel serverstate;
     public static Launcher instance;
     private List<DownloadHolder> filesNeeded;
     public Launcher() {
@@ -44,8 +45,6 @@ public class Launcher {
         mainFrame.setResizable(false);
 
         mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(Color.LIGHT_GRAY);
-        if (EternalConflict.serverUp) mainPanel.setBackground(Color.BLUE);
 
         Icon loginimg = new ImageIcon("resources/launcher/Login.png");
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
@@ -116,7 +115,6 @@ public class Launcher {
         login.setPressedIcon(pressedlogin);
         login.setPreferredSize(new Dimension(81,23));
         login.addActionListener(buttonListener);
-        if (!EternalConflict.serverUp) login.setEnabled(false);
 
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
@@ -143,9 +141,7 @@ public class Launcher {
         Info = new JLabel(" ");
         Info.setForeground(Color.BLACK);
 
-        JLabel serverstate = new JLabel(String.valueOf(EternalConflict.serverUp));
-        if(EternalConflict.serverUp)serverstate.setForeground(Color.GREEN);
-        if(!EternalConflict.serverUp)serverstate.setForeground(Color.RED);
+        serverstate = new JLabel(String.valueOf(EternalConflict.serverUp));
 
         passwordText = new JPasswordField(16);
         passwordText.setToolTipText("Enter password");
@@ -223,12 +219,33 @@ public class Launcher {
         mainFrame.pack();
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
 
+        updateStatus();
+
+
+    }
+    public void updateStatus()
+    {
+        mainPanel.setBackground(Color.LIGHT_GRAY);
+        if (EternalConflict.serverUp) mainPanel.setBackground(Color.BLUE);
+
+        login.setEnabled(true);
+        if (!EternalConflict.serverUp) login.setEnabled(false);
+
+        serverstate.setText(String.valueOf(EternalConflict.serverUp));
+        if(EternalConflict.serverUp)serverstate.setForeground(Color.GREEN);
+        if(!EternalConflict.serverUp)serverstate.setForeground(Color.RED);
+
+        if (EternalConflict.serverUp) login.setToolTipText("Login and play the game.");
+        if (!EternalConflict.serverUp) {
+            login.setToolTipText("Server connection problem.");
+            this.login.setEnabled(false);
+        }
+
         String status = "offline.";
         if (EternalConflict.serverUp) status = "online.";
         System.out.println("Server Status: " + status);
-
+        mainFrame.pack();
     }
-
     public JLabel getInfo() {
         return Info;
     }
@@ -276,16 +293,7 @@ public class Launcher {
         }
         this.update.setVisible(updatebln);
         this.login.setEnabled(!updatebln);
-
-        if (EternalConflict.serverUp) login.setToolTipText("Login and play the game.");
-        if (!EternalConflict.serverUp) {
-            login.setToolTipText("Server connection problem.");
-            this.login.setEnabled(false);
-
-        }
-        
-        mainFrame.pack();
-
+        //updateStatus();
     }
     public ButtonListener getButtonListener() {
         return buttonListener;
