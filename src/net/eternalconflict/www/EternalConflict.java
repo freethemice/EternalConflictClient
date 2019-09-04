@@ -110,7 +110,7 @@ public class EternalConflict {
         try {
             System.out.println("Connecting to server...");
             new SocketHandler();
-            SocketHandler.instance.start();
+            new Thread(SocketHandler.instance).start();
             serverUp =  true;
         } catch (Exception e) {
             System.out.println("Can't Connect To Server.");
