@@ -5,7 +5,7 @@ public enum ObjectTypeEnum {
     PLANET("planets"),
     STAR("stars"),
     STATION("stations"),
-    SHIP("ships");
+    SHIP("stations");
     String folder;
     ObjectTypeEnum(String folder)
     {

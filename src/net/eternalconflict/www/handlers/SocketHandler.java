@@ -3,6 +3,7 @@ package net.eternalconflict.www.handlers;
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.enums.ListenerEnum;
+import net.eternalconflict.www.enums.ServerInfoEnum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,9 @@ public class SocketHandler extends Thread {
     public static SocketHandler instance;
     public SocketHandler() throws Exception
     {
-        this.address =InetAddress.getLocalHost();
+        InetAddress inetAddress = InetAddress.getByName(ServerInfoEnum.LOGIN.getAddress());
+
+        this.address = inetAddress;
         s1=new Socket(address, 4445); // You can use static final constant PORT_NUM
         bufferedReader =new BufferedReader(new InputStreamReader(s1.getInputStream()));
         os= new PrintWriter(s1.getOutputStream());

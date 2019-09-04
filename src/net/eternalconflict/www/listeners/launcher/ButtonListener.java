@@ -3,6 +3,7 @@ package net.eternalconflict.www.listeners.launcher;
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
+import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 
@@ -32,7 +33,7 @@ public class ButtonListener implements ActionListener {
         {
             try {
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    Desktop.getDesktop().browse(new URI("http://www.firesoftitan.com/ec"));
+                    Desktop.getDesktop().browse(new URI(ServerInfoEnum.REGISTER.getAddress()));
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();

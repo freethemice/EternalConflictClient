@@ -3,10 +3,7 @@ package net.eternalconflict.www;
 import net.eternalconflict.www.enums.subtypes.PlanetTypeEnum;
 import net.eternalconflict.www.enums.subtypes.StarTypeEnum;
 import net.eternalconflict.www.holders.CoordinatesHolder;
-import net.eternalconflict.www.holders.objects.DefaultObject;
-import net.eternalconflict.www.holders.objects.PlanetObject;
-import net.eternalconflict.www.holders.objects.StarObject;
-import net.eternalconflict.www.holders.objects.StationObject;
+import net.eternalconflict.www.holders.objects.*;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
@@ -231,6 +228,21 @@ public class ConfigFile {
                 String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
                 prop.setProperty(key, saving);
             }
+            else if (value instanceof MiningShipObject)
+            {
+                MiningShipObject miningShipObject = (MiningShipObject) value;
+                ConfigFile cf = new ConfigFile();
+                cf.set("i.header", "miningship");
+                cf.set("i.c", miningShipObject.getPosition());
+                cf.set("i.owner", miningShipObject.getOwnerID());
+                cf.set("i.id", miningShipObject.getId());
+                cf.set("i.name", miningShipObject.getName());
+                cf.set("i.d", miningShipObject.getDestination());
+                cf.set("i.v", miningShipObject.getVelocity());
+                cf.set("i.size", miningShipObject.getSize());
+                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                prop.setProperty(key, saving);
+            }
             else
             {
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -308,6 +320,19 @@ public class ConfigFile {
                     stationObject.setSize(size);
                     stationObject.setVelocity(v);
                     return stationObject;
+                case "miningship":
+                    c = configFile.getCoordinates("i.c");
+                    v = configFile.getDouble("i.v");
+                    size = configFile.getDouble("i.size");
+                    owner = configFile.getString("i.owner");
+                    id = configFile.getString("i.id");
+                    name = configFile.getString("i.name");
+                    d = configFile.getCoordinates("i.d");
+                    MiningShipObject miningShipObject = new MiningShipObject(owner, id, name, c);
+                    miningShipObject.setDestination(d);
+                    miningShipObject.setSize(size);
+                    miningShipObject.setVelocity(v);
+                    return miningShipObject;
                 default:
                     c = configFile.getCoordinates("i.c");
                     size = configFile.getDouble("i.size");

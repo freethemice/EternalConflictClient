@@ -8,7 +8,7 @@ import java.io.File;
 
 public enum FontTypeEnum {
     Verdana("Verdana"), Umbrage("Umbrage");
-    public final String name;
+    private final String name;
 
     FontTypeEnum(String name) {
         this.name = name;

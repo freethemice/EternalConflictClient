@@ -8,10 +8,7 @@ import net.eternalconflict.www.gamewindow.hud.gui.CursorGui;
 import net.eternalconflict.www.gamewindow.hud.gui.GuiWindow;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.PlayerHolder;
-import net.eternalconflict.www.holders.objects.DefaultObject;
-import net.eternalconflict.www.holders.objects.PlanetObject;
-import net.eternalconflict.www.holders.objects.StarObject;
-import net.eternalconflict.www.holders.objects.StationObject;
+import net.eternalconflict.www.holders.objects.*;
 import net.eternalconflict.www.maps.SolarSystemMap;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -157,10 +154,20 @@ public class GameWindow implements IGameLogic {
                     StationObject starObject = (StationObject)defaultObject;
                     sunObject = defaultObject;
                     System.out.println("Station Found!");
-                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "StationBeta"));
+                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "StationBeta"));//MinningShip
                     star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
                     star.setScale((float) ((StationObject) defaultObject).getSize() );
                     starObject.setGameItem(star);
+                    planets.add(star);
+                }
+                if (defaultObject instanceof MiningShipObject) {
+
+                    MiningShipObject miningShipObject = (MiningShipObject)defaultObject;
+                    System.out.println("Mining Ship Loaded");
+                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "MinningShip"));//MinningShip
+                    star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
+                    star.setScale((float) ((MiningShipObject) defaultObject).getSize() );
+                    miningShipObject.setGameItem(star);
                     planets.add(star);
                 }
 
@@ -308,23 +315,23 @@ public class GameWindow implements IGameLogic {
         }
         if (window.isKeyPressed(GLFW_KEY_SPACE))
         {
-            GameItem gameItem = cursor.getSelected();
+            /*GameItem gameItem = cursor.getSelected();
             if (gameItem != null) {
                 DefaultObject defaultObject = getDefaultObject(gameItem);
                 selectObject(defaultObject);
             }
             else
-            {
-                List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
-                for(DefaultObject defaultObject: allthings) {
-                    GuiWindow hud = defaultObject.getHudOverlay();
-                    if (defaultObject.getHudOverlay() != null) {
-                        if (defaultObject.isMouseOnMe(mouseInput)) {
-                            selectObject(defaultObject);
-                        }
+            {*/
+            List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+            for(DefaultObject defaultObject: allthings) {
+                GuiWindow hud = defaultObject.getHudOverlay();
+                if (defaultObject.getHudOverlay() != null) {
+                    if (defaultObject.isMouseOnMe(mouseInput)) {
+                        selectObject(defaultObject);
                     }
                 }
             }
+          // }
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             sceneChanged = true;

@@ -1,5 +1,6 @@
 package net.eternalconflict.www;
 
+import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.ConsoleHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
@@ -263,7 +264,7 @@ public class Launcher {
 
     public void setUpdate()
     {
-        ConfigFile latest = EternalConflict.getLatestInfo("http://www.firesoftitan.com/ec/info.data");
+        ConfigFile latest = EternalConflict.getLatestInfo(ServerInfoEnum.VERSIONS.getAddress());
 
         progress.setVisible(false);
         filesNeeded.clear();
