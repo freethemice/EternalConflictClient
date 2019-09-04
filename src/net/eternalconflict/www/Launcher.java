@@ -5,19 +5,13 @@ import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static net.eternalconflict.www.EternalConflict.versionInfo;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -282,7 +276,13 @@ public class Launcher {
         }
         this.update.setVisible(updatebln);
         this.login.setEnabled(!updatebln);
-        if (!EternalConflict.serverUp) this.login.setEnabled(false);
+
+        if (EternalConflict.serverUp) login.setToolTipText("Login and play the game.");
+        if (!EternalConflict.serverUp) {
+            login.setToolTipText("Server connection problem.");
+            this.login.setEnabled(false);
+
+        }
         
         mainFrame.pack();
 
