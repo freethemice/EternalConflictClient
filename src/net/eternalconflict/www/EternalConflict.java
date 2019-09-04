@@ -21,6 +21,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Enumeration;
+import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -34,10 +35,12 @@ public class EternalConflict {
     public static GameEngine gameEng;
     public static ConfigFile versionInfo;
     public static boolean serverUp;
+    public static java.util.Timer mnTimer;
 
     public static void main(String args[]) throws IOException {
 
         mainPath = new File(".");
+        mnTimer = new java.util.Timer();
 
         bufferedReader= new BufferedReader(new InputStreamReader(System.in));
         new ListenerHandler();
@@ -69,7 +72,7 @@ public class EternalConflict {
         Launcher launcher = new Launcher();
         launcher.setUpdate();
 
-        connectToServer();
+
 
 
 /*
@@ -102,15 +105,39 @@ public class EternalConflict {
 
     }
 
-    private static void connectToServer() {
+    public static void connectToServer() {
+
         try {
+            System.out.println("Connecting to server...");
             new SocketHandler();
             SocketHandler.instance.start();
             serverUp =  true;
-            Launcher.instance.updateStatus();
         } catch (Exception e) {
             System.out.println("Can't Connect To Server.");
+            System.out.println("Retrying in 5 minutes...");
+            mnTimer.schedule(new TimerTask() {
+                int i = 0;
+                @Override
+                public void run() {
+                    i++;
+                    if (i > 4)
+                    {
+                        this.cancel();
+                        connectToServer();
+                    }
+                    else
+                    {
+                        int count = 5 - i;
+                        System.out.println("Retrying in " + count + " minutes...");
+                    }
+                }
+            },1000 * 60, 1000 *  60);
         }
+        finally {
+            Launcher.instance.updateStatus();
+        }
+
+
     }
 
     public static void extractZip(String fileName, DownloadHolder downloadHolder, JProgressBar jProgressBar)
