@@ -73,7 +73,7 @@ public class EternalConflict {
 
 
 
-        Launcher launcher = new Launcher(serverUp);
+        Launcher launcher = new Launcher();
         launcher.setUpdate();
 
 /*
