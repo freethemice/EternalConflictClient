@@ -31,9 +31,9 @@ public class SocketHandler extends Thread {
     public void close()
     {
         try {
+            s1.close();
             bufferedReader.close();
             os.close();
-            s1.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
