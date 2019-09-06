@@ -2,6 +2,7 @@ package net.eternalconflict.www;
 
 import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.ConsoleHandler;
+import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
@@ -13,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 public class Launcher {
     private ButtonListener buttonListener;
@@ -37,6 +39,8 @@ public class Launcher {
     public JCheckBox checkNum3;
     public JCheckBox checkNum5;
     public JCheckBox checkNum10;
+    public static boolean serverUp;
+    public static java.util.Timer mnTimer;
     public static Launcher instance;
     private List<DownloadHolder> filesNeeded;
     public Launcher() {
@@ -79,6 +83,9 @@ public class Launcher {
         KeyStroke cntrlAKey = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
         about.setAccelerator(cntrlAKey);
 
+        // Options window
+
+
         JMenuItem options = new JMenuItem("Options");
         options.setToolTipText("Launcher options.");
         options.addActionListener(new ActionListener() {
@@ -96,19 +103,78 @@ public class Launcher {
                 JLabel checkStat = new JLabel("Server checks status: ");
 
                 serverCheck1 = new JCheckBox("Every 1 minutes");
+                serverCheck1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                    }
+                });
                 serverCheck2 = new JCheckBox("Every 2 minutes");
+                serverCheck2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
                 serverCheck3 = new JCheckBox("Every 3 minutes");
+                serverCheck3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
                 serverCheck5 = new JCheckBox("Every 5 minutes");
+                serverCheck5.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
                 serverCheck10 = new JCheckBox("Every 10 mimutes");
+                serverCheck10.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
 
                 JLabel checktime = new JLabel("Number of server checks per minute");
 
                 checkNum1 = new JCheckBox("1 Times");
-                checkNum2 = new JCheckBox("2 time");
-                checkNum3 = new JCheckBox("3 times");
-                checkNum5 = new JCheckBox("5 times");
-                checkNum10 = new JCheckBox("10 times");
+                checkNum1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
+                    }
+                });
+                checkNum2 = new JCheckBox("2 time");
+                checkNum2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+                checkNum3 = new JCheckBox("3 times");
+                checkNum3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+                checkNum5 = new JCheckBox("5 times");
+                checkNum5.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+                checkNum10 = new JCheckBox("10 times");
+                checkNum10.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
 
                 GridBagConstraints optConstraints = new GridBagConstraints();
 
@@ -164,6 +230,9 @@ public class Launcher {
         options.setMnemonic(KeyEvent.VK_O);
         KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
         options.setAccelerator(cntrlOKey);
+
+
+
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");

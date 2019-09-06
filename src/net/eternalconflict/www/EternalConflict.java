@@ -5,6 +5,7 @@ import net.eternalconflict.www.handlers.ListenerHandler;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.holders.PlayerHolder;
+import net.eternalconflict.www.Launcher.*;
 import net.eternalconflict.www.listeners.ConsoleListener;
 import net.eternalconflict.www.listeners.SocketListener;
 import org.lwjglb.engine.GameEngine;
@@ -113,6 +114,7 @@ public class EternalConflict {
             new Thread(SocketHandler.instance).start();
             serverUp =  true;
         } catch (Exception e) {
+
             System.out.println("Can't Connect To Server.");
             System.out.println("Retrying in 5 minutes...");
             mnTimer.schedule(new TimerTask() {
