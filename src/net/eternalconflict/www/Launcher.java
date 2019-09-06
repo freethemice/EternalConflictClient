@@ -41,7 +41,7 @@ public class Launcher {
     private List<DownloadHolder> filesNeeded;
     public Launcher() {
         instance = this;
-        
+
         filesNeeded = new ArrayList<DownloadHolder>();
         buttonListener = new ButtonListener();
 
@@ -158,7 +158,7 @@ public class Launcher {
                 optConstraints.gridy = 3;
                 optionsPanel.add(checkNum10,optConstraints);
                 options.add(optionsPanel, BorderLayout.CENTER );
-                //options.pack();
+
             }
         });
         options.setMnemonic(KeyEvent.VK_O);
