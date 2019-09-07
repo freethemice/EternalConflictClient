@@ -112,6 +112,10 @@ public class Launcher extends JFrame {
 
             }
         });
+        issues.setMnemonic(KeyEvent.VK_R);
+        KeyStroke cntrlRKey = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK);
+        issues.setAccelerator(cntrlRKey);
+
         JMenuItem exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
         exit.addActionListener(new ActionListener() {
@@ -164,6 +168,7 @@ public class Launcher extends JFrame {
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
         saveInfo.setBackground(Color.LIGHT_GRAY);
+        if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
         saveInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
