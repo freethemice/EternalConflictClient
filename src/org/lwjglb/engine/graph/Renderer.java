@@ -1,5 +1,6 @@
 package org.lwjglb.engine.graph;
 
+import org.lwjglb.engine.graph.gui.rendering.GuiManger;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -124,6 +125,8 @@ public class Renderer {
         // Update projection matrix once per render cycle
         window.updateProjectionMatrix();
 
+        GuiManger.render(window, true);
+
         renderGeometry(window, camera, scene);
 
         initLightRendering();
@@ -134,6 +137,8 @@ public class Renderer {
         renderFog(window, camera, scene);
         renderSkyBox(window, camera, scene);
         renderParticles(window, camera, scene);
+
+        GuiManger.render(window, false);
     }
 
     private void setupParticlesShader() throws Exception {

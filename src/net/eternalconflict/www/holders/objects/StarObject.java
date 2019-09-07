@@ -36,7 +36,7 @@ public class StarObject extends DefaultObject {
     @Override
     public void setupHud()
     {
-        super.setupHud("textures/planets/hud/planet_ring_yellow.png");
+        super.setupHud("textures/icons/spot.png", 4, 4);
     }
     public StarTypeEnum getStarType() {
         return starType;

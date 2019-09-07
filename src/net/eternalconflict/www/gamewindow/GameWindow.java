@@ -5,7 +5,7 @@ import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
 import net.eternalconflict.www.enums.ObjectTypeEnum;
 import net.eternalconflict.www.gamewindow.hud.gui.CursorGui;
-import net.eternalconflict.www.gamewindow.hud.gui.GuiWindow;
+import org.lwjglb.engine.graph.gui.rendering.GuiManger;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.PlayerHolder;
 import net.eternalconflict.www.holders.objects.*;
@@ -59,7 +59,7 @@ public class GameWindow implements IGameLogic {
 
     private Window window;
 
-    private GuiWindow guiWindow;
+    private GuiManger guiManger;
 
     private DefaultObject sunObject = null;
     private DefaultObject selectedObject = null;
@@ -214,15 +214,16 @@ public class GameWindow implements IGameLogic {
 
             List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
             for(DefaultObject defaultObject: allthings) {
-                GuiWindow hud = defaultObject.getHudOverlay();
+                GuiManger hud = defaultObject.getHudOverlay();
                 if (hud == null)
                 {
                     defaultObject.setupHud();
                 }
             }
 
-            guiWindow = new GuiWindow("textures/window.png", "Planet: NA", new Vector2f(0, 0), new Vector2f(300, 100));
-            guiWindow.setVisible(false);
+            guiManger = new GuiManger("textures/window.png", "Planet: NA", new Vector2f(0, 0), new Vector2f(300, 100), false);
+            guiManger.setVisible(false);
+            GuiManger.addGuis(guiManger);
 
             if (sunObject != null) {
                 selectObject(sunObject);
@@ -315,20 +316,23 @@ public class GameWindow implements IGameLogic {
         }
         if (window.isKeyPressed(GLFW_KEY_SPACE))
         {
-            /*GameItem gameItem = cursor.getSelected();
-            if (gameItem != null) {
-                DefaultObject defaultObject = getDefaultObject(gameItem);
-                selectObject(defaultObject);
-            }
-            else
-            {*/
+            boolean selected = false;
             List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
             for(DefaultObject defaultObject: allthings) {
-                GuiWindow hud = defaultObject.getHudOverlay();
+                GuiManger hud = defaultObject.getHudOverlay();
                 if (defaultObject.getHudOverlay() != null) {
                     if (defaultObject.isMouseOnMe(mouseInput)) {
                         selectObject(defaultObject);
+                        selected = true;
                     }
+                }
+            }
+            if (selected == false)
+            {
+                GameItem gameItem = cursor.getSelected();
+                if (gameItem != null) {
+                    DefaultObject defaultObject = getDefaultObject(gameItem);
+                    selectObject(defaultObject);
                 }
             }
           // }
@@ -357,13 +361,13 @@ public class GameWindow implements IGameLogic {
         boolean overObject = false;
         for(DefaultObject defaultObject: allthings)
         {
-            GuiWindow hud = defaultObject.getHudOverlay();
+            GuiManger hud = defaultObject.getHudOverlay();
             if (defaultObject.getHudOverlay() != null)
             {
                 if (defaultObject.isMouseOnMe(mouseInput))
                 {
-                    guiWindow.setPosition(new Vector2f(defaultObject.getHudOverlay().getPosition().x + hud.getSize().x, defaultObject.getHudOverlay().getPosition().y));
-                    guiWindow.setText("Planet:" + defaultObject.getName() + " Distance: " + sunObject.getPosition().distance(defaultObject.getPosition()));
+                    guiManger.setPosition(new Vector2f(defaultObject.getHudOverlay().getPosition().x + hud.getSize().x, defaultObject.getHudOverlay().getPosition().y));
+                    guiManger.setText("Planet:" + defaultObject.getName() + " Distance: " + sunObject.getPosition().distance(defaultObject.getPosition()));
                     overObject = true;
                 }
 
@@ -383,11 +387,11 @@ public class GameWindow implements IGameLogic {
         }
         if (overObject)
         {
-            guiWindow.setVisible(true);
+            guiManger.setVisible(true);
         }
         else
         {
-            guiWindow.setVisible(false);
+            guiManger.setVisible(false);
             //mouseOver = null;
         }
     }
@@ -431,12 +435,9 @@ public class GameWindow implements IGameLogic {
             sceneChanged = true;
             firstTime = false;
         }
+
         renderer.render(window, camera, scene, sceneChanged);
 
-        GuiWindow.render(window);
-        //guiWindow.render(window);
-
-        //TextMaster.render();
 
         if (EternalConflict.quit)
         {

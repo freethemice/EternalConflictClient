@@ -1,4 +1,4 @@
-package net.eternalconflict.www.gamewindow.hud.gui;
+package org.lwjglb.engine.graph.gui.rendering;
 
 import net.eternalconflict.www.enums.FontTypeEnum;
 import net.eternalconflict.www.gamewindow.GameWindow;
@@ -9,23 +9,22 @@ import org.lwjglb.engine.graph.font.meshcreator.FontType;
 import org.lwjglb.engine.graph.font.meshcreator.GuiLabels;
 import org.lwjglb.engine.graph.font.rendering.FontRenderer;
 import org.lwjglb.engine.graph.gui.meshcreator.GuiTexture;
-import org.lwjglb.engine.graph.gui.rendering.GuiRenderer;
 import org.lwjglb.engine.graph.other.Loader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiWindow {
+public class GuiManger {
 
 
-    private static List<GuiWindow> guis = new ArrayList<GuiWindow>();
-    public static GuiWindow instance;
+    private static List<GuiManger> guis = new ArrayList<GuiManger>();
+    public static GuiManger instance;
     public static DefaultObject mouseOver = null;
-    public static void addGuis(GuiWindow texture)
+    public static void addGuis(GuiManger texture)
     {
         guis.add(texture);
     }
-    public static void removeGui(GuiWindow texture)
+    public static void removeGui(GuiManger texture)
     {
         guis.remove(texture);
     }
@@ -37,37 +36,62 @@ public class GuiWindow {
     {
         return guis.size();
     }
-    public static GuiWindow getGui(int index)
+    public static GuiManger getGui(int index)
     {
         return guis.get(index);
     }
     public static FontType font;
-    public static void render(Window window)
+    public static void render(Window window, boolean renderBackGround)
     {
-        for(GuiWindow guiWindow: guis)
+        for(GuiManger guiManger : guis)
         {
-            if (guiWindow.visible) {
-                GuiRenderer.instance.render(window, guiWindow.background);
-                FontRenderer.instance.render(window, guiWindow.label);
+            if (guiManger.visible) {
+                if (guiManger.isRenderBackGround() == renderBackGround) {
+                    GuiRenderer.instance.render(window, guiManger.background);
+                    FontRenderer.instance.render(window, guiManger.label);
+                }
             }
         }
     }
+    private boolean renderBackGround;
     private GuiTexture background;
     private GuiLabels label;
     private Vector2f position;
     private Vector2f size;
     private boolean visible;
-    public GuiWindow(String background, String text, Vector2f position, Vector2f size)
+    public GuiManger(String background, String text, Vector2f position, Vector2f size)
     {
+        this.renderBackGround = false;
         this.position = position;
         this.size = size;
         this.visible = true;
         this.background = new GuiTexture(Loader.loadTexture(background), position, size);
+
         font = FontTypeEnum.getFontType(FontTypeEnum.Verdana, GameWindow.instance.getWindow());
         label = new GuiLabels(text, 1, font, position, size.x, false);
         label.setColour(0,1,0);
-        guis.add(this);
     }
+    public GuiManger(String background, String text, Vector2f position, Vector2f size, boolean renderBackGround)
+    {
+        this.renderBackGround = renderBackGround;
+        this.position = position;
+        this.size = size;
+        this.visible = true;
+        this.background = new GuiTexture(Loader.loadTexture(background), position, size);
+
+        font = FontTypeEnum.getFontType(FontTypeEnum.Verdana, GameWindow.instance.getWindow());
+        label = new GuiLabels(text, 1, font, position, size.x, false);
+        label.setColour(0,1,0);
+    }
+
+    public boolean isRenderBackGround() {
+        return renderBackGround;
+    }
+
+    public void setRenderBackGround(boolean renderBackGround) {
+        this.renderBackGround = renderBackGround;
+    }
+
     public void setFontColour(float r, float g, float b) {
         label.setColour(r, g, b);
     }
@@ -110,7 +134,7 @@ public class GuiWindow {
     {
         guiWindow = new GuiTexture(Loader.loadTexture("textures/window.png"), new Vector2f(0, 0), new Vector2f(300, 100));
         guiWindow.setVisible(false);
-        //GuiWindow.instance.addGuis(guiWindow);
+        //GuiManger.instance.addGuis(guiWindow);
     }*/
 
 

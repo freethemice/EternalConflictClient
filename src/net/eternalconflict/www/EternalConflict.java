@@ -5,7 +5,6 @@ import net.eternalconflict.www.handlers.ListenerHandler;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.holders.PlayerHolder;
-import net.eternalconflict.www.Launcher.*;
 import net.eternalconflict.www.listeners.ConsoleListener;
 import net.eternalconflict.www.listeners.SocketListener;
 import org.lwjglb.engine.GameEngine;
@@ -45,7 +44,6 @@ public class EternalConflict {
 
         bufferedReader= new BufferedReader(new InputStreamReader(System.in));
         new ListenerHandler();
-        ListenerHandler.instance.addListener(new SocketListener());
         ListenerHandler.instance.addListener(new ConsoleListener());
 
         serverUp = false;
@@ -112,6 +110,7 @@ public class EternalConflict {
             System.out.println("Connecting to server...");
             new SocketHandler();
             new Thread(SocketHandler.instance).start();
+            ListenerHandler.instance.addListener(new SocketListener());
             serverUp =  true;
         } catch (Exception e) {
 

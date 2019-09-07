@@ -2,13 +2,10 @@ package net.eternalconflict.www.holders.objects;
 
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.enums.ObjectTypeEnum;
-import net.eternalconflict.www.gamewindow.GameWindow;
-import net.eternalconflict.www.gamewindow.hud.gui.GuiWindow;
+import org.lwjglb.engine.graph.gui.rendering.GuiManger;
 import net.eternalconflict.www.holders.CoordinatesHolder;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.lwjglb.engine.MouseInput;
-import org.lwjglb.engine.Utils;
 import org.lwjglb.engine.items.GameItem;
 
 import java.util.ArrayList;
@@ -53,8 +50,7 @@ public class DefaultObject {
     protected String id;
     protected double size = -1; // size is radius
     protected ObjectTypeEnum objectType;
-    public GuiWindow hudOverlay = null;
-    public GuiWindow overlay = null;
+    public GuiManger hudOverlay = null;
     public GameItem gameItem;
 
     public DefaultObject(String id, String name)
@@ -148,36 +144,21 @@ public class DefaultObject {
     {
 
     }
-    protected void setupHud(String texture)
+    protected void setupHud(String texture, float sizex, float sizez)
     {
-        this.hudOverlay =  new GuiWindow(texture, "", new Vector2f(0, 0), new Vector2f(80, 60));
+        this.hudOverlay =  new GuiManger(texture, "", new Vector2f(0, 0), new Vector2f(sizex, sizez), true);
         this.hudOverlay.setVisible(false);
-        GuiWindow.instance.addGuis(this.hudOverlay);
-        this.overlay =  new GuiWindow("textures/planets/hud/spot.png", "", new Vector2f(0, 0), new Vector2f(4, 4));
-        this.overlay.setVisible(false);
-        GuiWindow.instance.addGuis(this.overlay);
+        GuiManger.instance.addGuis(this.hudOverlay);
     }
     public void setHudPosition(Vector2f position)
     {
         this.hudOverlay.setPosition(new Vector2f(position.x - this.hudOverlay.getSize().x/2, position.y - this.hudOverlay.getSize().y/2));
-        this.overlay.setPosition(new Vector2f(position.x - this.overlay.getSize().x/2, position.y - this.overlay.getSize().y/2));
     }
     public void setHudVisible(boolean visible)
     {
         this.hudOverlay.setVisible(visible);
-        Vector3f vector3f = Utils.getScreenCoords(GameWindow.instance.getCamera(), GameWindow.instance.getWindow(), this.gameItem.getPosition().add(this.gameItem.getScale(), 0, 0));
-        Vector3f vector3f2 = Utils.getScreenCoords(GameWindow.instance.getCamera(), GameWindow.instance.getWindow(), this.gameItem.getPosition().add(-1*this.gameItem.getScale(), 0, 0));
-        if (vector3f != null && vector3f2 != null) {
-            if (vector3f.distance(vector3f2) < 1) {
-                this.overlay.setVisible(visible);
-            } else {
-                this.overlay.setVisible(false);
-            }
-        } else {
-            this.overlay.setVisible(false);
-        }
     }
-    public GuiWindow getHudOverlay() {
+    public GuiManger getHudOverlay() {
         return hudOverlay;
     }
 

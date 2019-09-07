@@ -35,7 +35,7 @@ public class PlanetObject extends DefaultObject {
     @Override
     public void setupHud()
     {
-        super.setupHud("textures/planets/hud/planet_ring_purple.png");
+        super.setupHud("textures/icons/spot.png", 4, 4);
     }
 
     public PlanetTypeEnum getPlanetType() {

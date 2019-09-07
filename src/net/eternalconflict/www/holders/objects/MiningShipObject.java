@@ -31,6 +31,6 @@ public class MiningShipObject extends PlayerOwnedObject {
     @Override
     public void setupHud()
     {
-        super.setupHud("textures/planets/hud/planet_ring_green.png");
+        super.setupHud("textures/icons/ship.png", 16 ,16);
     }
 }
