@@ -6,6 +6,7 @@ public enum ServerInfoEnum {
     WEB("Web", "http://www.firesoftitan.com/ec"),
     REGISTER("Register", "http://www.firesoftitan.com/ec"),
     VERSIONS("Versions", "http://www.firesoftitan.com/ec/info.data");
+
     private final String name;
     private final String address;
 

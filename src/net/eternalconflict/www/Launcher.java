@@ -11,12 +11,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
-public class Launcher {
+import static net.eternalconflict.www.EternalConflict.connectToServer;
+
+public class Launcher extends OptionsWindow {
     private ButtonListener buttonListener;
     private Dimension dim;
     private JFrame mainFrame;
@@ -29,20 +35,14 @@ public class Launcher {
     private JPasswordField passwordText;
     private JTextField usernameText;
     private JLabel serverstate;
-    public JCheckBox serverCheck1;
-    public JCheckBox serverCheck2;
-    public JCheckBox serverCheck3;
-    public JCheckBox serverCheck5;
-    public JCheckBox serverCheck10;
-    public JCheckBox checkNum1;
-    public JCheckBox checkNum2;
-    public JCheckBox checkNum3;
-    public JCheckBox checkNum5;
-    public JCheckBox checkNum10;
-    public static boolean serverUp;
-    public static java.util.Timer mnTimer;
+    private JLabel loginInfo;
+    private JCheckBox saveInfo;
+    private JMenuItem option;
     public static Launcher instance;
+
     private List<DownloadHolder> filesNeeded;
+
+
     public Launcher() {
         instance = this;
 
@@ -86,153 +86,18 @@ public class Launcher {
         // Options window
 
 
-        JMenuItem options = new JMenuItem("Options");
-        options.setToolTipText("Launcher options.");
-        options.addActionListener(new ActionListener() {
+        option = new JMenuItem("Options");
+        option.setToolTipText("Launcher options.");
+        option.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame options = new JFrame("Options and Settings");
-                options.setSize(900,700);
-                options.setResizable(false);
-                options.setBackground(Color.lightGray);
-                options.setVisible(true);
-                options.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                JPanel optionsPanel = new JPanel();
-
-                JLabel checkStat = new JLabel("Server checks status: ");
-
-                serverCheck1 = new JCheckBox("Every 1 minutes");
-                serverCheck1.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                    }
-                });
-                serverCheck2 = new JCheckBox("Every 2 minutes");
-                serverCheck2.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                serverCheck3 = new JCheckBox("Every 3 minutes");
-                serverCheck3.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                serverCheck5 = new JCheckBox("Every 5 minutes");
-                serverCheck5.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                serverCheck10 = new JCheckBox("Every 10 mimutes");
-                serverCheck10.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-
-                JLabel checktime = new JLabel("Number of server checks per minute");
-
-                checkNum1 = new JCheckBox("1 Times");
-                checkNum1.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                checkNum2 = new JCheckBox("2 time");
-                checkNum2.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                checkNum3 = new JCheckBox("3 times");
-                checkNum3.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                checkNum5 = new JCheckBox("5 times");
-                checkNum5.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                checkNum10 = new JCheckBox("10 times");
-                checkNum10.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-
-                GridBagConstraints optConstraints = new GridBagConstraints();
-
-                optConstraints.insets = new Insets(3, 3, 3, 3);
-
-                optConstraints.gridx = 1;
-                optConstraints.gridy = 1;
-                optionsPanel.add(checkStat,optConstraints);
-
-                optConstraints.gridx = 1;
-                optConstraints.gridy = 2;
-                optionsPanel.add(serverCheck1,optConstraints);
-                optConstraints.gridx = 2;
-                optConstraints.gridy = 2;
-                optionsPanel.add(serverCheck2,optConstraints);
-                optConstraints.gridx = 3;
-                optConstraints.gridy = 2;
-                optionsPanel.add(serverCheck3,optConstraints);
-                optConstraints.gridx = 4;
-                optConstraints.gridy = 2;
-                optionsPanel.add(serverCheck5,optConstraints);
-                optConstraints.gridx = 5;
-                optConstraints.gridy = 2;
-                optionsPanel.add(serverCheck10,optConstraints);
-
-                optConstraints.gridx = 2;
-                optConstraints.gridy = 2;
-                optionsPanel.add(checktime,optConstraints);
-
-                optConstraints.gridx = 2;
-                optConstraints.gridy = 3;
-                optionsPanel.add(checkNum1,optConstraints);
-
-                optConstraints.gridx = 3;
-                optConstraints.gridy = 3;
-                optionsPanel.add(checkNum2,optConstraints);
-
-                optConstraints.gridx = 4;
-                optConstraints.gridy = 3;
-                optionsPanel.add(checkNum3,optConstraints);
-
-                optConstraints.gridx = 5;
-                optConstraints.gridy = 3;
-                optionsPanel.add(checkNum5,optConstraints);
-
-                optConstraints.gridx = 6;
-                optConstraints.gridy = 3;
-                optionsPanel.add(checkNum10,optConstraints);
-                options.add(optionsPanel, BorderLayout.CENTER );
+            public void actionPerformed(ActionEvent e)
+            {
 
             }
         });
-        options.setMnemonic(KeyEvent.VK_O);
+        option.setMnemonic(KeyEvent.VK_O);
         KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
-        options.setAccelerator(cntrlOKey);
-
-
-
+        option.setAccelerator(cntrlOKey);
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
@@ -256,7 +121,7 @@ public class Launcher {
 
         menu.add(settings);
         settings.add(about);
-        settings.add(options);
+        settings.add(option);
         settings.addSeparator();
         settings.add(exit);
 
@@ -281,6 +146,21 @@ public class Launcher {
         register.addActionListener(buttonListener);
 
         progress = new JProgressBar();
+
+        saveInfo = new JCheckBox();
+        saveInfo.setToolTipText("Save your login information.");
+        saveInfo.setBackground(Color.LIGHT_GRAY);
+        saveInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if(saveInfo.isSelected())
+                {
+                    return;
+                }
+            }
+        });
+        loginInfo = new JLabel("Remember my login");
 
         JLabel passlabel = new JLabel("Password");
         passlabel.setForeground(Color.BLACK);
@@ -311,9 +191,6 @@ public class Launcher {
         System.setOut (new PrintStream(out));
 
         GridBagConstraints constraints = new GridBagConstraints();
-
-
-
 
 
         constraints.insets = new Insets(3, 3, 3, 3);
@@ -358,8 +235,16 @@ public class Launcher {
         mainPanel.add(progress,constraints);
 
         constraints.gridx = 1;
-        constraints.gridy = 4;
+        constraints.gridy = 6;
         mainPanel.add(Info,constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        mainPanel.add(saveInfo, constraints);
+
+        constraints.gridx = 2;
+        constraints.gridy = 4;
+        mainPanel.add(loginInfo, constraints);
 
         //constraints.gridx = 1;
         //constraints.gridy = 3;
@@ -452,7 +337,7 @@ public class Launcher {
         this.update.setVisible(updatebln);
         if (!updatebln)
         {
-            EternalConflict.connectToServer();
+            connectToServer();
         }
 
         //this.login.setEnabled(!updatebln);
@@ -497,5 +382,10 @@ public class Launcher {
 
     public JTextField getUsernameText() {
         return usernameText;
+    }
+
+    public JMenuItem getOption()
+    {
+        return option;
     }
 }

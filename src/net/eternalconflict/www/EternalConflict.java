@@ -45,7 +45,6 @@ public class EternalConflict {
         bufferedReader= new BufferedReader(new InputStreamReader(System.in));
         new ListenerHandler();
         ListenerHandler.instance.addListener(new ConsoleListener());
-
         serverUp = false;
 
         versionInfo = new ConfigFile("saves", "launcher.info");
