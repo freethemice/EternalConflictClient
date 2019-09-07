@@ -20,7 +20,6 @@ public class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object button = e.getSource();
-        Object MenuItem = e.getSource();
         Launcher launcher = Launcher.instance;
 
         if (button == launcher.getLogin())

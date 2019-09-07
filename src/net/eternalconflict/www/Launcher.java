@@ -11,7 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -88,15 +92,12 @@ public class Launcher extends OptionsWindow {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JFrame options = new JFrame();
+
             }
         });
         option.setMnemonic(KeyEvent.VK_O);
         KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
         option.setAccelerator(cntrlOKey);
-
-
-
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");

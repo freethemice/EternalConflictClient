@@ -14,8 +14,9 @@ import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 public class OptionsWindow extends JFrame{
 
-    public static void main(String[] args)
+    public static void main()
     {
+
         JCheckBox serverCheck1;
         JCheckBox serverCheck2;
         JCheckBox serverCheck3;
