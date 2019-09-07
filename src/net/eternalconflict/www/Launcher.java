@@ -2,7 +2,6 @@ package net.eternalconflict.www;
 
 import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.ConsoleHandler;
-import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
@@ -11,18 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
 
 import static net.eternalconflict.www.EternalConflict.connectToServer;
 
-public class Launcher extends OptionsWindow {
+public class Launcher extends JFrame {
     private ButtonListener buttonListener;
     private Dimension dim;
     private JFrame mainFrame;
@@ -92,7 +86,7 @@ public class Launcher extends OptionsWindow {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                new OptionsWindow();
             }
         });
         option.setMnemonic(KeyEvent.VK_O);
@@ -269,7 +263,11 @@ public class Launcher extends OptionsWindow {
     public void updateStatus()
     {
         mainPanel.setBackground(Color.LIGHT_GRAY);
-        if (EternalConflict.serverUp) mainPanel.setBackground(Color.BLUE);
+        saveInfo.setBackground(Color.LIGHT_GRAY);
+        if (EternalConflict.serverUp) {
+            mainPanel.setBackground(Color.BLUE);
+            saveInfo.setBackground(Color.BLUE);
+        }
 
         if(EternalConflict.serverUp)serverstate.setForeground(Color.GREEN);
         if(!EternalConflict.serverUp)serverstate.setForeground(Color.RED);

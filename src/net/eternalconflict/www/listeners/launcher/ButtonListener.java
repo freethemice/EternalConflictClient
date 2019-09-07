@@ -3,7 +3,6 @@ package net.eternalconflict.www.listeners.launcher;
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
-import net.eternalconflict.www.OptionsWindow;
 import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;

@@ -5,16 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.eternalconflict.www.enums.ServerInfoEnum;
-import net.eternalconflict.www.handlers.ConsoleHandler;
-import net.eternalconflict.www.handlers.SocketHandler;
-import net.eternalconflict.www.holders.DownloadHolder;
-import net.eternalconflict.www.listeners.launcher.ButtonListener;
-
 
 public class OptionsWindow extends JFrame{
 
-    public static void main()
+    public OptionsWindow()
     {
 
         JCheckBox serverCheck1;
@@ -163,6 +157,7 @@ public class OptionsWindow extends JFrame{
         optionsPanel.add(checkNum10,optConstraints);
         options.add(optionsPanel, BorderLayout.CENTER );
 
+        options.setVisible(true);
     }
 
 }

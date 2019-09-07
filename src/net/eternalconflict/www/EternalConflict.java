@@ -108,8 +108,8 @@ public class EternalConflict {
         try {
             System.out.println("Connecting to server...");
             new SocketHandler();
-            new Thread(SocketHandler.instance).start();
             ListenerHandler.instance.addListener(new SocketListener());
+            new Thread(SocketHandler.instance).start();
             serverUp =  true;
         } catch (Exception e) {
 
