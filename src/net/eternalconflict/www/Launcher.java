@@ -100,16 +100,22 @@ public class Launcher extends JFrame {
         issues.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.ISSUES.getAddress()));
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (URISyntaxException e1) {
-                    e1.printStackTrace();
-                }
+                String title = "Leaveing The Launcher";
+                String message = "You are about to leave the launcher and go to a website. Do you wish to continue?";
 
+                int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+                if(reply == JOptionPane.YES_OPTION)
+                {
+                    try {
+                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                            Desktop.getDesktop().browse(new URI(ServerInfoEnum.ISSUES.getAddress()));
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                }
             }
         });
         issues.setMnemonic(KeyEvent.VK_R);

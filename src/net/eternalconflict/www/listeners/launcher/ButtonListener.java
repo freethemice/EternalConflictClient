@@ -7,6 +7,7 @@ import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,15 +33,24 @@ public class ButtonListener implements ActionListener {
         }
         if (button == launcher.getRegister())
         {
-            try {
-                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    Desktop.getDesktop().browse(new URI(ServerInfoEnum.REGISTER.getAddress()));
+
+            String title = "Leaveing the Launcher";
+            String message = "You are about to go to a website and leave the launcher. Do you wish to continue?";
+
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.REGISTER.getAddress()));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
                 }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (URISyntaxException e1) {
-                e1.printStackTrace();
             }
+
         }
         if (button == launcher.getUpdate())
         {

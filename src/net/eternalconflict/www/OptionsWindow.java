@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 public class OptionsWindow extends JFrame{
@@ -11,151 +13,69 @@ public class OptionsWindow extends JFrame{
     public OptionsWindow()
     {
 
-        JCheckBox serverCheck1;
-        JCheckBox serverCheck2;
-        JCheckBox serverCheck3;
-        JCheckBox serverCheck5;
-        JCheckBox serverCheck10;
-        JCheckBox checkNum1;
-        JCheckBox checkNum2;
-        JCheckBox checkNum3;
-        JCheckBox checkNum5;
-        JCheckBox checkNum10;
+        JComboBox serverCheck;
+        JComboBox checkNum;
 
-        JFrame options = new JFrame("Options");
-        //options.setVisible(true);
+
+        JFrame options = new JFrame("Launcher Options");
         options.setDefaultCloseOperation(HIDE_ON_CLOSE);
         options.setSize(900,700);
         options.setResizable(false);
-        options.setBackground(Color.lightGray);
+        if(EternalConflict.serverUp)options.setBackground(Color.BLUE);
+        if(!EternalConflict.serverUp)options.setBackground(Color.LIGHT_GRAY);
 
         JPanel optionsPanel = new JPanel();
 
         JLabel checkStat = new JLabel("Server checks status: ");
 
-        serverCheck1 = new JCheckBox("Every 1 minutes");
-        serverCheck1.addActionListener(new ActionListener() {
+        serverCheck = new JComboBox();
+        serverCheck.addItem("Check every 1 minute");
+        serverCheck.addItem("Check every 2 minutes");
+        serverCheck.addItem("Check every 3 minutes");
+        serverCheck.addItem("Check every 5 minutes");
+        serverCheck.addItem("Check every 10 minutes");
+        serverCheck.addItemListener(new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-
-            }
-        });
-        serverCheck2 = new JCheckBox("Every 2 minutes");
-        serverCheck2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        serverCheck3 = new JCheckBox("Every 3 minutes");
-        serverCheck3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        serverCheck5 = new JCheckBox("Every 5 minutes");
-        serverCheck5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        serverCheck10 = new JCheckBox("Every 10 mimutes");
-        serverCheck10.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            public void itemStateChanged(ItemEvent e) {
 
             }
         });
 
         JLabel checktime = new JLabel("Number of server checks per minute");
 
-        checkNum1 = new JCheckBox("1 Times");
-        checkNum1.addActionListener(new ActionListener() {
+        checkNum = new JComboBox();
+        checkNum.addItem("1");
+        checkNum.addItem("2");
+        checkNum.addItem("3");
+        checkNum.addItem("5");
+        checkNum.addItem("10");
+        checkNum.addItemListener(new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void itemStateChanged(ItemEvent e) {
 
             }
         });
-        checkNum2 = new JCheckBox("2 time");
-        checkNum2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-        checkNum3 = new JCheckBox("3 times");
-        checkNum3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        checkNum5 = new JCheckBox("5 times");
-        checkNum5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        checkNum10 = new JCheckBox("10 times");
-        checkNum10.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         GridBagConstraints optConstraints = new GridBagConstraints();
 
-        optConstraints.insets = new Insets(3, 3, 3, 3);
+        optConstraints.insets = new Insets(5, 3, 3, 3);
 
-        optConstraints.gridx = 1;
-        optConstraints.gridy = 1;
+        optConstraints.gridx = 0;
+        optConstraints.gridy = 0;
         optionsPanel.add(checkStat,optConstraints);
 
-        optConstraints.gridx = 1;
-        optConstraints.gridy = 2;
-        optionsPanel.add(serverCheck1,optConstraints);
-        optConstraints.gridx = 2;
-        optConstraints.gridy = 2;
-        optionsPanel.add(serverCheck2,optConstraints);
-        optConstraints.gridx = 3;
-        optConstraints.gridy = 2;
-        optionsPanel.add(serverCheck3,optConstraints);
-        optConstraints.gridx = 4;
-        optConstraints.gridy = 2;
-        optionsPanel.add(serverCheck5,optConstraints);
-        optConstraints.gridx = 5;
-        optConstraints.gridy = 2;
-        optionsPanel.add(serverCheck10,optConstraints);
+        optConstraints.gridx = 0;
+        optConstraints.gridy = 1;
+        optionsPanel.add(serverCheck,optConstraints);
 
-        optConstraints.gridx = 2;
-        optConstraints.gridy = 2;
+        optConstraints.gridx = 0;
+        optConstraints.gridy = 3;
         optionsPanel.add(checktime,optConstraints);
 
-        optConstraints.gridx = 2;
-        optConstraints.gridy = 3;
-        optionsPanel.add(checkNum1,optConstraints);
-
-        optConstraints.gridx = 3;
-        optConstraints.gridy = 3;
-        optionsPanel.add(checkNum2,optConstraints);
-
-        optConstraints.gridx = 4;
-        optConstraints.gridy = 3;
-        optionsPanel.add(checkNum3,optConstraints);
-
-        optConstraints.gridx = 5;
-        optConstraints.gridy = 3;
-        optionsPanel.add(checkNum5,optConstraints);
-
-        optConstraints.gridx = 6;
-        optConstraints.gridy = 3;
-        optionsPanel.add(checkNum10,optConstraints);
-        options.add(optionsPanel, BorderLayout.CENTER );
+        optConstraints.gridx = 0;
+        optConstraints.gridy = 4;
+        optionsPanel.add(checkNum,optConstraints);
+        options.add(optionsPanel, BorderLayout.WEST );
 
         options.setVisible(true);
     }
