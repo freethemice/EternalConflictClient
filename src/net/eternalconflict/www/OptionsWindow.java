@@ -24,7 +24,7 @@ public class OptionsWindow extends JFrame{
 
         JFrame options = new JFrame("Options");
         //options.setVisible(true);
-        options.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        options.setDefaultCloseOperation(HIDE_ON_CLOSE);
         options.setSize(900,700);
         options.setResizable(false);
         options.setBackground(Color.lightGray);
