@@ -5,3 +5,5 @@ EternalConflictClient.iml
 libs/
 *.iml
 *.java___jb_tmp___
+*.zip
+saves/
