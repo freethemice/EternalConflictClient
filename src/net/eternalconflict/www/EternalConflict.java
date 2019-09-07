@@ -47,8 +47,9 @@ public class EternalConflict {
         new ListenerHandler();
         ListenerHandler.instance.addListener(new SocketListener());
         ListenerHandler.instance.addListener(new ConsoleListener());
-
         serverUp = false;
+
+
 
         versionInfo = new ConfigFile("saves", "launcher.info");
         versionInfo.loadFromFile();
@@ -66,9 +67,6 @@ public class EternalConflict {
             versionInfo.set("game", "0.0.082919");
         }
         versionInfo.save();
-
-
-
 
         Launcher launcher = new Launcher();
         launcher.setUpdate();
@@ -112,6 +110,7 @@ public class EternalConflict {
             System.out.println("Connecting to server...");
             new SocketHandler();
             new Thread(SocketHandler.instance).start();
+
             serverUp =  true;
         } catch (Exception e) {
 
@@ -124,19 +123,21 @@ public class EternalConflict {
                     i++;
                     if (i > 4)
                     {
-                        this.cancel();
                         connectToServer();
+                        this.cancel();
                     }
                     else
                     {
                         int count = 5 - i;
                         System.out.println("Retrying in " + count + " minutes...");
+
                     }
                 }
             },1000 * 60, 1000 *  60);
         }
         finally {
             Launcher.instance.updateStatus();
+
         }
 
 
