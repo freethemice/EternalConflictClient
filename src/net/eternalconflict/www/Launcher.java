@@ -32,12 +32,14 @@ public class Launcher extends JFrame {
     private JLabel loginInfo;
     private JCheckBox saveInfo;
     private JMenuItem option;
+    private ConfigFile options;
     public static Launcher instance;
 
     private List<DownloadHolder> filesNeeded;
 
 
     public Launcher() {
+        options = new ConfigFile("", "options.info");
         instance = this;
 
         filesNeeded = new ArrayList<DownloadHolder>();
@@ -148,12 +150,16 @@ public class Launcher extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if(saveInfo.isSelected())
-                {
-                    return;
-                }
+                options.set("saveinfo", false);
+                options.set("username", "");
+                options.set("password", "");
+                options.save();
+
             }
         });
+        saveInfo.setSelected(false);
+
+
         loginInfo = new JLabel("Remember my login");
 
         JLabel passlabel = new JLabel("Password");
@@ -256,10 +262,36 @@ public class Launcher extends JFrame {
         mainFrame.pack();
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
 
+        try {
+            if (options.containsKey("saveinfo")) {
+                if (options.getBoolean("saveinfo")) {
+                    if (options.containsKey("username") && options.containsKey("password")) {
+                        getUsernameText().setText(options.getString("username"));
+                        String password = options.getString("password");
+                        password = ConfigFile.decode(password);
+                        getPasswordText().setText(password);
+                    }
+                    saveInfo.setSelected(true);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         //updateStatus();
 
 
     }
+
+    public JCheckBox getSaveInfo() {
+        return saveInfo;
+    }
+
+    public ConfigFile getOptions() {
+        return options;
+    }
+
     public void updateStatus()
     {
         mainPanel.setBackground(Color.LIGHT_GRAY);
@@ -333,6 +365,7 @@ public class Launcher extends JFrame {
             updatebln = true;
         }
         this.update.setVisible(updatebln);
+        mainFrame.pack();
         if (!updatebln)
         {
             connectToServer();

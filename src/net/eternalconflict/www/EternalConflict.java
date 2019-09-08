@@ -47,7 +47,7 @@ public class EternalConflict {
         ListenerHandler.instance.addListener(new ConsoleListener());
         serverUp = false;
 
-        versionInfo = new ConfigFile("saves", "launcher.info");
+        versionInfo = new ConfigFile("", "launcher.info");
         versionInfo.loadFromFile();
 
         if (!versionInfo.containsKey("resources"))

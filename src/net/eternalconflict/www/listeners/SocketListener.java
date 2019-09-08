@@ -42,6 +42,22 @@ public class SocketListener implements SocketInterface {
                     System.out.println("Map set at " + solarSystemMap.getKey());
                     if (EternalConflict.gameEng == null)
                     {
+                        Launcher launcher = Launcher.instance;
+                        ConfigFile options = launcher.getOptions();
+                        options.set("saveinfo", launcher.getSaveInfo().isSelected());
+                        if(launcher.getSaveInfo().isSelected())
+                        {
+                            String password = new String(launcher.getPasswordText().getPassword());
+                            password = ConfigFile.encode(password);
+                            options.set("username", launcher.getUsernameText().getText());
+                            options.set("password", password);
+                        }
+                        else
+                        {
+                            options.set("username", "");
+                            options.set("password", "");
+                        }
+                        options.save();
                         EternalConflict.openGame();
                         //Launcher.instance.getMainFrame().setVisible(false);
                         Launcher.instance.getMainPanel().setVisible(false);
