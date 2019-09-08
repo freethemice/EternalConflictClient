@@ -112,9 +112,9 @@ public class EternalConflict {
             new Thread(SocketHandler.instance).start();
             serverUp =  true;
         } catch (Exception e) {
-
             System.out.println("Can't Connect To Server.");
             System.out.println("Retrying in 5 minutes...");
+            
             mnTimer.schedule(new TimerTask() {
                 int i = 0;
                 @Override
@@ -135,10 +135,11 @@ public class EternalConflict {
         }
         finally {
             Launcher.instance.updateStatus();
+
         }
-
-
     }
+
+
 
     public static void extractZip(String fileName, DownloadHolder downloadHolder, JProgressBar jProgressBar)
     {

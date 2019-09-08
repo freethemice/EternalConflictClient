@@ -10,7 +10,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +84,6 @@ public class Launcher extends JFrame {
 
         // Options window
 
-
         option = new JMenuItem("Options");
         option.setToolTipText("Launcher options.");
         option.addActionListener(new ActionListener() {
@@ -94,6 +96,33 @@ public class Launcher extends JFrame {
         option.setMnemonic(KeyEvent.VK_O);
         KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
         option.setAccelerator(cntrlOKey);
+
+        JMenuItem issues = new JMenuItem("Report a bug");
+        issues.setToolTipText("Report a bug.");
+        issues.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String title = "Leaveing The Launcher";
+                String message = "You are about to leave the launcher and go to a website. Do you wish to continue?";
+
+                int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+                if(reply == JOptionPane.YES_OPTION)
+                {
+                    try {
+                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                            Desktop.getDesktop().browse(new URI(ServerInfoEnum.ISSUES.getAddress()));
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+        issues.setMnemonic(KeyEvent.VK_R);
+        KeyStroke cntrlRKey = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK);
+        issues.setAccelerator(cntrlRKey);
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
@@ -118,6 +147,7 @@ public class Launcher extends JFrame {
         menu.add(settings);
         settings.add(about);
         settings.add(option);
+        settings.add(issues);
         settings.addSeparator();
         settings.add(exit);
 
@@ -146,6 +176,7 @@ public class Launcher extends JFrame {
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
         saveInfo.setBackground(Color.LIGHT_GRAY);
+        if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
         saveInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
