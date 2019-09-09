@@ -6,6 +6,7 @@ import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
+import javax.swing.JTabbedPane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static net.eternalconflict.www.EternalConflict.connectToServer;
 
@@ -36,10 +38,14 @@ public class Launcher extends JFrame {
     private JCheckBox saveInfo;
     private JMenuItem option;
     private ConfigFile options;
+    private JTabbedPane launchertab;
     public static Launcher instance;
 
     private List<DownloadHolder> filesNeeded;
 
+    Color dark_blue = new Color(20, 28, 99);
+    Color dark_green = new Color(32, 105, 27);
+    Color dark_red = new Color(175, 23, 25);
 
     public Launcher() {
         options = new ConfigFile("", "options.info");
@@ -153,7 +159,6 @@ public class Launcher extends JFrame {
 
         mainFrame.setJMenuBar(menu);
 
-
         login = new JButton(loginimg);
         login.setPressedIcon(pressedlogin);
         login.setPreferredSize(new Dimension(81,23));
@@ -192,28 +197,29 @@ public class Launcher extends JFrame {
 
 
         loginInfo = new JLabel("Remember my login");
-
+        loginInfo.setForeground(Color.white);
         JLabel passlabel = new JLabel("Password");
-        passlabel.setForeground(Color.BLACK);
+        passlabel.setForeground(Color.white);
 
         JLabel usernamelabel = new JLabel("Username");
-        usernamelabel.setForeground(Color.BLACK);
+        usernamelabel.setForeground(Color.white);
 
         JLabel connection = new JLabel("Server connection:");
-        connection.setForeground(Color.BLACK);
+        connection.setForeground(Color.white);
 
         Info = new JLabel(" ");
-        Info.setForeground(Color.BLACK);
+        Info.setForeground(Color.white);
 
         serverstate = new JLabel("offline");
-        serverstate.setForeground(Color.RED);
+        serverstate.setForeground(dark_red);
 
         passwordText = new JPasswordField(16);
         passwordText.setToolTipText("Enter password");
+        passwordText.setForeground(Color.white);
 
         usernameText = new JTextField(16);
         usernameText.setToolTipText("Enter Username");
-
+        passwordText.setForeground(Color.white);
 
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
@@ -328,12 +334,12 @@ public class Launcher extends JFrame {
         mainPanel.setBackground(Color.LIGHT_GRAY);
         saveInfo.setBackground(Color.LIGHT_GRAY);
         if (EternalConflict.serverUp) {
-            mainPanel.setBackground(Color.BLUE);
-            saveInfo.setBackground(Color.BLUE);
+            mainPanel.setBackground(dark_blue);
+            saveInfo.setBackground(dark_blue);
         }
 
-        if(EternalConflict.serverUp)serverstate.setForeground(Color.GREEN);
-        if(!EternalConflict.serverUp)serverstate.setForeground(Color.RED);
+        if(EternalConflict.serverUp)serverstate.setForeground(dark_green);
+        if(!EternalConflict.serverUp)serverstate.setForeground(dark_red);
 
         if (EternalConflict.serverUp) {
             login.setToolTipText("Login and play the game.");
@@ -397,6 +403,7 @@ public class Launcher extends JFrame {
         }
         this.update.setVisible(updatebln);
         mainFrame.pack();
+
         if (!updatebln)
         {
             connectToServer();
