@@ -106,6 +106,7 @@ public class EternalConflict {
     public static void connectToServer() {
 
         try {
+            System.out.println("Eternal Conflict Console:");
             System.out.println("Connecting to server...");
             new SocketHandler();
             ListenerHandler.instance.addListener(new SocketListener());
