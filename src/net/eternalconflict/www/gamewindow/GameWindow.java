@@ -353,6 +353,18 @@ public class GameWindow implements IGameLogic {
             sceneChanged = true;
             pointLightPos.y -= 0.5f;
         }
+        if(window.isKeyPressed(GLFW_KEY_Z)){
+            sceneChanged = true;
+            cameraInc.z = -this.cameraMoveSpeed*20;
+        }
+        if(window.isKeyPressed(GLFW_KEY_C)){
+            sceneChanged = true;
+            cameraInc.y = -this.cameraMoveSpeed*20;
+        }
+        if(window.isKeyPressed(GLFW_KEY_V)){
+            sceneChanged = true;
+            cameraInc.x = -this.cameraMoveSpeed*20;
+        }
     }
 
     public void updateWindow(float interval, MouseInput mouseInput, Window window)

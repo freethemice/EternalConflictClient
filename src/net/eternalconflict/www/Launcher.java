@@ -182,6 +182,7 @@ public class Launcher extends JFrame {
         saveInfo.setToolTipText("Save your login information.");
         saveInfo.setBackground(Color.LIGHT_GRAY);
         if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
+        if(EternalConflict.serverUp) saveInfo.setEnabled(true);
         saveInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -215,11 +216,11 @@ public class Launcher extends JFrame {
 
         passwordText = new JPasswordField(16);
         passwordText.setToolTipText("Enter password");
-        passwordText.setForeground(Color.white);
+        passwordText.setForeground(Color.BLACK);
 
         usernameText = new JTextField(16);
         usernameText.setToolTipText("Enter Username");
-        passwordText.setForeground(Color.white);
+        passwordText.setForeground(Color.BLACK);
 
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
