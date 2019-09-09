@@ -21,6 +21,7 @@ import org.lwjglb.engine.graph.gui.rendering.GuiRenderer;
 import org.lwjglb.engine.graph.lights.DirectionalLight;
 import org.lwjglb.engine.graph.lights.PointLight;
 import org.lwjglb.engine.graph.other.Loader;
+import org.lwjglb.engine.graph.weather.Fog;
 import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
@@ -227,9 +228,7 @@ public class GameWindow implements IGameLogic {
 
             if (sunObject != null) {
                 selectObject(sunObject);
-
             }
-
 
             cursor = new CursorGui();
             glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -357,15 +356,15 @@ public class GameWindow implements IGameLogic {
             sceneChanged = true;
             cameraInc.z = -this.cameraMoveSpeed*20;
         }
-        if(window.isKeyPressed(GLFW_KEY_J)){
+        if(window.isKeyPressed(GLFW_KEY_K)){
             sceneChanged = true;
-            cameraInc.y = -this.cameraMoveSpeed*20;
+            cameraInc.z = this.cameraMoveSpeed*20;
         }
         if(window.isKeyPressed(GLFW_KEY_L)){
             sceneChanged = true;
             cameraInc.x = -this.cameraMoveSpeed*20;
         }
-        if(window.isKeyPressed(GLFW_KEY_K)){
+        if(window.isKeyPressed(GLFW_KEY_J)){
             sceneChanged = true;
             cameraInc.x = this.cameraMoveSpeed*20;
         }
