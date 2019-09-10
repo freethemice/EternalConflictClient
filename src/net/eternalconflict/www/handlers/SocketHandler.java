@@ -19,18 +19,23 @@ public class SocketHandler extends Thread {
     private BufferedReader bufferedReader =null;
     private PrintWriter os=null;
     public static SocketHandler instance;
-    public SocketHandler() throws Exception
+    private boolean setup = false;
+    public SocketHandler()
     {
-        InetAddress inetAddress = InetAddress.getByName(ServerInfoEnum.LOGIN.getAddress());
-
-        this.address = inetAddress;
-        s1=new Socket(address, 4445); // You can use static final constant PORT_NUM
-        bufferedReader =new BufferedReader(new InputStreamReader(s1.getInputStream()));
-        os= new PrintWriter(s1.getOutputStream());
-
         instance = this;
     }
 
+    public boolean isSetup() {
+        return setup;
+    }
+    public void setup() throws Exception
+    {
+        InetAddress inetAddress = InetAddress.getByName(ServerInfoEnum.LOGIN.getAddress());
+        this.address = inetAddress;
+        s1= new Socket(address, 4445); // You can use static final constant PORT_NUM
+        bufferedReader =new BufferedReader(new InputStreamReader(s1.getInputStream()));
+        os= new PrintWriter(s1.getOutputStream());
+    }
     public void close()
     {
         try {
@@ -56,6 +61,15 @@ public class SocketHandler extends Thread {
         os.flush();
     }
     public void run() {
+        System.out.println("Starting");
+        if (!setup)
+        {
+            try {
+                this.setup();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         String response=null;
         try {
             while(!EternalConflict.quit) {

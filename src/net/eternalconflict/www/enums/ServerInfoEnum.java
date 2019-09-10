@@ -2,7 +2,7 @@ package net.eternalconflict.www.enums;
 
 public enum ServerInfoEnum {
 
-    LOGIN("Login", "localhost"),
+    LOGIN("Login", "51.79.120.233"),
     WEB("Web", "http://www.firesoftitan.com/ec"),
     REGISTER("Register", "http://www.firesoftitan.com/ec"),
     VERSIONS("Versions", "http://www.firesoftitan.com/ec/info.data"),

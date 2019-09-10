@@ -68,6 +68,7 @@ public class EternalConflict {
 
 
         Launcher launcher = new Launcher();
+        System.out.println("Checking for updates...");
         launcher.setUpdate();
 
 
@@ -102,32 +103,44 @@ public class EternalConflict {
         }*/
 
     }
-
     public static void connectToServer() {
 
         try {
             System.out.println("Connecting to server...");
+
             new SocketHandler();
             ListenerHandler.instance.addListener(new SocketListener());
+
             new Thread(SocketHandler.instance).start();
             serverUp =  true;
         } catch (Exception e) {
+            int time = 5;
+            if (Launcher.instance.getOptions().containsKey("options.retry"))
+            {
+                int index = Launcher.instance.getOptions().getInteger("options.retry");
+                time = index+1;
+                if (index == 4) time = 5;
+                if (index == 5) time = 10;
+                if (index == 6) time = 587;
+
+            }
             System.out.println("Can't Connect To Server.");
-            System.out.println("Retrying in 5 minutes...");
-            
+            System.out.println("Retrying in " + time + " minutes...");
+
+            int finalTime = time;
             mnTimer.schedule(new TimerTask() {
                 int i = 0;
                 @Override
                 public void run() {
                     i++;
-                    if (i > 4)
+                    if (i > finalTime - 1)
                     {
                         this.cancel();
                         connectToServer();
                     }
                     else
                     {
-                        int count = 5 - i;
+                        int count = finalTime - i;
                         System.out.println("Retrying in " + count + " minutes...");
                     }
                 }

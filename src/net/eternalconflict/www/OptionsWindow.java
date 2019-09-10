@@ -2,8 +2,6 @@ package net.eternalconflict.www;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -15,7 +13,7 @@ public class OptionsWindow extends JFrame{
 
         JComboBox serverCheck;
         JComboBox checkNum;
-
+        ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
         JFrame options = new JFrame("Launcher Options");
         options.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -26,20 +24,31 @@ public class OptionsWindow extends JFrame{
 
         JPanel optionsPanel = new JPanel();
 
-        JLabel checkStat = new JLabel("Server checks status: ");
+        JLabel checkStat = new JLabel("On failure to connect retry? ");
 
         serverCheck = new JComboBox();
-        serverCheck.addItem("Check every 1 minute");
-        serverCheck.addItem("Check every 2 minutes");
-        serverCheck.addItem("Check every 3 minutes");
-        serverCheck.addItem("Check every 5 minutes");
-        serverCheck.addItem("Check every 10 minutes");
+        serverCheck.addItem("every 1 minute");
+        serverCheck.addItem("every 2 minutes");
+        serverCheck.addItem("every 3 minutes");
+        serverCheck.addItem("every 5 minutes");
+        serverCheck.addItem("every 10 minutes");
+        serverCheck.addItem("every 587 minutes");
         serverCheck.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-
+                mainOptionsFile.set("options.retry", serverCheck.getSelectedIndex());
+                mainOptionsFile.save();
             }
         });
+        if (mainOptionsFile.containsKey("options.retry"))
+        {
+            int index = mainOptionsFile.getInteger("options.retry");
+            serverCheck.setSelectedIndex(index);
+        }
+        else
+        {
+            serverCheck.setSelectedIndex(4);
+        }
 
         JLabel checktime = new JLabel("Number of server checks per minute");
 

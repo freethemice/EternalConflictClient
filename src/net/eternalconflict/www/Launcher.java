@@ -16,8 +16,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 import static net.eternalconflict.www.EternalConflict.connectToServer;
+import static net.eternalconflict.www.EternalConflict.mnTimer;
 
 public class Launcher extends JFrame {
     private ButtonListener buttonListener;
@@ -361,7 +363,41 @@ public class Launcher extends JFrame {
     public void setUpdate()
     {
         ConfigFile latest = EternalConflict.getLatestInfo(ServerInfoEnum.VERSIONS.getAddress());
+        if (latest == null)
+        {
+            int time = 5;
+            if (Launcher.instance.getOptions().containsKey("options.retry"))
+            {
+                int index = Launcher.instance.getOptions().getInteger("options.retry");
+                time = index+1;
+                if (index == 4) time = 5;
+                if (index == 5) time = 10;
+                if (index == 6) time = 587;
 
+            }
+            System.out.println("Can't Connect To Server.");
+            System.out.println("Retrying in " + time + " minutes...");
+
+            int finalTime = time;
+            mnTimer.schedule(new TimerTask() {
+                int i = 0;
+                @Override
+                public void run() {
+                    i++;
+                    if (i > finalTime - 1)
+                    {
+                        this.cancel();
+                        setUpdate();
+                    }
+                    else
+                    {
+                        int count = finalTime - i;
+                        System.out.println("Retrying in " + count + " minutes...");
+                    }
+                }
+            },1000 * 60, 1000 *  60);
+            return;
+        }
         progress.setVisible(false);
         filesNeeded.clear();
         boolean updatebln = false;

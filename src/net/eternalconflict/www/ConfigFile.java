@@ -5,13 +5,8 @@ import net.eternalconflict.www.enums.subtypes.StarTypeEnum;
 import net.eternalconflict.www.holders.CoordinatesHolder;
 import net.eternalconflict.www.holders.objects.*;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class ConfigFile {
     private Properties prop = new Properties();
@@ -59,11 +54,15 @@ public class ConfigFile {
     }
     public static String decode(String encoded)
     {
-        return new String(DatatypeConverter.parseBase64Binary(encoded), StandardCharsets.UTF_8);
+        byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+        return new String(decodedBytes);
+        //return encoded;
+//        return new String(DatatypeConverter.parseBase64Binary(encoded), StandardCharsets.UTF_8);
     }
     public static String encode(String text)
     {
-        return DatatypeConverter.printBase64Binary(text.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(text.getBytes());
+//        return DatatypeConverter.printBase64Binary(text.getBytes(StandardCharsets.UTF_8));
     }
     private static Properties parsePropertiesString(String s) {
         try {
@@ -123,7 +122,7 @@ public class ConfigFile {
                     {
                         cf.set("i." + i, (DefaultObject)temp.get(i));
                     }
-                    String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                    String saving = encode(cf.saveToString());
                     prop.setProperty(key, saving);
 
                 } else if (temp.get(0) instanceof String) {
@@ -134,7 +133,7 @@ public class ConfigFile {
                     {
                         cf.set("i." + i, (String)temp.get(i));
                     }
-                    String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                    String saving = encode(cf.saveToString());
                     prop.setProperty(key, saving);
                 } else if (temp.get(0) instanceof Double) {
                     ConfigFile cf = new ConfigFile();
@@ -144,7 +143,7 @@ public class ConfigFile {
                     {
                         cf.set("i." + i, (Double)temp.get(i));
                     }
-                    String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                    String saving = encode(cf.saveToString());
                     prop.setProperty(key, saving);
                 } else if (temp.get(0) instanceof CoordinatesHolder) {
                     ConfigFile cf = new ConfigFile();
@@ -154,7 +153,7 @@ public class ConfigFile {
                     {
                         cf.set("i." + i, (CoordinatesHolder)temp.get(i));
                     }
-                    String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                    String saving = encode(cf.saveToString());
                     prop.setProperty(key, saving);
                 } else if (temp.get(0) instanceof Integer) {
                     ConfigFile cf = new ConfigFile();
@@ -164,7 +163,7 @@ public class ConfigFile {
                     {
                         cf.set("i." + i, (Integer)temp.get(i));
                     }
-                    String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                    String saving = encode(cf.saveToString());
                     prop.setProperty(key, saving);
                 }
             }
@@ -182,7 +181,7 @@ public class ConfigFile {
             ConfigFile cf = new ConfigFile();
             cf.set("i.x", ((CoordinatesHolder)value).getX());
             cf.set("i.z", ((CoordinatesHolder)value).getZ());
-            String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+            String saving = encode(cf.saveToString());
             prop.setProperty(key, saving);
         }
         else if (value instanceof DefaultObject)
@@ -197,7 +196,7 @@ public class ConfigFile {
                 cf.set("i.id", starObject.getId());
                 cf.set("i.name", starObject.getName());
                 cf.set("i.type", starObject.getStarType());
-                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                String saving = encode(cf.saveToString());
                 prop.setProperty(key, saving);
             }
             else if (value instanceof PlanetObject)
@@ -210,7 +209,7 @@ public class ConfigFile {
                 cf.set("i.id", planetObject.getId());
                 cf.set("i.name", planetObject.getName());
                 cf.set("i.type", planetObject.getPlanetType());
-                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                String saving = encode(cf.saveToString());
                 prop.setProperty(key, saving);
             }
             else if (value instanceof StationObject)
@@ -225,7 +224,7 @@ public class ConfigFile {
                 cf.set("i.d", stationObject.getDestination());
                 cf.set("i.v", stationObject.getVelocity());
                 cf.set("i.size", stationObject.getSize());
-                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                String saving = encode(cf.saveToString());
                 prop.setProperty(key, saving);
             }
             else if (value instanceof MiningShipObject)
@@ -240,7 +239,7 @@ public class ConfigFile {
                 cf.set("i.d", miningShipObject.getDestination());
                 cf.set("i.v", miningShipObject.getVelocity());
                 cf.set("i.size", miningShipObject.getSize());
-                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                String saving = encode(cf.saveToString());
                 prop.setProperty(key, saving);
             }
             else
@@ -254,7 +253,7 @@ public class ConfigFile {
                 cf.set("i.c", defaultObject.getPosition());
                 cf.set("i.id", defaultObject.getId());
                 cf.set("i.name", defaultObject.getName());
-                String saving = DatatypeConverter.printBase64Binary(cf.saveToString().getBytes(StandardCharsets.UTF_8));
+                String saving = encode(cf.saveToString());
                 prop.setProperty(key, saving);
             }
         }
@@ -274,7 +273,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
 
             if (!configFile.containsKey("i.header")) return null;
             String header = configFile.getString("i.header");
@@ -335,11 +334,9 @@ public class ConfigFile {
                     return miningShipObject;
                 default:
                     c = configFile.getCoordinates("i.c");
-                    size = configFile.getDouble("i.size");
                     id = configFile.getString("i.id");
                     name = configFile.getString("i.name");
                     DefaultObject defaultObject = new DefaultObject(id, name, c);
-                    defaultObject.setSize(size);
                     return defaultObject;
             }
         }
@@ -368,7 +365,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             int size = configFile.getInteger("i.size");
             String type = configFile.getString("i.type");
             List<DefaultObject> temp = new ArrayList<DefaultObject>();
@@ -386,7 +383,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             int size = configFile.getInteger("i.size");
             String type = configFile.getString("i.type");
             List<Double> temp = new ArrayList<Double>();
@@ -404,7 +401,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             int size = configFile.getInteger("i.size");
             String type = configFile.getString("i.type");
             List<String> temp = new ArrayList<String>();
@@ -422,7 +419,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             int size = configFile.getInteger("i.size");
             String type = configFile.getString("i.type");
             List<Integer> temp = new ArrayList<Integer>();
@@ -440,7 +437,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             int size = configFile.getInteger("i.size");
             String type = configFile.getString("i.type");
             List<CoordinatesHolder> temp = new ArrayList<CoordinatesHolder>();
@@ -488,7 +485,7 @@ public class ConfigFile {
     {
         if (prop.getProperty(key) != null) {
             ConfigFile configFile = new ConfigFile();
-            configFile.loadFromString(new String(DatatypeConverter.parseBase64Binary(prop.getProperty(key)), StandardCharsets.UTF_8));
+            configFile.loadFromString(decode(prop.getProperty(key)));
             Double x = configFile.getDouble("i.x");
             Double z = configFile.getDouble("i.z");
             CoordinatesHolder coordinatesHolder = new CoordinatesHolder(x, z);
