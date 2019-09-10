@@ -7,7 +7,7 @@ public enum PlanetTypeEnum {
     HABITABLE("Habitable", 3, 0.006f, 0.009f),
     GAS("Gas", 4, 0.030f, 0.088f),
     ICE("Ice", 5, 0.002f, 0.009f),
-    ASTROID("Astroid", 6, 0.001f, 0.015f);
+    
     private final float minSize;
     private final float maxSize;
     private final int id;
