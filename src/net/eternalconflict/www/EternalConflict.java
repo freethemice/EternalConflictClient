@@ -36,9 +36,9 @@ public class EternalConflict {
     public static ConfigFile versionInfo;
     public static boolean serverUp;
     public static java.util.Timer mnTimer;
-    public static String gameVersion = "0.0.090219";
-    public static String recVersion = "0.0.090219_Rec";
-    public static String libsVersion = "0.0.0902919_Libs";
+    public static String gameVersion = "0.0.09102019";
+    public static String recVersion = "0.0.08012019";
+    public static String libsVersion = "0.0.08012019";
     public static void main(String args[]) throws IOException {
 
         mainPath = new File(".");
@@ -49,6 +49,16 @@ public class EternalConflict {
         ListenerHandler.instance.addListener(new ConsoleListener());
         serverUp = false;
 
+        reloadVersionInfo();
+
+        Launcher launcher = new Launcher();
+
+        System.out.println("Checking for updates...");
+        launcher.setUpdate();
+
+    }
+
+    public static void reloadVersionInfo() {
         versionInfo = new ConfigFile("", "launcher.info");
         versionInfo.loadFromFile();
 
@@ -66,45 +76,11 @@ public class EternalConflict {
         }
         versionInfo.save();
 
-
-
-
-        Launcher launcher = new Launcher();
-        System.out.println("Checking for updates...");
-        launcher.setUpdate();
-
-
-
-
-/*
-        String line=null;
-        System.out.println("Client Address : "+ SocketHandler.instance.getAddress());
-        System.out.println("Enter user name:");
-
-        try{
-            line=bufferedReader.readLine();
-            while(!quit){
-                ListenerHandler.instance.fireEvent(ListenerEnum.CONSOLE, line);
-                if (!quit) {
-                    line = bufferedReader.readLine();
-                }
-            }
-            ConfigFile data = new ConfigFile();
-            data.set("command", "quit");
-            SocketHandler.instance.sendRawData(data);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            //System.out.println("Socket read Error");
-        }
-        finally{
-            SocketHandler.instance.close();
-            bufferedReader.close();
-            System.out.println("Connection Closed");
-
-        }*/
-
+        recVersion = versionInfo.getString("resources");
+        libsVersion = versionInfo.getString("libraries");
+        gameVersion = versionInfo.getString("game");
     }
+
     public static void connectToServer() {
 
         try {

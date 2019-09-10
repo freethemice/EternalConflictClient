@@ -72,6 +72,7 @@ public class ButtonListener implements ActionListener {
                         }
                         else
                         {
+                            EternalConflict.reloadVersionInfo();
                             launcher.getUpdate().setEnabled(true);
                             launcher.getUpdate().setVisible(false);
                             launcher.getLogin().setEnabled(true);

@@ -179,7 +179,7 @@ public class Launcher extends JFrame {
         register.addActionListener(buttonListener);
 
         progress = new JProgressBar();
-
+        progress.setVisible(false);
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
         saveInfo.setBackground(Color.LIGHT_GRAY);
