@@ -7,7 +7,8 @@ public enum StarTypeEnum {
     YELLOW_WHITE("YellowWhite", 3, 0.497f, 0.605f),
     YELLOW("Yellow", 4, 0.415f, 0.449f),
     LIGHT_ORANGE("LightOrange", 5, 0.303f, 0.415f),
-    ORANGE_RED("OrangeRed", 6, 0, 0.303f),;
+    ORANGE_RED("OrangeRed", 6, 0, 0.303f),
+    RED("Red", 7,0,0.445f);
 
     private final float minSize;
     private final float maxSize;

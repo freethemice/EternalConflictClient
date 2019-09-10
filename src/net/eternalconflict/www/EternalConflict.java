@@ -36,7 +36,9 @@ public class EternalConflict {
     public static ConfigFile versionInfo;
     public static boolean serverUp;
     public static java.util.Timer mnTimer;
-
+    public static String gameVersion = "0.0.090219";
+    public static String recVersion = "0.0.090219_Rec";
+    public static String libsVersion = "0.0.0902919_Libs";
     public static void main(String args[]) throws IOException {
 
         mainPath = new File(".");
@@ -52,15 +54,15 @@ public class EternalConflict {
 
         if (!versionInfo.containsKey("resources"))
         {
-            versionInfo.set("resources", "0.0.082919");
+            versionInfo.set("resources", recVersion);
         }
         if (!versionInfo.containsKey("libraries"))
         {
-            versionInfo.set("libraries", "0.0.082919");
+            versionInfo.set("libraries", libsVersion);
         }
         if (!versionInfo.containsKey("game"))
         {
-            versionInfo.set("game", "0.0.082919");
+            versionInfo.set("game", gameVersion);
         }
         versionInfo.save();
 
@@ -106,6 +108,10 @@ public class EternalConflict {
     public static void connectToServer() {
 
         try {
+            System.out.println("Eternal Conflict Console:");
+            System.out.println("Current Game Version: " + gameVersion);
+            System.out.println("Current Game Resources Version: " + recVersion);
+            System.out.println("Current Game Libraries Version: " + libsVersion);
             System.out.println("Connecting to server...");
 
             new SocketHandler();
