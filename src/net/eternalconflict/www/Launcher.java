@@ -20,6 +20,7 @@ import java.util.List;
 
 
 import static net.eternalconflict.www.EternalConflict.connectToServer;
+import static net.eternalconflict.www.EternalConflict.gameVersion;
 
 public class Launcher extends JFrame {
     private ButtonListener buttonListener;
@@ -55,7 +56,7 @@ public class Launcher extends JFrame {
         buttonListener = new ButtonListener();
 
         dim = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame = new JFrame("Eternal Conflict Launcher");
+        mainFrame = new JFrame("Eternal Conflict Launcher: " + gameVersion);
         mainFrame.setVisible(true);
         mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -36,9 +36,9 @@ public class EternalConflict {
     public static ConfigFile versionInfo;
     public static boolean serverUp;
     public static java.util.Timer mnTimer;
-    public static String gameVersion = "0.0.082919";
-    public static String recVersion = "0.0.082919_Rec";
-    public static String libsVersion = "0.0.082919_Libs";
+    public static String gameVersion = "0.0.090219";
+    public static String recVersion = "0.0.090219_Rec";
+    public static String libsVersion = "0.0.0902919_Libs";
     public static void main(String args[]) throws IOException {
 
         mainPath = new File(".");
