@@ -73,8 +73,8 @@ public class Launcher extends JFrame {
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
         //********* Ther is probably something STUPID that I can not Figure ourt going on here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Icon Image = new ImageIcon("resources/textures/icons/Eternal_Conflict_Icon.png");
-       //  mainFrame.setIconImage((java.awt.Image) Image);
+         Image icon = Toolkit.getDefaultToolkit().getImage("resources/textures/icons/Eternal_Conflict_Icon.png");
+         mainFrame.setIconImage(icon);
 
         JMenuBar menu = new JMenuBar();
         JMenu settings = new JMenu("Settings");
