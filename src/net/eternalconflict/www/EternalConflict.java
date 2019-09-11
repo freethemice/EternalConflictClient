@@ -12,6 +12,7 @@ import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.Window;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -106,6 +107,10 @@ public class EternalConflict {
                 if (index == 5) time = 10;
                 if (index == 6) time = 587;
 
+            }
+            if(Launcher.instance.getOptions().containsKey("num.checks")){
+                System.out.println("Option unavailable ");
+                System.out.println("Retrying in " + time + " minutes...");
             }
             System.out.println("Can't Connect To Server.");
             System.out.println("Retrying in " + time + " minutes...");

@@ -16,6 +16,8 @@ public class OptionsWindow extends JFrame{
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
         JFrame options = new JFrame("Launcher Options");
+        Image icon = Toolkit.getDefaultToolkit().getImage("resources/textures/icons/Eternal_Conflict_Icon.png");
+        options.setIconImage(icon);
         options.setDefaultCloseOperation(HIDE_ON_CLOSE);
         options.setSize(900,700);
         options.setResizable(false);
@@ -61,9 +63,19 @@ public class OptionsWindow extends JFrame{
         checkNum.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-
+                mainOptionsFile.set("num.check", checkNum.getSelectedIndex());
+                mainOptionsFile.save();
             }
         });
+        if (mainOptionsFile.containsKey("num.checks"))
+        {
+            int index = mainOptionsFile.getInteger("num.checks");
+            checkNum.setSelectedIndex(index);
+        }
+        else
+        {
+            checkNum.setSelectedIndex(4);
+        }
 
         GridBagConstraints optConstraints = new GridBagConstraints();
 
