@@ -58,6 +58,7 @@ public class Launcher extends JFrame {
 
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         mainFrame = new JFrame("Eternal Conflict Launcher: " + gameVersion);
+
         mainFrame.setVisible(true);
         mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,6 +72,9 @@ public class Launcher extends JFrame {
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
+        //********* Ther is probably something STUPID that I can not Figure ourt going on here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Icon Image = new ImageIcon("resources/textures/icons/Eternal_Conflict_Icon.png");
+       //  mainFrame.setIconImage((java.awt.Image) Image);
 
         JMenuBar menu = new JMenuBar();
         JMenu settings = new JMenu("Settings");

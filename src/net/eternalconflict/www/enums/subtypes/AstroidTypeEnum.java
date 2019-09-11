@@ -1,9 +1,10 @@
 package net.eternalconflict.www.enums.subtypes;
 
 public enum AstroidTypeEnum {
-    SMALL("Small", 0, 0.175f, 0.900f),
+    SMALL("Small", 0, 0.075f, 0.900f),
     MEDIUM("Medium", 1, 1.000f, 1.900f),
-    LARGE("Large", 2, 1.996f, 2.778f);
+    LARGE("Large", 2, 1.996f, 2.778f),
+    VERYLARGE("Very Large", 3, 2.779f, 3.995f);
 
     private final float minSize;
     private final float maxSize;

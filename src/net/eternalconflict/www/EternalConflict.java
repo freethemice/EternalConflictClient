@@ -99,6 +99,7 @@ public class EternalConflict {
             int time = 5;
             if (Launcher.instance.getOptions().containsKey("options.retry"))
             {
+
                 int index = Launcher.instance.getOptions().getInteger("options.retry");
                 time = index+1;
                 if (index == 4) time = 5;
