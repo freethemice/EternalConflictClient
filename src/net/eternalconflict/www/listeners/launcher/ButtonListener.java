@@ -3,6 +3,7 @@ package net.eternalconflict.www.listeners.launcher;
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
+import net.eternalconflict.www.OptionsWindow;
 import net.eternalconflict.www.enums.ServerInfoEnum;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
@@ -21,6 +22,52 @@ public class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object button = e.getSource();
         Launcher launcher = Launcher.instance;
+
+        if (button == launcher.getOption())
+        {
+            new OptionsWindow();
+        }
+        if (button == launcher.getAbout())
+        {
+
+            JFrame about = new JFrame("About");
+            JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. " , "About", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        if(button == launcher.getIssues())
+        {
+
+            String title = "Leaveing The Launcher";
+            String message = "This will open your default browser and go to a website. Do you wish to continue?";
+
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.ISSUES.getAddress()));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        if(button == launcher.getExit())
+        {
+
+
+            String message = "You are about to exit the launcher do you wish to continue?";
+            String title = "Do you really want to exit the launcher?";
+
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+
+                System.exit(0);
+            }
+        }
 
         if (button == launcher.getLogin())
         {

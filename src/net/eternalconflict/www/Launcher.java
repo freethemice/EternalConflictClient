@@ -36,6 +36,10 @@ public class Launcher extends JFrame {
     private JLabel loginInfo;
     private JCheckBox saveInfo;
     private JMenuItem option;
+    private JMenuItem about;
+    private JMenuItem issues;
+    private JMenuItem exit;
+    private JMenu settings;
     private ConfigFile options;
     private ConfigFile versionInfo;
     private JTabbedPane launchertab;
@@ -77,82 +81,33 @@ public class Launcher extends JFrame {
 
 
         JMenuBar menu = new JMenuBar();
-        JMenu settings = new JMenu("Settings");
+        settings = new JMenu("Settings");
         settings.setToolTipText("Launcher settings.");
 
         JMenuItem about = new JMenuItem("About");
         about.setToolTipText("About the Game.");
-        about.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame about = new JFrame("About");
-                JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. " , "About", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        });
+        about.addActionListener(buttonListener);
         about.setMnemonic(KeyEvent.VK_A);
         KeyStroke cntrlAKey = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
         about.setAccelerator(cntrlAKey);
-
-        // Options window
-
+        
         option = new JMenuItem("Options");
         option.setToolTipText("Launcher options.");
-        option.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                new OptionsWindow();
-            }
-        });
+        option.addActionListener(buttonListener);
         option.setMnemonic(KeyEvent.VK_O);
         KeyStroke cntrlOKey = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
         option.setAccelerator(cntrlOKey);
 
-        JMenuItem issues = new JMenuItem("Report a bug");
+        issues = new JMenuItem("Report a bug");
         issues.setToolTipText("Report a bug.");
-        issues.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String title = "Leaveing The Launcher";
-                String message = "This will open your default browser and go to a website. Do you wish to continue?";
-
-                int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
-                if(reply == JOptionPane.YES_OPTION)
-                {
-                    try {
-                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                            Desktop.getDesktop().browse(new URI(ServerInfoEnum.ISSUES.getAddress()));
-                        }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (URISyntaxException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
+        issues.addActionListener(buttonListener);
         issues.setMnemonic(KeyEvent.VK_R);
         KeyStroke cntrlRKey = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK);
         issues.setAccelerator(cntrlRKey);
 
-        JMenuItem exit = new JMenuItem("Exit");
+        exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String message = "You are about to exit the launcher do you wish to continue?";
-                String title = "Do you really want to exit the launcher?";
-
-                int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
-                if(reply == JOptionPane.YES_OPTION)
-                {
-                    close();
-                    System.exit(0);
-                }
-            }
-        });
+        exit.addActionListener(buttonListener);
         exit.setMnemonic(KeyEvent.VK_E);
         KeyStroke cntrlEKey = KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK);
         exit.setAccelerator(cntrlEKey);
@@ -478,48 +433,34 @@ public class Launcher extends JFrame {
         },1000 * 60, 1000 *  60);
     }
 
-    public ButtonListener getButtonListener() {
-        return buttonListener;
-    }
+    public ButtonListener getButtonListener() { return buttonListener; }
 
-    public Dimension getDim() {
-        return dim;
-    }
+    public Dimension getDim() { return dim; }
 
-    public JFrame getMainFrame() {
-        return mainFrame;
-    }
+    public JFrame getMainFrame() { return mainFrame; }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
+    public JPanel getMainPanel() { return mainPanel; }
 
-    public JButton getLogin() {
-        return login;
-    }
+    public JButton getLogin() { return login; }
 
-    public JButton getUpdate() {
-        return update;
-    }
+    public JButton getUpdate() { return update; }
 
-    public JButton getRegister() {
-        return register;
-    }
+    public JButton getRegister() { return register; }
 
-    public JProgressBar getProgress() {
-        return progress;
-    }
+    public JProgressBar getProgress() { return progress; }
 
-    public JPasswordField getPasswordText() {
-        return passwordText;
-    }
+    public JPasswordField getPasswordText() { return passwordText; }
 
-    public JTextField getUsernameText() {
-        return usernameText;
-    }
+    public JTextField getUsernameText() { return usernameText; }
 
-    public JMenuItem getOption()
-    {
-        return option;
-    }
+    public JMenuItem getOption() { return option; }
+
+    public JMenuItem getAbout() { return about; }
+
+    public  JMenuItem getIssues(){ return issues; }
+
+    public JMenuItem getExit(){return exit;}
+
+    public JMenu getSettings(){return settings;}
+
 }
