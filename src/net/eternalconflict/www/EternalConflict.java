@@ -11,7 +11,6 @@ import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.Window;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;

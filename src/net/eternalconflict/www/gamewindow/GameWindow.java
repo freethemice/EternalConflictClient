@@ -240,10 +240,15 @@ public class GameWindow implements IGameLogic {
         if (selectMe == null) return;
         selectedObject = selectMe;
         List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+        List<GameItem> planets = new ArrayList<GameItem>();
         for(DefaultObject defaultObject: allthings)
         {
             GameItem gameItem = defaultObject.getGameItem();
             gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
+            if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000)
+            {
+                planets.add(gameItem);
+            }
         }
 
         GameItem gameItem = selectMe.getGameItem();
@@ -251,6 +256,8 @@ public class GameWindow implements IGameLogic {
         camera.setPosition(gameItem.getPosition().x + gameItem.getScale() * 2, gameItem.getPosition().y + gameItem.getScale() * 2, gameItem.getPosition().z + gameItem.getScale() * 2);
         camera.setRotation(32f, -43f, 0);
         GameWindow.instance.setCameraMoveSpeed(gameItem.getScale() / 2);
+
+        scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
     }
 
     private void setupLights() {
