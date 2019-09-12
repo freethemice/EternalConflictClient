@@ -84,13 +84,13 @@ public class Launcher extends JFrame {
         settings = new JMenu("Settings");
         settings.setToolTipText("Launcher settings.");
 
-        JMenuItem about = new JMenuItem("About");
+        about = new JMenuItem("About");
         about.setToolTipText("About the Game.");
         about.addActionListener(buttonListener);
         about.setMnemonic(KeyEvent.VK_A);
         KeyStroke cntrlAKey = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
         about.setAccelerator(cntrlAKey);
-        
+
         option = new JMenuItem("Options");
         option.setToolTipText("Launcher options.");
         option.addActionListener(buttonListener);
@@ -461,6 +461,6 @@ public class Launcher extends JFrame {
 
     public JMenuItem getExit(){return exit;}
 
-    public JMenu getSettings(){return settings;}
+    public JMenu getSettings (){return settings;}
 
 }

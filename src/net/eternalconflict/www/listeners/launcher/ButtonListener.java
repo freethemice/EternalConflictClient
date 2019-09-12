@@ -27,13 +27,13 @@ public class ButtonListener implements ActionListener {
         {
             new OptionsWindow();
         }
+
         if (button == launcher.getAbout())
         {
-
             JFrame about = new JFrame("About");
             JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. " , "About", JOptionPane.INFORMATION_MESSAGE);
-
         }
+
         if(button == launcher.getIssues())
         {
 
@@ -54,10 +54,9 @@ public class ButtonListener implements ActionListener {
                 }
             }
         }
+
         if(button == launcher.getExit())
         {
-
-
             String message = "You are about to exit the launcher do you wish to continue?";
             String title = "Do you really want to exit the launcher?";
 
@@ -78,6 +77,7 @@ public class ButtonListener implements ActionListener {
             data.set("command", "login");
             SocketHandler.instance.sendRawData(data);
         }
+
         if (button == launcher.getRegister())
         {
 
@@ -99,6 +99,7 @@ public class ButtonListener implements ActionListener {
             }
 
         }
+
         if (button == launcher.getUpdate())
         {
             launcher.getUpdate().setEnabled(false);
