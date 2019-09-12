@@ -71,8 +71,8 @@ public class Launcher extends JFrame {
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
-        //********* Ther is probably something STUPID that I can not Figure ourt going on here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         Image icon = Toolkit.getDefaultToolkit().getImage("resources/textures/icons/Eternal_Conflict_Icon.png");
+
+         Image icon = Toolkit.getDefaultToolkit().getImage("resources/launcher/Eternal_Conflict_Icon.png");
          mainFrame.setIconImage(icon);
 
 
