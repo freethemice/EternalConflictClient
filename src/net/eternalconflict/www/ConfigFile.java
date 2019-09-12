@@ -6,11 +6,15 @@ import net.eternalconflict.www.holders.CoordinatesHolder;
 import net.eternalconflict.www.holders.objects.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class ConfigFile {
     private Properties prop = new Properties();
-    private File configfile;
+    private Path configfile;
     public ConfigFile()
     {
         configfile = null;
@@ -32,21 +36,25 @@ public class ConfigFile {
         if (!(directory.exists())) directory.mkdir();
         directory = new File(directory,   folder);
         if (!(directory.exists())) directory.mkdir();
-        configfile = new File(directory,   fileName);
+        configfile = (new File(directory,   fileName)).toPath();
     }
     public void loadFromFile()
     {
         if (configfile != null) {
-            if (configfile.exists()) {
-                InputStream is = null;
+            if (Files.exists(configfile)) {
                 try {
-                    is = new FileInputStream(configfile);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    prop.load(is);
-                } catch (IOException e) {
+                    StringBuilder contentBuilder = new StringBuilder();
+                    try (Stream<String> stream = Files.lines(configfile, StandardCharsets.UTF_8))
+                    {
+                        stream.forEach(s -> contentBuilder.append(s).append("\n"));
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    //String contents = new String(Files.readAllBytes(configfile.toPath()), StandardCharsets.UTF_8);
+                    loadFromString(contentBuilder.toString());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -56,13 +64,10 @@ public class ConfigFile {
     {
         byte[] decodedBytes = Base64.getDecoder().decode(encoded);
         return new String(decodedBytes);
-        //return encoded;
-//        return new String(DatatypeConverter.parseBase64Binary(encoded), StandardCharsets.UTF_8);
     }
     public static String encode(String text)
     {
         return Base64.getEncoder().encodeToString(text.getBytes());
-//        return DatatypeConverter.printBase64Binary(text.getBytes(StandardCharsets.UTF_8));
     }
     private static Properties parsePropertiesString(String s) {
         try {
@@ -511,8 +516,11 @@ public class ConfigFile {
     public void save()
     {
         try {
-            if (!configfile.exists()) configfile.createNewFile();
-            OutputStream out = new FileOutputStream( configfile );
+            if (!Files.exists(configfile)) Files.createFile(configfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try(OutputStream out = Files.newOutputStream(configfile)) {
             prop.store(out, null);
         }
         catch (Exception e ) {

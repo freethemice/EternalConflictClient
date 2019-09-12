@@ -6,7 +6,6 @@ import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
-import javax.swing.JTabbedPane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
-import static net.eternalconflict.www.EternalConflict.connectToServer;
-import static net.eternalconflict.www.EternalConflict.gameVersion;
-import static net.eternalconflict.www.EternalConflict.mnTimer;
+import static net.eternalconflict.www.EternalConflict.*;
 
 public class Launcher extends JFrame {
     private ButtonListener buttonListener;
@@ -40,17 +37,20 @@ public class Launcher extends JFrame {
     private JCheckBox saveInfo;
     private JMenuItem option;
     private ConfigFile options;
+    private ConfigFile versionInfo;
     private JTabbedPane launchertab;
     public static Launcher instance;
+    private PrintStream printStream;
 
     private List<DownloadHolder> filesNeeded;
 
-    Color dark_blue = new Color(20, 28, 99);
-    Color dark_green = new Color(32, 105, 27);
-    Color dark_red = new Color(175, 23, 25);
+    private Color dark_blue = new Color(20, 28, 99);
+    private Color dark_green = new Color(32, 105, 27);
+    private Color dark_red = new Color(175, 23, 25);
 
     public Launcher() {
         options = new ConfigFile("", "options.info");
+
         instance = this;
 
         filesNeeded = new ArrayList<DownloadHolder>();
@@ -63,7 +63,6 @@ public class Launcher extends JFrame {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         mainFrame.setResizable(false);
-
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(Color.LIGHT_GRAY);
 
@@ -71,6 +70,7 @@ public class Launcher extends JFrame {
         Icon pressedlogin = new ImageIcon("resources/launcher/Login_pressed.png");
         Icon updateimg = new ImageIcon("resources/launcher/Update.png");
         Icon regesterimg = new ImageIcon("resources/launcher/Regester.png");
+
 
         JMenuBar menu = new JMenuBar();
         JMenu settings = new JMenu("Settings");
@@ -111,7 +111,7 @@ public class Launcher extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String title = "Leaveing The Launcher";
-                String message = "You are about to leave the launcher and go to a website. Do you wish to continue?";
+                String message = "This will open your default browser and go to a website. Do you wish to continue?";
 
                 int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
                 if(reply == JOptionPane.YES_OPTION)
@@ -144,6 +144,7 @@ public class Launcher extends JFrame {
                 int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
                 if(reply == JOptionPane.YES_OPTION)
                 {
+                    close();
                     System.exit(0);
                 }
             }
@@ -197,6 +198,7 @@ public class Launcher extends JFrame {
             }
         });
         saveInfo.setSelected(false);
+        saveInfo.setEnabled(true);
 
 
         loginInfo = new JLabel("Remember my login");
@@ -228,7 +230,8 @@ public class Launcher extends JFrame {
         textArea.setEditable (false);
 
         ConsoleHandler out = new ConsoleHandler (textArea);
-        System.setOut (new PrintStream(out));
+        printStream = new PrintStream(out);
+        System.setOut (printStream);
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -326,7 +329,10 @@ public class Launcher extends JFrame {
 
 
     }
-
+    public void close()
+    {
+        printStream.close();
+    }
     public JCheckBox getSaveInfo() {
         return saveInfo;
     }
@@ -375,43 +381,25 @@ public class Launcher extends JFrame {
         ConfigFile latest = EternalConflict.getLatestInfo(ServerInfoEnum.VERSIONS.getAddress());
         if (latest == null)
         {
-            int time = 5;
-            if (Launcher.instance.getOptions().containsKey("options.retry"))
-            {
-                int index = Launcher.instance.getOptions().getInteger("options.retry");
-                time = index+1;
-                if (index == 4) time = 5;
-                if (index == 5) time = 10;
-                if (index == 6) time = 587;
-
-            }
-            System.out.println("Can't Connect To Server.");
-            System.out.println("Retrying in " + time + " minutes...");
-
-            int finalTime = time;
-            mnTimer.schedule(new TimerTask() {
-                int i = 0;
-                @Override
-                public void run() {
-                    i++;
-                    if (i > finalTime - 1)
-                    {
-                        this.cancel();
-                        setUpdate();
-                    }
-                    else
-                    {
-                        int count = finalTime - i;
-                        System.out.println("Retrying in " + count + " minutes...");
-                    }
-                }
-            },1000 * 60, 1000 *  60);
+            System.out.println("Can't Connect To Server!");
+            reTryUpdate();
             return;
         }
+        if (!latest.containsKey("resources") || !latest.containsKey("libraries") || !latest.containsKey("game"))
+        {
+            System.out.println("Server is down for mantiance!");
+            reTryUpdate();
+            return;
+        }
+        EternalConflict.reloadVersionInfo();
+
+        System.out.println("Game Version: " + EternalConflict.gameVersion + " (" + latest.getString("game") + ")");
+        System.out.println("Resources Version: " +  EternalConflict.recVersion + " (" + latest.getString("resources") + ")");
+        System.out.println("Libraries Version: " + EternalConflict.libsVersion + " (" + latest.getString("libraries") + ")");
         progress.setVisible(false);
         filesNeeded.clear();
         boolean updatebln = false;
-        if (!EternalConflict.versionInfo.getString("resources").equals(latest.getString("resources")))
+        if (!EternalConflict.recVersion.equals(latest.getString("resources")))
         {
             String downloadFile = latest.getString("resources_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("resources"), "resources");
@@ -421,7 +409,7 @@ public class Launcher extends JFrame {
             System.out.println(downloadFile);
             updatebln = true;
         }
-        if (!EternalConflict.versionInfo.getString("libraries").equals(latest.getString("libraries")))
+        if (!EternalConflict.libsVersion.equals(latest.getString("libraries")))
         {
             String downloadFile = latest.getString("libraries_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("libraries"), "libraries");
@@ -431,7 +419,7 @@ public class Launcher extends JFrame {
             System.out.println(downloadFile);
             updatebln = true;
         }
-        if (!EternalConflict.versionInfo.getString("game").equals(latest.getString("game")))
+        if (!EternalConflict.gameVersion.equals(latest.getString("game")))
         {
             String downloadFile = latest.getString("game_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
@@ -452,6 +440,40 @@ public class Launcher extends JFrame {
 
         //updateStatus();
     }
+
+    private void reTryUpdate() {
+        int time = 5;
+        if (Launcher.instance.getOptions().containsKey("options.retry"))
+        {
+            int index = Launcher.instance.getOptions().getInteger("options.retry");
+            time = index+1;
+            if (index == 4) time = 5;
+            if (index == 5) time = 10;
+            if (index == 6) time = 587;
+
+        }
+        System.out.println("Retrying in " + time + " minutes...");
+
+        int finalTime = time;
+        mnTimer.schedule(new TimerTask() {
+            int i = 0;
+            @Override
+            public void run() {
+                i++;
+                if (i > finalTime - 1)
+                {
+                    this.cancel();
+                    setUpdate();
+                }
+                else
+                {
+                    int count = finalTime - i;
+                    System.out.println("Retrying in " + count + " minutes...");
+                }
+            }
+        },1000 * 60, 1000 *  60);
+    }
+
     public ButtonListener getButtonListener() {
         return buttonListener;
     }

@@ -19,15 +19,16 @@ public class SocketHandler extends Thread {
     private BufferedReader bufferedReader =null;
     private PrintWriter os=null;
     public static SocketHandler instance;
-    private boolean setup = false;
     public SocketHandler()
     {
+        try {
+            this.setup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         instance = this;
     }
 
-    public boolean isSetup() {
-        return setup;
-    }
     public void setup() throws Exception
     {
         InetAddress inetAddress = InetAddress.getByName(ServerInfoEnum.LOGIN.getAddress());
@@ -38,6 +39,7 @@ public class SocketHandler extends Thread {
     }
     public void close()
     {
+        System.out.println("Closing connection...");
         try {
             s1.close();
             bufferedReader.close();
@@ -62,14 +64,6 @@ public class SocketHandler extends Thread {
     }
     public void run() {
         System.out.println("Starting");
-        if (!setup)
-        {
-            try {
-                this.setup();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         String response=null;
         try {
             while(!EternalConflict.quit) {

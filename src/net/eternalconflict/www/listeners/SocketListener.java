@@ -8,8 +8,6 @@ import net.eternalconflict.www.holders.PlayerHolder;
 import net.eternalconflict.www.interfaces.SocketInterface;
 import net.eternalconflict.www.maps.SolarSystemMap;
 
-import java.io.IOException;
-
 public class SocketListener implements SocketInterface {
     @Override
     public void inputFromSocket(SocketHandler socketHandler, ConfigFile data) {
@@ -20,13 +18,10 @@ public class SocketListener implements SocketInterface {
             {
                 case "quit":
                     EternalConflict.quit = true;
-                    try {
-                        System.out.println("Connection Closed.");
-                        System.out.println("Press any-key to close.");
-                        EternalConflict.bufferedReader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+                    System.out.println("Connection Closed.");
+                    System.out.println("Press any-key to close.");
+
                     return;
                 case "login":
                     if (EternalConflict.playerHolder == null)

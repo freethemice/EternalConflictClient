@@ -5,7 +5,6 @@ import net.eternalconflict.www.handlers.ListenerHandler;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.holders.PlayerHolder;
-import net.eternalconflict.www.listeners.ConsoleListener;
 import net.eternalconflict.www.listeners.SocketListener;
 import org.lwjglb.engine.GameEngine;
 import org.lwjglb.engine.IGameLogic;
@@ -15,6 +14,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -29,39 +29,35 @@ public class EternalConflict {
     public static boolean  quit = false;
     public static File mainPath;
     public static PlayerHolder playerHolder = null;
-    public static BufferedReader bufferedReader = null;
     public static IGameLogic gameLogic;
     public static Window.WindowOptions opts;
     public static GameEngine gameEng;
-    public static ConfigFile versionInfo;
     public static boolean serverUp;
     public static java.util.Timer mnTimer;
-    public static String gameVersion = "0.0.09102019";
-    public static String recVersion = "0.0.08012019";
-    public static String libsVersion = "0.0.08012019";
+    public static String gameVersion = "0.0.082919";
+    public static String recVersion = "0.0.082919";
+    public static String libsVersion = "0.0.082919";
     public static void main(String args[]) throws IOException {
 
         mainPath = new File(".");
+
         mnTimer = new java.util.Timer();
 
-        bufferedReader= new BufferedReader(new InputStreamReader(System.in));
         new ListenerHandler();
-        ListenerHandler.instance.addListener(new ConsoleListener());
         serverUp = false;
-
-        reloadVersionInfo();
 
         Launcher launcher = new Launcher();
 
+        System.out.println("Eternal Conflict Console:");
         System.out.println("Checking for updates...");
         launcher.setUpdate();
 
+
+
     }
 
-    public static void reloadVersionInfo() {
-        versionInfo = new ConfigFile("", "launcher.info");
-        versionInfo.loadFromFile();
-
+    public static ConfigFile reloadVersionInfo() {
+        ConfigFile versionInfo = new ConfigFile("", "launcher.info");
         if (!versionInfo.containsKey("resources"))
         {
             versionInfo.set("resources", recVersion);
@@ -75,19 +71,15 @@ public class EternalConflict {
             versionInfo.set("game", gameVersion);
         }
         versionInfo.save();
-
         recVersion = versionInfo.getString("resources");
         libsVersion = versionInfo.getString("libraries");
         gameVersion = versionInfo.getString("game");
+        return versionInfo;
     }
 
     public static void connectToServer() {
 
         try {
-            System.out.println("Eternal Conflict Console:");
-            System.out.println("Current Game Version: " + gameVersion);
-            System.out.println("Current Game Resources Version: " + recVersion);
-            System.out.println("Current Game Libraries Version: " + libsVersion);
             System.out.println("Connecting to server...");
 
             new SocketHandler();
@@ -189,6 +181,7 @@ public class EternalConflict {
                             System.out.println("Written :" + entry.getName());
                         }
                     }
+                    ConfigFile versionInfo = new ConfigFile("", "launcher.info");
                     versionInfo.set(downloadHolder.getKey(), downloadHolder.getVersion());
                     versionInfo.save();
                     jProgressBar.setValue(0);
@@ -250,32 +243,59 @@ public class EternalConflict {
     }
     public static ConfigFile getLatestInfo(String urlString)
     {
+        URL url = null;
+        HttpURLConnection connection = null;
         try {
-
-            URL url = new URL(urlString);
-
-            // read text returned by server
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String line;
-            String config = "";
-            while ((line = in.readLine()) != null) {
-                config = config + line + "\n";
+            url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            connection.setRequestProperty("Connection", "close");
+            connection.setRequestProperty("Content-Type", "text/html");
+            connection.setRequestProperty("Accept", "text/html");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+            connection.connect();
+            if (connection.getResponseCode() == 200) {
+                try(InputStream inputStream = connection.getInputStream())
+                {
+                    try(InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8")) {
+                        try(BufferedReader in = new BufferedReader(isr))
+                        {
+                            String line;
+                            String config = "";
+                            while ((line = in.readLine()) != null) {
+                                config = config + line + "\n";
+                            }
+                            ConfigFile tmp = new ConfigFile();
+                            tmp.loadFromString(config);
+                            return tmp;
+                        }
+                    }
+                }
             }
-            in.close();
-            ConfigFile tmp = new ConfigFile();
-            tmp.loadFromString(config);
-            return tmp;
-
+        }
+        catch (SocketTimeoutException e)
+        {
+            System.out.println("Timeout: " + e.getMessage());
         }
         catch (MalformedURLException e) {
             System.out.println("Malformed URL: " + e.getMessage());
         }
         catch (IOException e) {
             System.out.println("I/O Error: " + e.getMessage());
+            try {
+                System.out.println(connection.getResponseCode());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        finally {
+            if (connection != null) connection.disconnect();
         }
         return null;
     }
+
+
     public static void openGame()
     {
         try {

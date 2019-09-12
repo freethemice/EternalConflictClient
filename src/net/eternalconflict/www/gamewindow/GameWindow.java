@@ -5,7 +5,6 @@ import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
 import net.eternalconflict.www.enums.ObjectTypeEnum;
 import net.eternalconflict.www.gamewindow.hud.gui.CursorGui;
-import org.lwjglb.engine.graph.gui.rendering.GuiManger;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.PlayerHolder;
 import net.eternalconflict.www.holders.objects.*;
@@ -17,11 +16,11 @@ import org.lwjglb.engine.graph.Camera;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.Renderer;
 import org.lwjglb.engine.graph.font.rendering.FontRenderer;
+import org.lwjglb.engine.graph.gui.rendering.GuiManger;
 import org.lwjglb.engine.graph.gui.rendering.GuiRenderer;
 import org.lwjglb.engine.graph.lights.DirectionalLight;
 import org.lwjglb.engine.graph.lights.PointLight;
 import org.lwjglb.engine.graph.other.Loader;
-import org.lwjglb.engine.graph.weather.Fog;
 import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
@@ -469,6 +468,8 @@ public class GameWindow implements IGameLogic {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        EternalConflict.quit = true;
+        SocketHandler.instance.close();
 
         GuiRenderer.instance.cleanUp();
 
@@ -480,10 +481,11 @@ public class GameWindow implements IGameLogic {
 
         Loader.cleanUp();
 
-        EternalConflict.quit = true;
+
+
         Launcher.instance.getMainFrame().setVisible(true);
         Launcher.instance.getMainFrame().dispatchEvent(new WindowEvent(Launcher.instance.getMainFrame(), WindowEvent.WINDOW_CLOSING));
-
+        Launcher.instance.close();
 
         System.out.println("Press Any-Key To Exit....");
     }
