@@ -39,7 +39,9 @@ public class Launcher extends JFrame {
     private JMenuItem about;
     private JMenuItem issues;
     private JMenuItem exit;
+    private JMenuItem updates;
     private JMenu settings;
+    private JMenu news;
     private ConfigFile options;
     private ConfigFile versionInfo;
     private JTabbedPane launchertab;
@@ -84,6 +86,13 @@ public class Launcher extends JFrame {
         settings = new JMenu("Settings");
         settings.setToolTipText("Launcher settings.");
 
+        news = new JMenu("Eternal Conflict");
+        news.setToolTipText("News");
+
+        updates = new JMenuItem("News and Updates");
+        updates.setToolTipText("News and Updates for Eternal Conflict.");
+        updates.addActionListener(buttonListener);
+
         about = new JMenuItem("About");
         about.setToolTipText("About the Game.");
         about.addActionListener(buttonListener);
@@ -113,6 +122,8 @@ public class Launcher extends JFrame {
         exit.setAccelerator(cntrlEKey);
 
         menu.add(settings);
+        menu.add(news);
+        news.add(updates);
         settings.add(about);
         settings.add(option);
         settings.add(issues);
@@ -142,6 +153,8 @@ public class Launcher extends JFrame {
         progress.setVisible(false);
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
+
+
         saveInfo.setBackground(Color.LIGHT_GRAY);
         if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
         if(EternalConflict.serverUp) saveInfo.setEnabled(true);
@@ -264,6 +277,7 @@ public class Launcher extends JFrame {
         textArea.setForeground(Color.BLACK);
         textArea.setLineWrap(true);
         textArea.setFont(textArea.getFont().deriveFont(Font.ITALIC, textArea.getFont().getSize()));
+        textArea.setToolTipText("Console window.");
         mainFrame.pack();
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
 
@@ -461,6 +475,10 @@ public class Launcher extends JFrame {
 
     public JMenuItem getExit(){return exit;}
 
-    public JMenu getSettings (){return settings;}
+    public JMenu getSettings(){return settings;}
+
+    public JMenu getNews(){return news;}
+
+    public JMenuItem getUpdates(){return updates;}
 
 }

@@ -13,6 +13,6 @@ public class InGameOptions {
         fnt0 = new Font("arial", Font.BOLD,50);
         g.setFont(fnt0);
         g.setColor(dark_blue);
-        g.drawString("Game Settings", 100/2, 100);
+        g.drawString("Game Settings", 1000/2, 100);
     }
 }

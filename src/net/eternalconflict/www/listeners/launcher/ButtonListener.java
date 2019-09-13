@@ -23,6 +23,11 @@ public class ButtonListener implements ActionListener {
         Object button = e.getSource();
         Launcher launcher = Launcher.instance;
 
+        if (button == launcher.getUpdates())
+        {
+            JFrame news = new JFrame("News, Updates and Patch notes");
+            JOptionPane.showMessageDialog(news, "There will be news here at some point, or this will take you to a website.", "News Updates and Patch notes", JOptionPane.INFORMATION_MESSAGE);
+        }
         if (button == launcher.getOption())
         {
             new OptionsWindow();
