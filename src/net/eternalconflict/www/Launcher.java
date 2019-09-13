@@ -48,9 +48,9 @@ public class Launcher extends JFrame {
 
     private List<DownloadHolder> filesNeeded;
 
-    private Color dark_blue = new Color(20, 28, 99);
-    private Color dark_green = new Color(32, 105, 27);
-    private Color dark_red = new Color(175, 23, 25);
+    public Color dark_blue = new Color(20, 28, 99);
+    public Color dark_green = new Color(32, 105, 27);
+    public Color dark_red = new Color(175, 23, 25);
 
     public Launcher() {
         options = new ConfigFile("", "options.info");

@@ -31,7 +31,7 @@ public class ButtonListener implements ActionListener {
         if (button == launcher.getAbout())
         {
             JFrame about = new JFrame("About");
-            JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. " , "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(about, "About Eternal conflict: Code by Daniel Appleby and Aaron Appleby. All glory goes to Jesus alone." , "About", JOptionPane.INFORMATION_MESSAGE);
         }
 
         if(button == launcher.getIssues())
