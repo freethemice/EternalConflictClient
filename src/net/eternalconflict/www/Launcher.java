@@ -92,6 +92,9 @@ public class Launcher extends JFrame {
         updates = new JMenuItem("News and Updates");
         updates.setToolTipText("News and Updates for Eternal Conflict.");
         updates.addActionListener(buttonListener);
+        updates.setMnemonic(KeyEvent.VK_N);
+        KeyStroke cntrlNKey = KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK);
+        updates.setAccelerator(cntrlNKey);
 
         about = new JMenuItem("About");
         about.setToolTipText("About the Game.");
