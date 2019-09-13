@@ -21,15 +21,7 @@ public class ConsoleHandler extends OutputStream
     {
         final String text = new String (buffer, offset, length);
         destination.append (text);
-
-       /* SwingUtilities.invokeLater(new Runnable ()
-        {
-            @Override
-            public void run()
-            {
-                destination.append (text);
-            }
-        });*/
+        destination.setCaretPosition(destination.getDocument().getLength());
     }
 
     @Override

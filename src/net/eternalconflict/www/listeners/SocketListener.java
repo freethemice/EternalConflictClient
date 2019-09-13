@@ -16,6 +16,12 @@ public class SocketListener implements SocketInterface {
             String command = data.getString("command");
             switch (command)
             {
+                case "info":
+                    System.out.println("Server Status: " + data.getString("status"));
+                    System.out.println("Server Version: " + data.getString("version"));
+                    System.out.println("Waiting Room: " + data.getInteger("player"));
+                    System.out.println("Online: " + data.getInteger("online"));
+                    break;
                 case "quit":
                     EternalConflict.quit = true;
 
