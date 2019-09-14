@@ -1,6 +1,7 @@
 package net.eternalconflict.www;
 
 import net.eternalconflict.www.gamewindow.GameWindow;
+import net.eternalconflict.www.gamewindow.menus.MainMenu;
 import net.eternalconflict.www.handlers.ListenerHandler;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.DownloadHolder;
@@ -304,6 +305,7 @@ public class EternalConflict {
     public static void openGame()
     {
         try {
+
             boolean vSync = true;
             gameLogic = new GameWindow();
             opts = new Window.WindowOptions();

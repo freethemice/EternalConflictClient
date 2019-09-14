@@ -6,6 +6,7 @@ import net.eternalconflict.www.holders.DownloadHolder;
 import net.eternalconflict.www.listeners.launcher.ButtonListener;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,7 @@ public class Launcher extends JFrame {
     private JTextField usernameText;
     private JLabel serverstate;
     private JLabel loginInfo;
+    private JLabel online;
     private JCheckBox saveInfo;
     private JMenuItem option;
     private JMenuItem about;
@@ -136,26 +138,31 @@ public class Launcher extends JFrame {
         login.setPressedIcon(pressedlogin);
         login.setPreferredSize(new Dimension(81,23));
         login.addActionListener(buttonListener);
+        login.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         login.setEnabled(false);
 
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
         update.addActionListener(buttonListener);
         update.setToolTipText("An update is available.");
+        update.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         update.setVisible(false);
 
         register = new JButton(regesterimg);
         register.setPreferredSize(new Dimension(81,23));
         register.setToolTipText("If you do not have an account click this button.");
+        register.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         register.addActionListener(buttonListener);
 
         progress = new JProgressBar();
         progress.setVisible(false);
+        progress.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
 
 
         saveInfo.setBackground(Color.LIGHT_GRAY);
+        saveInfo.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
         if(EternalConflict.serverUp) saveInfo.setEnabled(true);
         saveInfo.addActionListener(new ActionListener() {
@@ -193,17 +200,24 @@ public class Launcher extends JFrame {
         passwordText = new JPasswordField(16);
         passwordText.setToolTipText("Enter password");
         passwordText.setForeground(Color.BLACK);
+        passwordText.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
 
         usernameText = new JTextField(16);
         usernameText.setToolTipText("Enter Username");
+        usernameText.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         passwordText.setForeground(Color.BLACK);
 
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
 
+
         ConsoleHandler out = new ConsoleHandler (textArea);
         printStream = new PrintStream(out);
         System.setOut (printStream);
+
+        online = new JLabel("Players Online:");
+        online.setForeground(Color.white);
+        online.setToolTipText("Number of Actiave Players.");
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -264,6 +278,10 @@ public class Launcher extends JFrame {
         //constraints.gridx = 1;
         //constraints.gridy = 3;
         //mainFrame.setLayout (new BorderLayout ());
+
+        constraints.gridx = 0;
+        constraints.gridy = -3;
+        mainPanel.add(online, constraints);
 
         mainFrame.add(mainPanel,BorderLayout.CENTER);
 

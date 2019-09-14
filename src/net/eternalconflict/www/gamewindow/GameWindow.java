@@ -24,6 +24,8 @@ import org.lwjglb.engine.graph.other.Loader;
 import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
+
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -275,10 +277,12 @@ public class GameWindow implements IGameLogic {
         sceneLight.setDirectionalLight(directionalLight);
 
         pointLightPos = new Vector3f(0.0f, 0.0f, 0.0f);
+
         Vector3f pointLightColour = new Vector3f(1.0f, 1.0f, 1.0f);
         PointLight.Attenuation attenuation = new PointLight.Attenuation(1, 0.0f, 0);
         PointLight pointLight = new PointLight(pointLightColour, pointLightPos, lightIntensity, attenuation);
         sceneLight.setPointLightList( new PointLight[] {pointLight});
+
     }
 
     public DefaultObject getDefaultObject(GameItem gameItem)
@@ -373,6 +377,10 @@ public class GameWindow implements IGameLogic {
         if(window.isKeyPressed(GLFW_KEY_J)){
             sceneChanged = true;
             cameraInc.x = this.cameraMoveSpeed*20;
+        }
+        if(window.isKeyPressed(GLFW_KEY_ESCAPE))
+        {
+            System.exit(0);
         }
     }
 
