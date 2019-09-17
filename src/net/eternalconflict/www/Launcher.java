@@ -33,6 +33,8 @@ public class Launcher extends JFrame {
     private JLabel serverstate;
     private JLabel loginInfo;
     private JLabel online;
+    private JLabel title1;
+    private JLabel title2;
     private JCheckBox saveInfo;
     private JMenuItem option;
     private JMenuItem about;
@@ -144,7 +146,7 @@ public class Launcher extends JFrame {
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
         update.addActionListener(buttonListener);
-        update.setToolTipText("An update is available.");
+        update.setToolTipText("An update is available." + gameVersion);
         update.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         update.setVisible(false);
 
@@ -207,6 +209,10 @@ public class Launcher extends JFrame {
         usernameText.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         passwordText.setForeground(Color.BLACK);
 
+        online = new JLabel("Players Online:");
+        online.setForeground(Color.white);
+        online.setToolTipText("Number of Actiave Players.");
+
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
 
@@ -215,12 +221,8 @@ public class Launcher extends JFrame {
         printStream = new PrintStream(out);
         System.setOut (printStream);
 
-        online = new JLabel("Players Online:");
-        online.setForeground(Color.white);
-        online.setToolTipText("Number of Actiave Players.");
 
         GridBagConstraints constraints = new GridBagConstraints();
-
 
         constraints.insets = new Insets(3, 3, 3, 3);
         constraints.gridx = 0;

@@ -13,6 +13,7 @@ public class OptionsWindow extends JFrame{
 
         JComboBox serverCheck;
         JComboBox checkNum;
+        JCheckBox vsync;
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
         JFrame options = new JFrame("Launcher Options");
@@ -77,6 +78,12 @@ public class OptionsWindow extends JFrame{
             checkNum.setSelectedIndex(4);
         }
 
+        JLabel vsyncLabel = new JLabel ("Vsync on/off.");
+        vsyncLabel.setToolTipText("Turns Vsync on and off.");
+
+        vsync = new JCheckBox();
+
+
         GridBagConstraints optConstraints = new GridBagConstraints();
 
         optConstraints.insets = new Insets(5, 3, 3, 3);
@@ -96,7 +103,16 @@ public class OptionsWindow extends JFrame{
         optConstraints.gridx = 0;
         optConstraints.gridy = 4;
         optionsPanel.add(checkNum,optConstraints);
-        options.add(optionsPanel, BorderLayout.WEST );
+
+        optConstraints.gridx = 1;
+        optConstraints.gridy = 1;
+        optionsPanel.add(vsyncLabel,optConstraints);
+
+        optConstraints.gridx = 1;
+        optConstraints.gridy = 2;
+        optionsPanel.add(vsync,optConstraints);
+
+        options.add(optionsPanel, BorderLayout.CENTER );
 
         options.setVisible(true);
         Dimension dim = Launcher.instance.getDim();
