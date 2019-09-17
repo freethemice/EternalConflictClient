@@ -290,7 +290,7 @@ public class Launcher extends JFrame {
         mainFrame.add (
                 new JScrollPane (
                         textArea,
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
                 BorderLayout.SOUTH);
         textArea.setBackground(Color.white);

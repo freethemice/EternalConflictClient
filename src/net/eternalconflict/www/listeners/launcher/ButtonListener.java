@@ -25,8 +25,22 @@ public class ButtonListener implements ActionListener {
 
         if (button == launcher.getUpdates())
         {
-            JFrame news = new JFrame("News, Updates and Patch notes");
-            JOptionPane.showMessageDialog(news, "There will be news here at some point, or this will take you to a website.", "News Updates and Patch notes", JOptionPane.INFORMATION_MESSAGE);
+            String title = "Leaveing The Launcher";
+            String message = "This will open your default browser and go to our news and updates page. Do you wish to continue?";
+
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.WEB.getAddress()));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
         if (button == launcher.getOption())
         {
@@ -43,7 +57,7 @@ public class ButtonListener implements ActionListener {
         {
 
             String title = "Leaveing The Launcher";
-            String message = "This will open your default browser and go to a website. Do you wish to continue?";
+            String message = "This will open your default browser and go to the bug tracker. Do you wish to continue?";
 
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
             if(reply == JOptionPane.YES_OPTION)
@@ -87,7 +101,7 @@ public class ButtonListener implements ActionListener {
         {
 
             String title = "Leaveing the Launcher";
-            String message = "You are about to go to a website and leave the launcher. Do you wish to continue?";
+            String message = "This will open your default browser and go to our regestration page. Do you wish to continue?";
 
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
             if(reply == JOptionPane.YES_OPTION)

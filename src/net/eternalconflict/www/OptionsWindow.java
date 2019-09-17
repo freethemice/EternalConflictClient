@@ -79,10 +79,9 @@ public class OptionsWindow extends JFrame{
         }
 
         JLabel vsyncLabel = new JLabel ("Vsync on/off.");
-        vsyncLabel.setToolTipText("Turns Vsync on and off.");
 
         vsync = new JCheckBox();
-
+        vsync.setToolTipText("Turns Vsync on and off.");
 
         GridBagConstraints optConstraints = new GridBagConstraints();
 
