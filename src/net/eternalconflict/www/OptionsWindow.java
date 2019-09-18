@@ -13,7 +13,7 @@ public class OptionsWindow extends JFrame{
 
         JComboBox serverCheck;
         JComboBox checkNum;
-        JCheckBox vsync;
+        JCheckBox vsyncopt;
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
         JFrame options = new JFrame("Launcher Options");
@@ -80,8 +80,14 @@ public class OptionsWindow extends JFrame{
 
         JLabel vsyncLabel = new JLabel ("Vsync on/off.");
 
-        vsync = new JCheckBox();
-        vsync.setToolTipText("Turns Vsync on and off.");
+        vsyncopt = new JCheckBox();
+        vsyncopt.setToolTipText("Turns Vsync on and off.");
+        if(vsyncopt.isSelected()){
+            boolean vSync = true;
+        }
+        if(!vsyncopt.isSelected()){
+            boolean vSync = false;
+        }
 
         GridBagConstraints optConstraints = new GridBagConstraints();
 
@@ -109,7 +115,7 @@ public class OptionsWindow extends JFrame{
 
         optConstraints.gridx = 1;
         optConstraints.gridy = 2;
-        optionsPanel.add(vsync,optConstraints);
+        optionsPanel.add(vsyncopt,optConstraints);
 
         options.add(optionsPanel, BorderLayout.CENTER );
 

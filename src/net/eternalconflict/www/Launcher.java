@@ -15,7 +15,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
-
 import static net.eternalconflict.www.EternalConflict.*;
 
 public class Launcher extends JFrame {
@@ -33,8 +32,6 @@ public class Launcher extends JFrame {
     private JLabel serverstate;
     private JLabel loginInfo;
     private JLabel online;
-    private JLabel title1;
-    private JLabel title2;
     private JCheckBox saveInfo;
     private JMenuItem option;
     private JMenuItem about;
@@ -44,11 +41,8 @@ public class Launcher extends JFrame {
     private JMenu settings;
     private JMenu news;
     private ConfigFile options;
-    private ConfigFile versionInfo;
-    private JTabbedPane launchertab;
     public static Launcher instance;
     private PrintStream printStream;
-
     private List<DownloadHolder> filesNeeded;
 
     public Color dark_blue = new Color(20, 28, 99);
@@ -57,7 +51,6 @@ public class Launcher extends JFrame {
 
     public Launcher() {
         options = new ConfigFile("", "options.info");
-
         instance = this;
 
         filesNeeded = new ArrayList<DownloadHolder>();
@@ -70,6 +63,7 @@ public class Launcher extends JFrame {
         mainFrame.setSize(500, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+
         mainFrame.setResizable(false);
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(Color.LIGHT_GRAY);
@@ -81,7 +75,6 @@ public class Launcher extends JFrame {
 
          Image icon = Toolkit.getDefaultToolkit().getImage("resources/launcher/Eternal_Conflict_Icon.png");
          mainFrame.setIconImage(icon);
-
 
         JMenuBar menu = new JMenuBar();
         settings = new JMenu("Settings");
@@ -162,7 +155,6 @@ public class Launcher extends JFrame {
         saveInfo = new JCheckBox();
         saveInfo.setToolTipText("Save your login information.");
 
-
         saveInfo.setBackground(Color.LIGHT_GRAY);
         saveInfo.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         if(!EternalConflict.serverUp) saveInfo.setEnabled(false);
@@ -180,7 +172,6 @@ public class Launcher extends JFrame {
         });
         saveInfo.setSelected(false);
         saveInfo.setEnabled(true);
-
 
         loginInfo = new JLabel("Remember my login");
         loginInfo.setForeground(Color.white);
@@ -215,7 +206,6 @@ public class Launcher extends JFrame {
 
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
-
 
         ConsoleHandler out = new ConsoleHandler (textArea);
         printStream = new PrintStream(out);
@@ -277,10 +267,6 @@ public class Launcher extends JFrame {
         constraints.gridy = 4;
         mainPanel.add(loginInfo, constraints);
 
-        //constraints.gridx = 1;
-        //constraints.gridy = 3;
-        //mainFrame.setLayout (new BorderLayout ());
-
         constraints.gridx = 0;
         constraints.gridy = -3;
         mainPanel.add(online, constraints);
@@ -316,11 +302,6 @@ public class Launcher extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        //updateStatus();
-
-
     }
     public void close()
     {
@@ -358,7 +339,6 @@ public class Launcher extends JFrame {
         String status = "offline.";
         if (EternalConflict.serverUp) status = "online.";
         serverstate.setText(status);
-        //System.out.println("Server Status: " + status);
         mainFrame.pack();
     }
     public JLabel getInfo() {
@@ -428,10 +408,6 @@ public class Launcher extends JFrame {
         {
             connectToServer();
         }
-
-        //this.login.setEnabled(!updatebln);
-
-        //updateStatus();
     }
 
     private void reTryUpdate() {
@@ -500,5 +476,4 @@ public class Launcher extends JFrame {
     public JMenu getNews(){return news;}
 
     public JMenuItem getUpdates(){return updates;}
-
 }
