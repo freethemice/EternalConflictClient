@@ -146,7 +146,7 @@ public class Launcher extends JFrame {
         update = new JButton(updateimg);
         update.setPreferredSize(new Dimension(81,23));
         update.addActionListener(buttonListener);
-        update.setToolTipText("An update is available." + gameVersion);
+        update.setToolTipText("Update - " + gameVersion + " is avalable for download.");
         update.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         update.setVisible(false);
 
@@ -398,7 +398,7 @@ public class Launcher extends JFrame {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("resources"), "resources");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Resources update needed: ");
+            System.out.println("Resources update needed: " + recVersion);
             System.out.println(downloadFile);
             updatebln = true;
         }
@@ -408,7 +408,7 @@ public class Launcher extends JFrame {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("libraries"), "libraries");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Libraries update needed: ");
+            System.out.println("Libraries update needed: " + libsVersion);
             System.out.println(downloadFile);
             updatebln = true;
         }
@@ -418,7 +418,7 @@ public class Launcher extends JFrame {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Game update needed: " );
+            System.out.println("Game update needed: " + gameVersion );
             System.out.println(downloadFile);
             updatebln = true;
         }
