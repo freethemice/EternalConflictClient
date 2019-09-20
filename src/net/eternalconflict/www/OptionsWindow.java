@@ -13,6 +13,7 @@ public class OptionsWindow extends JFrame{
 
         JComboBox serverCheck;
         JComboBox checkNum;
+        JComboBox launcherStat;
         JCheckBox vsyncopt;
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
@@ -89,6 +90,31 @@ public class OptionsWindow extends JFrame{
             boolean vSync = false;
         }
 
+        JLabel launcherState = new JLabel ("Launcher state after game is closed.");
+
+        launcherStat = new JComboBox();
+        launcherStat.addItem("Close launcher.");
+        launcherStat.addItem("Keep launcher open");
+        launcherStat.addItem("Open Launcher only if there is an error.");
+        launcherStat.addItem("Let the little green men in your computer choose.");
+
+        launcherStat.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                mainOptionsFile.set("launcherStat", launcherStat.getSelectedIndex());
+                mainOptionsFile.save();
+            }
+        });
+        if (mainOptionsFile.containsKey("launcherStat"))
+        {
+            int index = mainOptionsFile.getInteger("launcherStat");
+            launcherStat.setSelectedIndex(index);
+        }
+        else
+        {
+            launcherStat.setSelectedIndex(0);
+        }
+
         GridBagConstraints optConstraints = new GridBagConstraints();
 
         optConstraints.insets = new Insets(5, 3, 3, 3);
@@ -116,6 +142,14 @@ public class OptionsWindow extends JFrame{
         optConstraints.gridx = 1;
         optConstraints.gridy = 2;
         optionsPanel.add(vsyncopt,optConstraints);
+
+        optConstraints.gridx = 2;
+        optConstraints.gridy = 1;
+        optionsPanel.add(launcherState, optConstraints);
+
+        optConstraints.gridx = 2;
+        optConstraints.gridy = 2;
+        optionsPanel.add(launcherStat, optConstraints);
 
         options.add(optionsPanel, BorderLayout.CENTER );
 
