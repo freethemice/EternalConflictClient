@@ -294,9 +294,12 @@ public class EternalConflict {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        }
-        finally {
-            if (connection != null) connection.disconnect();
+        } finally {
+            if (connection != null)
+            {
+                //System.out.println("An unknown error has occured!");
+                connection.disconnect();
+            }
         }
         return null;
     }
