@@ -101,13 +101,13 @@ public class OptionsWindow extends JFrame{
         launcherStat.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                mainOptionsFile.set("launcherStat", launcherStat.getSelectedIndex());
+                mainOptionsFile.set("launcher.Stat", launcherStat.getSelectedIndex());
                 mainOptionsFile.save();
             }
         });
-        if (mainOptionsFile.containsKey("launcherStat"))
+        if (mainOptionsFile.containsKey("launcher.Stat"))
         {
-            int index = mainOptionsFile.getInteger("launcherStat");
+            int index = mainOptionsFile.getInteger("launcher.Stat");
             launcherStat.setSelectedIndex(index);
         }
         else

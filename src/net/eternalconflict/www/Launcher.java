@@ -366,9 +366,6 @@ public class Launcher extends JFrame {
         }
         EternalConflict.reloadVersionInfo();
 
-        System.out.println("Game Version: " + EternalConflict.gameVersion + " (" + latest.getString("game") + ")");
-        System.out.println("Resources Version: " +  EternalConflict.recVersion + " (" + latest.getString("resources") + ")");
-        System.out.println("Libraries Version: " + EternalConflict.libsVersion + " (" + latest.getString("libraries") + ")");
         progress.setVisible(false);
         filesNeeded.clear();
         boolean updatebln = false;
@@ -401,6 +398,13 @@ public class Launcher extends JFrame {
             System.out.println("Game update needed: " + gameVersion );
             System.out.println(downloadFile);
             updatebln = true;
+        }
+        else
+        {
+            System.out.println("All Files are up to date");
+            System.out.println("Game Version: " + EternalConflict.gameVersion + " (" + latest.getString("game") + ")");
+            System.out.println("Resources Version: " +  EternalConflict.recVersion + " (" + latest.getString("resources") + ")");
+            System.out.println("Libraries Version: " + EternalConflict.libsVersion + " (" + latest.getString("libraries") + ")");
         }
         this.update.setVisible(updatebln);
         mainFrame.pack();
@@ -441,6 +445,14 @@ public class Launcher extends JFrame {
                 }
             }
         },1000 * 60, 1000 *  60);
+    }
+
+
+    private void launcherStat(){
+        if(Launcher.instance.getOptions().containsKey("launcher.Stat"))
+        {
+           return;
+        }
     }
 
     public ButtonListener getButtonListener() { return buttonListener; }
