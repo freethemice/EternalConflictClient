@@ -18,7 +18,7 @@ public class OptionsWindow extends JFrame{
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
         JFrame options = new JFrame("Launcher Options");
-        Image icon = Toolkit.getDefaultToolkit().getImage("resources/textures/icons/Eternal_Conflict_Icon.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("resources/launcher/Eternal_Conflict_Icon.png");
         options.setIconImage(icon);
         options.setDefaultCloseOperation(HIDE_ON_CLOSE);
         options.setSize(900,700);
