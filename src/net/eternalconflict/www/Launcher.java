@@ -145,7 +145,7 @@ public class Launcher extends JFrame {
 
         register = new JButton(regesterimg);
         register.setPreferredSize(new Dimension(81,23));
-        register.setToolTipText("If you do not have an account click this button.");
+        register.setToolTipText("Click here if you need an account");
         register.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         register.addActionListener(buttonListener);
 
@@ -167,7 +167,6 @@ public class Launcher extends JFrame {
                 options.set("username", "");
                 options.set("password", "");
                 options.save();
-
             }
         });
         saveInfo.setSelected(false);
