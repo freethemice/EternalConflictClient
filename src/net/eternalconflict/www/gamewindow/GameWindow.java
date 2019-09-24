@@ -279,7 +279,7 @@ public class GameWindow implements IGameLogic {
         pointLightPos = new Vector3f(0.0f, 0.0f, 0.0f);
 
         Vector3f pointLightColour = new Vector3f(1.0f, 1.0f, 1.0f);
-        PointLight.Attenuation attenuation = new PointLight.Attenuation(1, 0.0f, 0);
+        PointLight.Attenuation attenuation = new PointLight.Attenuation(1.3f, 0.0f, 0.0f);
         PointLight pointLight = new PointLight(pointLightColour, pointLightPos, lightIntensity, attenuation);
         sceneLight.setPointLightList( new PointLight[] {pointLight});
 

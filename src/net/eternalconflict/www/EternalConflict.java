@@ -297,7 +297,6 @@ public class EternalConflict {
         } finally {
             if (connection != null)
             {
-                System.out.println("An unknown error has occured, Can not connect to server.");
                 connection.disconnect();
             }
         }

@@ -183,8 +183,8 @@ public class Launcher extends JFrame {
         JLabel connection = new JLabel("Server connection:");
         connection.setForeground(Color.white);
 
-        Info = new JLabel(" ");
-        Info.setForeground(Color.white);
+      //  Info = new JLabel(" ");
+      //  Info.setForeground(Color.white);
 
         serverstate = new JLabel("offline");
         serverstate.setForeground(dark_red);
@@ -199,9 +199,6 @@ public class Launcher extends JFrame {
         usernameText.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED,dark_blue, dark_blue));
         passwordText.setForeground(Color.BLACK);
 
-        online = new JLabel("Players Online:");
-        online.setForeground(Color.white);
-        online.setToolTipText("Number of Actiave Players.");
 
         JTextArea textArea = new JTextArea (25, 80);
         textArea.setEditable (false);
@@ -254,9 +251,9 @@ public class Launcher extends JFrame {
         constraints.gridy = 3;
         mainPanel.add(progress,constraints);
 
-        constraints.gridx = 1;
-        constraints.gridy = 6;
-        mainPanel.add(Info,constraints);
+       // constraints.gridx = 1;
+       // constraints.gridy = 6;
+       // mainPanel.add(Info,constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 4;
@@ -265,10 +262,6 @@ public class Launcher extends JFrame {
         constraints.gridx = 2;
         constraints.gridy = 4;
         mainPanel.add(loginInfo, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = -3;
-        mainPanel.add(online, constraints);
 
         mainFrame.add(mainPanel,BorderLayout.CENTER);
 
