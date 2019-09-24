@@ -156,6 +156,7 @@ public class OptionsWindow extends JFrame{
         options.setVisible(true);
         Dimension dim = Launcher.instance.getDim();
         options.setLocation(dim.width/2-options.getSize().width/2, dim.height/2-options.getSize().height/2);
+        options.pack();
     }
 
 
