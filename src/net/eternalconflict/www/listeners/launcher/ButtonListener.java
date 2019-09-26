@@ -23,6 +23,32 @@ public class ButtonListener implements ActionListener {
         Object button = e.getSource();
         Launcher launcher = Launcher.instance;
 
+        if (button == launcher.getSuggestions()){
+            String title = "Information Notice!!!";
+            String message = "Sugesting your ideas will apply to our turms and conditions. We are not obligated to add your idea. Do you wish to continue?";
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+
+                String title1 = "Leaveing The Launcher";
+                String message1 = "You are about to open your defualt browser and open the suggestions page. Do you wish to continue?";
+
+                int reply1 = JOptionPane.showConfirmDialog(null,message1, title1,JOptionPane.YES_NO_OPTION);
+                if(reply1 == JOptionPane.YES_OPTION)
+                {
+                    try {
+                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                            Desktop.getDesktop().browse(new URI(ServerInfoEnum.WEB.getAddress()));
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+        }
         if (button == launcher.getUpdates())
         {
             String title = "Leaveing The Launcher";

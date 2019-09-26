@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.PrintStream;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -38,6 +39,7 @@ public class Launcher extends JFrame {
     private JMenuItem issues;
     private JMenuItem exit;
     private JMenuItem updates;
+    private JMenuItem suggestions;
     private JMenu settings;
     private JMenu news;
     private ConfigFile options;
@@ -111,6 +113,13 @@ public class Launcher extends JFrame {
         KeyStroke cntrlRKey = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK);
         issues.setAccelerator(cntrlRKey);
 
+        suggestions = new JMenuItem("Sugest a feture or idea");
+        suggestions.setToolTipText("Sugestions and ideas");
+        suggestions.addActionListener(buttonListener);
+        suggestions.setMnemonic(KeyEvent.VK_S);
+        KeyStroke cntrlSKey = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);
+        suggestions.setAccelerator(cntrlSKey);
+
         exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
         exit.addActionListener(buttonListener);
@@ -118,12 +127,15 @@ public class Launcher extends JFrame {
         KeyStroke cntrlEKey = KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK);
         exit.setAccelerator(cntrlEKey);
 
-        menu.add(settings);
+
         menu.add(news);
+        menu.add(settings);
         news.add(updates);
+        news.addSeparator();
+        news.add(issues);
+        news.add(suggestions);
         settings.add(about);
         settings.add(option);
-        settings.add(issues);
         settings.addSeparator();
         settings.add(exit);
 
@@ -480,4 +492,6 @@ public class Launcher extends JFrame {
     public JMenu getNews(){return news;}
 
     public JMenuItem getUpdates(){return updates;}
+
+    public JMenuItem getSuggestions(){return suggestions;}
 }
