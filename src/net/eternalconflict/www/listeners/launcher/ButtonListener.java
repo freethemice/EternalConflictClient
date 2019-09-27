@@ -23,7 +23,15 @@ public class ButtonListener implements ActionListener {
         Object button = e.getSource();
         Launcher launcher = Launcher.instance;
 
-        if (button == launcher.getSuggestions()){
+        if(button == launcher.getAlphaKeys())
+        {
+            String title = "Information Notice!!!";
+            String message = "AlphaKeys are our way of alpha/beta testing. Do not give your key out to anyone.";
+            int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.OK_OPTION);
+        }
+
+        if (button == launcher.getSuggestions())
+        {
             String title = "Information Notice!!!";
             String message = "Sugesting your ideas will apply to our turms and conditions. We are not obligated to add your idea. Do you wish to continue?";
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);

@@ -40,6 +40,7 @@ public class Launcher extends JFrame {
     private JMenuItem exit;
     private JMenuItem updates;
     private JMenuItem suggestions;
+    private JMenuItem alphaKeys;
     private JMenu settings;
     private JMenu news;
     private ConfigFile options;
@@ -120,6 +121,13 @@ public class Launcher extends JFrame {
         KeyStroke cntrlSKey = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);
         suggestions.setAccelerator(cntrlSKey);
 
+        alphaKeys = new JMenuItem("About Alpha Keys");
+        alphaKeys.setToolTipText("Alpha key Info");
+        alphaKeys.addActionListener(buttonListener);
+        alphaKeys.setMnemonic(KeyEvent.VK_K);
+        KeyStroke cntrlKKey = KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.CTRL_MASK);
+        alphaKeys.setAccelerator(cntrlKKey);
+
         exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
         exit.addActionListener(buttonListener);
@@ -136,6 +144,7 @@ public class Launcher extends JFrame {
         news.add(suggestions);
         settings.add(about);
         settings.add(option);
+        settings.add(alphaKeys);
         settings.addSeparator();
         settings.add(exit);
 
@@ -494,4 +503,6 @@ public class Launcher extends JFrame {
     public JMenuItem getUpdates(){return updates;}
 
     public JMenuItem getSuggestions(){return suggestions;}
+
+    public JMenuItem getAlphaKeys(){return alphaKeys;}
 }

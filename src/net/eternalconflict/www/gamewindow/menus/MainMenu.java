@@ -10,7 +10,8 @@ public class MainMenu
     public enum STATE{
         MENU,
         SETTINGS,
-        Game,
+        GAME,
+        PAUSE;
     }
     public STATE State = STATE.MENU;
     public Font fnt0;
