@@ -32,7 +32,6 @@ public class Launcher extends JFrame {
     private JTextField usernameText;
     private JLabel serverstate;
     private JLabel loginInfo;
-    private JLabel online;
     private JCheckBox saveInfo;
     private JMenuItem option;
     private JMenuItem about;
@@ -41,6 +40,8 @@ public class Launcher extends JFrame {
     private JMenuItem updates;
     private JMenuItem suggestions;
     private JMenuItem alphaKeys;
+    private JMenuItem resetPass;
+    private JMenuItem resetEmail;
     private JMenu settings;
     private JMenu news;
     private ConfigFile options;
@@ -128,6 +129,20 @@ public class Launcher extends JFrame {
         KeyStroke cntrlKKey = KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.CTRL_MASK);
         alphaKeys.setAccelerator(cntrlKKey);
 
+        resetPass = new JMenuItem("Reset Password");
+        resetPass.setToolTipText("Reset your password");
+        resetPass.addActionListener(buttonListener);
+        resetPass.setMnemonic(KeyEvent.VK_P);
+        KeyStroke cntrlPKey = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
+        resetPass.setAccelerator(cntrlPKey);
+
+        resetEmail = new JMenuItem("Change Email Address");
+        resetEmail.setToolTipText("Change your Email Address");
+        resetEmail.addActionListener(buttonListener);
+        resetEmail.setMnemonic(KeyEvent.VK_C);
+        KeyStroke cntrlCKey = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK);
+        resetEmail.setAccelerator(cntrlCKey);
+
         exit = new JMenuItem("Exit");
         exit.setToolTipText("Exit the Launcher.");
         exit.addActionListener(buttonListener);
@@ -144,8 +159,10 @@ public class Launcher extends JFrame {
         news.add(suggestions);
         settings.add(about);
         settings.add(option);
-        settings.add(alphaKeys);
+        settings.add(resetPass);
+        settings.add(resetEmail);
         settings.addSeparator();
+        settings.add(alphaKeys);
         settings.add(exit);
 
         mainFrame.setJMenuBar(menu);
@@ -505,4 +522,8 @@ public class Launcher extends JFrame {
     public JMenuItem getSuggestions(){return suggestions;}
 
     public JMenuItem getAlphaKeys(){return alphaKeys;}
+
+    public JMenuItem getResetPass(){return resetPass;}
+
+    public JMenuItem getResetEmail(){return resetEmail;}
 }

@@ -6,7 +6,8 @@ public enum ServerInfoEnum {
     WEB("Web", "http://www.firesoftitan.com/ec"),
     REGISTER("Register", "http://www.firesoftitan.com/ec"),
     VERSIONS("Versions", "http://www.firesoftitan.com/ec/info.data"),
-    ISSUES("Issues", "https://github.com/freethemice/EternalConflictClient/issues");
+    ISSUES("Issues", "https://github.com/freethemice/EternalConflictClient/issues"),
+    ACCOUNT("Account","http://www.firesoftitan.com/ec/mylogin.html");
     private final String name;
     private final String address;
 

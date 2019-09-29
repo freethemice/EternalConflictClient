@@ -23,11 +23,50 @@ public class ButtonListener implements ActionListener {
         Object button = e.getSource();
         Launcher launcher = Launcher.instance;
 
+        if(button == launcher.getResetEmail())
+        {
+            String title = "Information Notice";
+            String message = "Changeing your Email requiers going to the website, do you wish to go the the website now?";
+            int reply = JOptionPane.showConfirmDialog(null, message,title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.ACCOUNT.getAddress()));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        if(button == launcher.getResetPass())
+        {
+            String title = "Information Notice";
+            String message = "Reseting your password requiers going to the website, do you wish to go the the website now?";
+            int reply = JOptionPane.showConfirmDialog(null, message,title,JOptionPane.YES_NO_OPTION);
+            if(reply == JOptionPane.YES_OPTION)
+            {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(ServerInfoEnum.ACCOUNT.getAddress()));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
         if(button == launcher.getAlphaKeys())
         {
             String title = "Information Notice!!!";
             String message = "AlphaKeys are our way of alpha/beta testing. Do not give your key out to anyone.";
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.OK_OPTION);
+
         }
 
         if (button == launcher.getSuggestions())
