@@ -481,7 +481,22 @@ public class Launcher extends JFrame {
     private void launcherStat(){
         if(Launcher.instance.getOptions().containsKey("launcher.Stat"))
         {
-           return;
+            int index = Launcher.instance.getOptions().getInteger("launcher.Stat");
+            if(index == 0){
+                return;
+            }
+            if(index == 1){
+                return;
+            }
+            if(index == 2){
+                return;
+            }
+            if(index == 3){
+                return;
+            }
+            else{
+                return;
+            }
         }
     }
 

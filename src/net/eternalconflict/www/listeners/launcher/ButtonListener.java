@@ -77,7 +77,7 @@ public class ButtonListener implements ActionListener {
             if(reply == JOptionPane.YES_OPTION)
             {
 
-                String title1 = "Leaveing The Launcher";
+                String title1 = "Information Notice!!!";
                 String message1 = "You are about to open your defualt browser and open the suggestions page. Do you wish to continue?";
 
                 int reply1 = JOptionPane.showConfirmDialog(null,message1, title1,JOptionPane.YES_NO_OPTION);
@@ -98,7 +98,7 @@ public class ButtonListener implements ActionListener {
         }
         if (button == launcher.getUpdates())
         {
-            String title = "Leaveing The Launcher";
+            String title = "Information Notice!!!";
             String message = "This will open your default browser and go to our news and updates page. Do you wish to continue?";
 
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
@@ -129,7 +129,7 @@ public class ButtonListener implements ActionListener {
         if(button == launcher.getIssues())
         {
 
-            String title = "Leaveing The Launcher";
+            String title = "Information Notice";
             String message = "This will open your default browser and go to the bug tracker. Do you wish to continue?";
 
             int reply = JOptionPane.showConfirmDialog(null,message, title,JOptionPane.YES_NO_OPTION);
