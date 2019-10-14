@@ -114,7 +114,6 @@ public class OptionsWindow extends JFrame{
         {
             launcherStat.setSelectedIndex(0);
         }
-
         GridBagConstraints optConstraints = new GridBagConstraints();
 
         optConstraints.insets = new Insets(5, 3, 3, 3);

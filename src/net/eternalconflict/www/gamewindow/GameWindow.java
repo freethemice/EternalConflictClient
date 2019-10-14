@@ -123,10 +123,9 @@ public class GameWindow implements IGameLogic {
     public void init(Window window) throws Exception {
         try {
             this.window = window;
-
             renderer.init(window);
-
             scene = new Scene();
+
 
             List<GameItem> planets = new ArrayList<GameItem>();
             SolarSystemMap solarSystemMap = PlayerHolder.player.getViewing();
@@ -188,7 +187,7 @@ public class GameWindow implements IGameLogic {
             scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
 
             // Shadows
-            scene.setRenderShadows(true);
+            scene.setRenderShadows(false);
 
 
             // Fog

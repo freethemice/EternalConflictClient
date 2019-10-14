@@ -227,7 +227,6 @@ public class ButtonListener implements ActionListener {
             };
             timer.schedule(timerTask, 10, 10);
 
-
         }
     }
 }

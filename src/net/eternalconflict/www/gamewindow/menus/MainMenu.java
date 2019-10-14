@@ -2,7 +2,6 @@ package net.eternalconflict.www.gamewindow.menus;
 
 import java.awt.*;
 
-import static net.eternalconflict.www.EternalConflict.gameEng;
 
 public class MainMenu
 {
@@ -14,13 +13,14 @@ public class MainMenu
         PAUSE;
     }
     public STATE State = STATE.MENU;
-    public Font fnt0;
 
-    public void render (Graphics g)
+    /*   public void init()
     {
-        fnt0 = new Font("arial", Font.BOLD,50);
-        g.setFont(fnt0);
-        g.setColor(dark_blue);
-        g.drawString("Eternal Conflict",1000/ 2,100);
-    }
+        guiWindow = new GuiTexture(Loader.loadTexture("textures/window.png"), new Vector2f(0, 0), new Vector2f(300, 100));
+        guiWindow.setVisible(false);
+        //GuiManger.instance.addGuis(guiWindow);
+    }*/
+
+
+
 }
