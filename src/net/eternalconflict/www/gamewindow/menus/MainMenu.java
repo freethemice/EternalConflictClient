@@ -10,7 +10,8 @@ public class MainMenu
         MENU,
         SETTINGS,
         GAME,
-        PAUSE;
+        PAUSE,
+        CHAT;
     }
     public STATE State = STATE.MENU;
 
