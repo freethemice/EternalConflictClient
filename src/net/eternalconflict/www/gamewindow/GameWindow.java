@@ -24,8 +24,6 @@ import org.lwjglb.engine.graph.other.Loader;
 import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
-
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -267,19 +265,19 @@ public class GameWindow implements IGameLogic {
         scene.setSceneLight(sceneLight);
 
         // Ambient Light
-        sceneLight.setAmbientLight(new Vector3f(1.3f, 1.3f, 1.3f));
-        sceneLight.setSkyBoxLight(new Vector3f(1.0f, 1.0f, 1.0f));
+        sceneLight.setAmbientLight(new Vector3f(0f, 0f, 0f));
+        //sceneLight.setSkyBoxLight(new Vector3f(1.0f, 1.0f, 1.0f));
 
         // Directional Light
         float lightIntensity = 1.0f;
         Vector3f lightDirection = new Vector3f(0, 1, 1);
-        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), lightDirection, lightIntensity);
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0, 0, 0), lightDirection, lightIntensity);
         sceneLight.setDirectionalLight(directionalLight);
 
         pointLightPos = new Vector3f(0.0f, 0.0f, 0.0f);
 
         Vector3f pointLightColour = new Vector3f(1.0f, 1.0f, 1.0f);
-        PointLight.Attenuation attenuation = new PointLight.Attenuation(1.3f, 0.0f, 0.0f);
+        PointLight.Attenuation attenuation = new PointLight.Attenuation(0.7f, 0.0f, 0.0f);
         PointLight pointLight = new PointLight(pointLightColour, pointLightPos, lightIntensity, attenuation);
         sceneLight.setPointLightList( new PointLight[] {pointLight});
 
@@ -355,13 +353,13 @@ public class GameWindow implements IGameLogic {
         } else {
             angleInc = 0;
         }
-        if (window.isKeyPressed(GLFW_KEY_UP)) {
-            sceneChanged = true;
-            pointLightPos.y += 0.5f;
-        } else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-            sceneChanged = true;
-            pointLightPos.y -= 0.5f;
-        }
+
+        pointLightPos.x = camera.getPosition().x;
+        pointLightPos.y = camera.getPosition().y;
+        pointLightPos.z = camera.getPosition().z;
+
+
+
         if(window.isKeyPressed(GLFW_KEY_I)){
             sceneChanged = true;
             cameraInc.z = -this.cameraMoveSpeed*20;
@@ -382,6 +380,9 @@ public class GameWindow implements IGameLogic {
         {
             System.exit(0);
         }
+
+
+
     }
 
     public void updateWindow(float interval, MouseInput mouseInput, Window window)
@@ -452,8 +453,9 @@ public class GameWindow implements IGameLogic {
         lightDirection.x = 0;
         lightDirection.y = yValue;
         lightDirection.z = zValue;
-        lightDirection.normalize();
 
+
+        lightDirection.normalize();
         // Update view matrix
         camera.updateViewMatrix();
     }
