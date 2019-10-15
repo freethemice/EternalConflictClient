@@ -12,10 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.PrintStream;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
+
 import static net.eternalconflict.www.EternalConflict.*;
 
 public class Launcher extends JFrame {
@@ -37,7 +37,7 @@ public class Launcher extends JFrame {
     private JMenuItem about;
     private JMenuItem issues;
     private JMenuItem exit;
-    private JMenuItem updates;
+    private JMenuItem newsupdates;
     private JMenuItem suggestions;
     private JMenuItem alphaKeys;
     private JMenuItem resetPass;
@@ -87,12 +87,12 @@ public class Launcher extends JFrame {
         news = new JMenu("Eternal Conflict");
         news.setToolTipText("News");
 
-        updates = new JMenuItem("News and Updates");
-        updates.setToolTipText("News and Updates for Eternal Conflict.");
-        updates.addActionListener(buttonListener);
-        updates.setMnemonic(KeyEvent.VK_N);
+        newsupdates = new JMenuItem("News and Updates");
+        newsupdates.setToolTipText("News and Updates for Eternal Conflict.");
+        newsupdates.addActionListener(buttonListener);
+        newsupdates.setMnemonic(KeyEvent.VK_N);
         KeyStroke cntrlNKey = KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK);
-        updates.setAccelerator(cntrlNKey);
+        newsupdates.setAccelerator(cntrlNKey);
 
         about = new JMenuItem("About");
         about.setToolTipText("About the Game.");
@@ -153,7 +153,7 @@ public class Launcher extends JFrame {
 
         menu.add(news);
         menu.add(settings);
-        news.add(updates);
+        news.add(newsupdates);
         news.addSeparator();
         news.add(issues);
         news.add(suggestions);
@@ -510,7 +510,7 @@ public class Launcher extends JFrame {
 
     public JMenu getNews(){return news;}
 
-    public JMenuItem getUpdates(){return updates;}
+    public JMenuItem getNewsupdates(){return newsupdates;}
 
     public JMenuItem getSuggestions(){return suggestions;}
 

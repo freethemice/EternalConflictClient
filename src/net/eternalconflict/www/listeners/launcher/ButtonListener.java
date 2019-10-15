@@ -96,7 +96,7 @@ public class ButtonListener implements ActionListener {
             }
 
         }
-        if (button == launcher.getUpdates())
+        if (button == launcher.getNewsupdates())
         {
             String title = "Information Notice!!!";
             String message = "This will open your default browser and go to our news and updates page. Do you wish to continue?";
