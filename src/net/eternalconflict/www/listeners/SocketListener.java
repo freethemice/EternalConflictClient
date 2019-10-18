@@ -3,12 +3,14 @@ package net.eternalconflict.www.listeners;
 import net.eternalconflict.www.ConfigFile;
 import net.eternalconflict.www.EternalConflict;
 import net.eternalconflict.www.Launcher;
+import net.eternalconflict.www.gamewindow.GameWindow;
 import net.eternalconflict.www.handlers.SocketHandler;
 import net.eternalconflict.www.holders.PlayerHolder;
 import net.eternalconflict.www.interfaces.SocketInterface;
 import net.eternalconflict.www.maps.SolarSystemMap;
 
 public class SocketListener implements SocketInterface {
+    private long startTime = 0;
     @Override
     public void inputFromSocket(SocketHandler socketHandler, ConfigFile data) {
         if (data.containsKey("command"))
@@ -35,6 +37,15 @@ public class SocketListener implements SocketInterface {
                         EternalConflict.playerHolder = new PlayerHolder(data);
                         System.out.println("You have logged in as: " + EternalConflict.playerHolder.getName());
                     }
+                    return;
+                case "update":
+                    if (GameWindow.instance.isLoaded()) {
+                        data.set("command", null);
+                        SolarSystemMap ssMapUpdate = new SolarSystemMap(data);
+                        EternalConflict.playerHolder.getViewing().updateFromConfig(ssMapUpdate);
+                        GameWindow.instance.refreshView();
+                    }
+
                     return;
                 case "viewing":
                     data.set("command", null);
@@ -63,6 +74,10 @@ public class SocketListener implements SocketInterface {
                         //Launcher.instance.getMainFrame().setVisible(false);
                         Launcher.instance.getMainPanel().setVisible(false);
                         Launcher.instance.getMainFrame().pack();
+                        startTime = System.currentTimeMillis();
+                    }
+                    if (GameWindow.instance.isLoaded()) {
+                        GameWindow.instance.updateMeshes();
                     }
                     return;
             }

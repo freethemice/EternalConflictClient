@@ -44,7 +44,6 @@ public class GameWindow implements IGameLogic {
     private Scene scene;
 
     private CursorGui cursor;
-
     private static final float CAMERA_POS_STEP = 0.40f;
 
     private float angleInc;
@@ -56,6 +55,7 @@ public class GameWindow implements IGameLogic {
     private boolean sceneChanged;
 
     private Vector3f pointLightPos;
+    private boolean loaded = false;
 
     private Window window;
 
@@ -77,6 +77,13 @@ public class GameWindow implements IGameLogic {
         instance = this;
     }
 
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
     public float getCameraMoveSpeed() {
         return cameraMoveSpeed;
     }
@@ -125,64 +132,7 @@ public class GameWindow implements IGameLogic {
             scene = new Scene();
 
 
-            List<GameItem> planets = new ArrayList<GameItem>();
-            SolarSystemMap solarSystemMap = PlayerHolder.player.getViewing();
-            List<DefaultObject> defaultObjects = solarSystemMap.getObjects();
-            int i = 0;
-            for(DefaultObject defaultObject: defaultObjects)
-            {
-                if (defaultObject instanceof PlanetObject) {
-                    PlanetObject planetObject = (PlanetObject)defaultObject;
-                    GameItem planet = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), planetObject.getPlanetType().getName()));
-                    planet.setPosition((float) defaultObject.getPosition().getX(), 0f, (float) defaultObject.getPosition().getZ());
-                    planet.setScale((float) ((PlanetObject) defaultObject).getSize());
-                    planetObject.setGameItem(planet);
-                    planets.add(planet);
-                }
-                if (defaultObject instanceof StarObject) {
-                    StarObject starObject = (StarObject)defaultObject;
-                    if (sunObject == null) sunObject = defaultObject;
-                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), starObject.getStarType().getName()));
-                    star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
-                    star.setScale((float) ((StarObject) defaultObject).getSize() );
-                    starObject.setGameItem(star);
-                    planets.add(star);
-                 }
-                if (defaultObject instanceof StationObject) {
-
-                    StationObject starObject = (StationObject)defaultObject;
-                    sunObject = defaultObject;
-                    System.out.println("Station Found!");
-                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "StationBeta"));//MinningShip
-                    star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
-                    star.setScale((float) ((StationObject) defaultObject).getSize() );
-                    starObject.setGameItem(star);
-                    planets.add(star);
-                }
-                if (defaultObject instanceof MiningShipObject) {
-
-                    MiningShipObject miningShipObject = (MiningShipObject)defaultObject;
-                    System.out.println("Mining Ship Loaded");
-                    GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "MinningShip"));//MinningShip
-                    star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
-                    star.setScale((float) ((MiningShipObject) defaultObject).getSize() );
-                    miningShipObject.setGameItem(star);
-                    planets.add(star);
-                }
-
-    i++;
-
-            }
-
- /*       Font FONT = new Font("Arial", Font.PLAIN, 20);
-        String CHARSET = "ISO-8859-1";
-        FontTexture test = new FontTexture(FONT, CHARSET);
-        TextItem statusTextItem = new TextItem("test", test);
-        //statusTextItem.getMesh().getMaterial().setSpecularColour(new Vector4f(1, 1, 1, 1));
-        planets.add(statusTextItem);*/
-
-
-            scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
+            updateMeshes();
 
             // Shadows
             scene.setRenderShadows(false);
@@ -230,11 +180,88 @@ public class GameWindow implements IGameLogic {
 
             cursor = new CursorGui();
             glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            this.setLoaded(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void updateMeshes() {
+        List<GameItem> planets = new ArrayList<GameItem>();
+        SolarSystemMap solarSystemMap = PlayerHolder.player.getViewing();
+        List<DefaultObject> defaultObjects = solarSystemMap.getObjects();
+        int i = 0;
+        for(DefaultObject defaultObject: defaultObjects)
+        {
+            if (defaultObject instanceof PlanetObject) {
+                PlanetObject planetObject = (PlanetObject)defaultObject;
+                GameItem planet = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), planetObject.getPlanetType().getName()));
+                planet.setPosition((float) defaultObject.getPosition().getX(), 0f, (float) defaultObject.getPosition().getZ());
+                planet.setScale((float) ((PlanetObject) defaultObject).getSize());
+                planetObject.setGameItem(planet);
+                planets.add(planet);
+            }
+            if (defaultObject instanceof StarObject) {
+                StarObject starObject = (StarObject)defaultObject;
+                if (sunObject == null) sunObject = defaultObject;
+                GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), starObject.getStarType().getName()));
+                star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
+                star.setScale((float) ((StarObject) defaultObject).getSize() );
+                starObject.setGameItem(star);
+                planets.add(star);
+             }
+            if (defaultObject instanceof StationObject) {
+
+                StationObject starObject = (StationObject)defaultObject;
+                sunObject = defaultObject;
+                System.out.println("Station Found!");
+                GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "StationBeta"));//MinningShip
+                star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
+                star.setScale((float) ((StationObject) defaultObject).getSize() );
+                starObject.setGameItem(star);
+                planets.add(star);
+            }
+            if (defaultObject instanceof MiningShipObject) {
+
+                MiningShipObject miningShipObject = (MiningShipObject)defaultObject;
+                System.out.println("Mining Ship Loaded");
+                GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "MinningShip"));//MinningShip
+                star.setPosition((float) defaultObject.getPosition().getX() , 0f, (float) defaultObject.getPosition().getZ() );
+                star.setScale((float) ((MiningShipObject) defaultObject).getSize() );
+                miningShipObject.setGameItem(star);
+                planets.add(star);
+            }
+
+i++;
+
+        }
+
+ /*       Font FONT = new Font("Arial", Font.PLAIN, 20);
+        String CHARSET = "ISO-8859-1";
+        FontTexture test = new FontTexture(FONT, CHARSET);
+        TextItem statusTextItem = new TextItem("test", test);
+        //statusTextItem.getMesh().getMaterial().setSpecularColour(new Vector4f(1, 1, 1, 1));
+        planets.add(statusTextItem);*/
+
+
+        scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
+    }
+    public void refreshView()
+    {
+        List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+        List<GameItem> planets = new ArrayList<GameItem>();
+        for(DefaultObject defaultObject: allthings)
+        {
+            GameItem gameItem = defaultObject.getGameItem();
+            if (gameItem != null) {
+                gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
+                if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000) {
+                    planets.add(gameItem);
+                }
+            }
+        }
+        scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
+    }
     private void selectObject(DefaultObject selectMe) {
         if (selectMe == null) return;
         selectedObject = selectMe;
@@ -243,10 +270,11 @@ public class GameWindow implements IGameLogic {
         for(DefaultObject defaultObject: allthings)
         {
             GameItem gameItem = defaultObject.getGameItem();
-            gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
-            if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000)
-            {
-                planets.add(gameItem);
+            if (gameItem != null) {
+                gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
+                if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000) {
+                    planets.add(gameItem);
+                }
             }
         }
 
@@ -268,15 +296,16 @@ public class GameWindow implements IGameLogic {
         //sceneLight.setSkyBoxLight(new Vector3f(1.0f, 1.0f, 1.0f));
 
         // Directional Light
-        float lightIntensity = 1.0f;
+        float lightIntensity = 0.0f;
         Vector3f lightDirection = new Vector3f(0, 1, 1);
-        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0, 0, 0), lightDirection, lightIntensity);
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), lightDirection, lightIntensity);
         sceneLight.setDirectionalLight(directionalLight);
 
         pointLightPos = new Vector3f(0.0f, 0.0f, 0.0f);
+        lightIntensity = 1.0f;
 
         Vector3f pointLightColour = new Vector3f(1.0f, 1.0f, 1.0f);
-        PointLight.Attenuation attenuation = new PointLight.Attenuation(0.7f, 0.0f, 0.0f);
+        PointLight.Attenuation attenuation = new PointLight.Attenuation(0.3f, 2.0f, 0.0f);
         PointLight pointLight = new PointLight(pointLightColour, pointLightPos, lightIntensity, attenuation);
         sceneLight.setPointLightList( new PointLight[] {pointLight});
 
@@ -295,26 +324,36 @@ public class GameWindow implements IGameLogic {
     public void input(Window window, MouseInput mouseInput) {
         sceneChanged = false;
         cameraInc.set(0, 0, 0);
+
+        float speedChanger = 1;
+        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) || window.isKeyPressed(GLFW_KEY_RIGHT_CONTROL))
+        {
+            speedChanger = 20;
+        }
+        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT) || window.isKeyPressed(GLFW_KEY_RIGHT_SHIFT))
+        {
+            speedChanger = 0.1f;
+        }
         if (window.isKeyPressed(GLFW_KEY_W)) {
             sceneChanged = true;
-            cameraInc.z = -this.cameraMoveSpeed;
+            cameraInc.z = -this.cameraMoveSpeed * speedChanger;
         } else if (window.isKeyPressed(GLFW_KEY_S)) {
             sceneChanged = true;
-            cameraInc.z = this.cameraMoveSpeed;
+            cameraInc.z = this.cameraMoveSpeed * speedChanger;
         }
         if (window.isKeyPressed(GLFW_KEY_A)) {
             sceneChanged = true;
-            cameraInc.x = -this.cameraMoveSpeed;
+            cameraInc.x = -this.cameraMoveSpeed * speedChanger;
         } else if (window.isKeyPressed(GLFW_KEY_D)) {
             sceneChanged = true;
-            cameraInc.x = this.cameraMoveSpeed;
+            cameraInc.x = this.cameraMoveSpeed * speedChanger;
         }
         if (window.isKeyPressed(GLFW_KEY_Q)) {
             sceneChanged = true;
-            cameraInc.y = -this.cameraMoveSpeed;
+            cameraInc.y = -this.cameraMoveSpeed * speedChanger;
         } else if (window.isKeyPressed(GLFW_KEY_E)) {
             sceneChanged = true;
-            cameraInc.y = this.cameraMoveSpeed;
+            cameraInc.y = this.cameraMoveSpeed * speedChanger;
         }
         if (window.isKeyPressed(GLFW_KEY_X))
         {
@@ -345,36 +384,18 @@ public class GameWindow implements IGameLogic {
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             sceneChanged = true;
-            angleInc -= 0.05f;
+            angleInc -= 0.5f;
         } else if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
             sceneChanged = true;
-            angleInc += 0.05f;
+            angleInc += 0.5f;
         } else {
-            angleInc = 0;
+            //angleInc = 0;
         }
 
         pointLightPos.x = camera.getPosition().x;
         pointLightPos.y = camera.getPosition().y;
         pointLightPos.z = camera.getPosition().z;
 
-
-
-        if(window.isKeyPressed(GLFW_KEY_I)){
-            sceneChanged = true;
-            cameraInc.z = -this.cameraMoveSpeed*20;
-        }
-        if(window.isKeyPressed(GLFW_KEY_K)){
-            sceneChanged = true;
-            cameraInc.z = this.cameraMoveSpeed*20;
-        }
-        if(window.isKeyPressed(GLFW_KEY_L)){
-            sceneChanged = true;
-            cameraInc.x = -this.cameraMoveSpeed*20;
-        }
-        if(window.isKeyPressed(GLFW_KEY_J)){
-            sceneChanged = true;
-            cameraInc.x = this.cameraMoveSpeed*20;
-        }
         if(window.isKeyPressed(GLFW_KEY_ESCAPE))
         {
             System.exit(0);

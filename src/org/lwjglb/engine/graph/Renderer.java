@@ -240,6 +240,7 @@ public class Renderer {
 
         pointLightShaderProgram.createUniform("specularPower");
         pointLightShaderProgram.createPointLightUniform("pointLight");
+
     }
 
     private void setupFogShader() throws Exception {
