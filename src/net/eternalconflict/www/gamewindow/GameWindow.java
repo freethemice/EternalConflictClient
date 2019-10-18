@@ -63,6 +63,7 @@ public class GameWindow implements IGameLogic {
 
     private DefaultObject sunObject = null;
     private DefaultObject selectedObject = null;
+    private DefaultObject shipObject = null;
 
     private float cameraMoveSpeed = 1;
     public static GameWindow instance;
@@ -222,7 +223,7 @@ public class GameWindow implements IGameLogic {
                 planets.add(star);
             }
             if (defaultObject instanceof MiningShipObject) {
-
+                shipObject = defaultObject;
                 MiningShipObject miningShipObject = (MiningShipObject)defaultObject;
                 System.out.println("Mining Ship Loaded");
                 GameItem star = new GameItem(GameWindow.getMesh(defaultObject.getObjectType(), "MinningShip"));//MinningShip
@@ -361,6 +362,10 @@ i++;
         {
             selectObject(sunObject);
         }
+        if (window.isKeyPressed(GLFW_KEY_C))
+        {
+            selectObject(shipObject);
+        }
         if (window.isKeyPressed(GLFW_KEY_SPACE))
         {
             boolean selected = false;
@@ -427,8 +432,8 @@ i++;
                 vector3f = Utils.getScreenCoords(GameWindow.instance.getCamera(), window, vector3f);
                 if (vector3f != null)
                 {
-                    defaultObject.setHudPosition(new Vector2f(vector3f.x , vector3f.y));
-                    defaultObject.setHudVisible(true);
+                        defaultObject.setHudPosition(new Vector2f(vector3f.x, vector3f.y));
+                        defaultObject.setHudVisible(true);
                 }
                 else
                 {
