@@ -53,6 +53,7 @@ public class GameWindow implements IGameLogic {
     private boolean firstTime;
 
     private boolean sceneChanged;
+    private boolean meshChanged = false;
 
     private Vector3f pointLightPos;
     private boolean loaded = false;
@@ -66,6 +67,7 @@ public class GameWindow implements IGameLogic {
     private DefaultObject shipObject = null;
 
     private float cameraMoveSpeed = 1;
+    private long lastRefresh = 0;
     public static GameWindow instance;
 
     public GameWindow() {
@@ -91,6 +93,14 @@ public class GameWindow implements IGameLogic {
 
     public void setCameraMoveSpeed(float cameraMoveSpeed) {
         this.cameraMoveSpeed = cameraMoveSpeed;
+    }
+
+    public boolean isMeshChanged() {
+        return meshChanged;
+    }
+
+    public void setMeshChanged(boolean meshChanged) {
+        this.meshChanged = meshChanged;
     }
 
     public static Mesh[] getMesh(ObjectTypeEnum objectTypeEnum, String subTypeName)
@@ -249,19 +259,21 @@ i++;
     }
     public void refreshView()
     {
-        List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
-        List<GameItem> planets = new ArrayList<GameItem>();
-        for(DefaultObject defaultObject: allthings)
-        {
-            GameItem gameItem = defaultObject.getGameItem();
-            if (gameItem != null) {
-                gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
-                if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000) {
-                    planets.add(gameItem);
+        if (System.currentTimeMillis() - lastRefresh > 500) {
+            lastRefresh = System.currentTimeMillis();
+            List<DefaultObject> allthings = SolarSystemMap.viewing.getObjects();
+            List<GameItem> planets = new ArrayList<GameItem>();
+            for (DefaultObject defaultObject : allthings) {
+                GameItem gameItem = defaultObject.getGameItem();
+                if (gameItem != null) {
+                    gameItem.setPosition(defaultObject.getPosition().getFloatX() - selectedObject.getPosition().getFloatX(), defaultObject.getPosition().getFloatY() - selectedObject.getPosition().getFloatY(), defaultObject.getPosition().getFloatZ() - selectedObject.getPosition().getFloatZ());
+                    if (gameItem.getPosition().distance(selectedObject.getGameItem().getPosition()) < 1000) {
+                        planets.add(gameItem);
+                    }
                 }
             }
+            scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
         }
-        scene.setGameItems(planets.toArray(new GameItem[planets.size()]));
     }
     private void selectObject(DefaultObject selectMe) {
         if (selectMe == null) return;
@@ -424,7 +436,8 @@ i++;
                 if (defaultObject.isMouseOnMe(mouseInput))
                 {
                     guiManger.setPosition(new Vector2f(defaultObject.getHudOverlay().getPosition().x + hud.getSize().x, defaultObject.getHudOverlay().getPosition().y));
-                    guiManger.setText("Planet:" + defaultObject.getName() + " Distance: " + sunObject.getPosition().distance(defaultObject.getPosition()));
+
+                    guiManger.setText("Planet:" + defaultObject.getName() + " Distance: " + selectedObject.getPosition().distance(defaultObject.getPosition()));
                     overObject = true;
                 }
 
@@ -496,6 +509,7 @@ i++;
 
         renderer.render(window, camera, scene, sceneChanged);
 
+        if (isMeshChanged()) refreshView();
 
         if (EternalConflict.quit)
         {

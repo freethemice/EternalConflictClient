@@ -44,6 +44,7 @@ public class PlayerHolder {
     }
 
     public void setViewing(SolarSystemMap viewing) {
+        SolarSystemMap.viewing = viewing;
         this.viewing = viewing;
     }
 }

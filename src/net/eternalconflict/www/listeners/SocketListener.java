@@ -43,7 +43,8 @@ public class SocketListener implements SocketInterface {
                         data.set("command", null);
                         SolarSystemMap ssMapUpdate = new SolarSystemMap(data);
                         EternalConflict.playerHolder.getViewing().updateFromConfig(ssMapUpdate);
-                        GameWindow.instance.refreshView();
+                        GameWindow.instance.setMeshChanged(true);
+                        //GameWindow.instance.refreshView();
                     }
 
                     return;
@@ -75,9 +76,6 @@ public class SocketListener implements SocketInterface {
                         Launcher.instance.getMainPanel().setVisible(false);
                         Launcher.instance.getMainFrame().pack();
                         startTime = System.currentTimeMillis();
-                    }
-                    if (GameWindow.instance.isLoaded()) {
-                        GameWindow.instance.updateMeshes();
                     }
                     return;
             }

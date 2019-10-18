@@ -27,7 +27,6 @@ public class SolarSystemMap {
                 }
             }
         }
-        viewing = this;
         //this.config.setFile("systems", key + ".txt");
     }
     public void updateFromConfig(SolarSystemMap solarSystemMap)
