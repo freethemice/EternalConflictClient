@@ -315,11 +315,11 @@ i++;
         sceneLight.setDirectionalLight(directionalLight);
 
         pointLightPos = new Vector3f(0.0f, 0.0f, 0.0f);
-        lightIntensity = 1.0f;
+        lightIntensity = 0.70f;
 
         Vector3f pointLightColour = new Vector3f(1.0f, 1.0f, 1.0f);
 
-        PointLight.Attenuation attenuation = new PointLight.Attenuation(0.3f, 0.0f, 0.0f);
+        PointLight.Attenuation attenuation = new PointLight.Attenuation(0.75f, 0.6f, 0.3f);
 
         PointLight pointLight = new PointLight(pointLightColour, pointLightPos, lightIntensity, attenuation);
         sceneLight.setPointLightList( new PointLight[] {pointLight});
