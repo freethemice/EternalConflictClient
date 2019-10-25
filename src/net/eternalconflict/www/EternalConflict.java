@@ -307,7 +307,6 @@ public class EternalConflict {
     public static void openGame()
     {
         try {
-            MainMenu.STATE State = MainMenu.STATE.GAME;
             boolean vSync = true;
             gameLogic = new GameWindow();
             opts = new Window.WindowOptions();

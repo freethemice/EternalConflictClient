@@ -419,9 +419,6 @@ i++;
         {
             System.exit(0);
         }
-
-
-
     }
 
     public void updateWindow(float interval, MouseInput mouseInput, Window window)

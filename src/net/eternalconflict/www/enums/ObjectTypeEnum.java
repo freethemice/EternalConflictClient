@@ -7,7 +7,8 @@ public enum ObjectTypeEnum {
     STATION("stations"),
     SHIP("stations"),
     ASTROID("astroids"),
-    MOONS("moons");
+    MOONS("moons"),
+    RINGS("rings");
     String folder;
     ObjectTypeEnum(String folder)
     {

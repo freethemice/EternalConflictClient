@@ -17,14 +17,14 @@ public class OptionsWindow extends JFrame{
         JCheckBox vsyncopt;
         ConfigFile mainOptionsFile = Launcher.instance.getOptions();
 
+
         JFrame options = new JFrame("Launcher Options");
         Image icon = Toolkit.getDefaultToolkit().getImage("resources/launcher/Eternal_Conflict_Icon.png");
         options.setIconImage(icon);
         options.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        options.setBackground(Color.BLUE);
         options.setSize(900,700);
-        options.setResizable(false);
-        if(EternalConflict.serverUp)options.setBackground(Color.BLUE);
-        if(!EternalConflict.serverUp)options.setBackground(Color.LIGHT_GRAY);
+        options.setResizable(false);  
 
         JPanel optionsPanel = new JPanel();
 

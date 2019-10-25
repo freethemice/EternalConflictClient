@@ -405,7 +405,7 @@ public class Launcher extends JFrame {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("resources"), "resources");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Resources update needed: " + recVersion);
+            System.out.println("New resources are out, " + recVersion + ", you need to update");
             System.out.println(downloadFile);
             updatebln = true;
         }
@@ -415,7 +415,7 @@ public class Launcher extends JFrame {
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("libraries"), "libraries");
             filesNeeded.add(downloadHolder);
 
-            System.out.println("Libraries update needed: " + libsVersion);
+            System.out.println("New libraries have beeen released," + libsVersion + ", you need to update.");
             System.out.println(downloadFile);
             updatebln = true;
         }
@@ -424,8 +424,7 @@ public class Launcher extends JFrame {
             String downloadFile = latest.getString("game_download");
             DownloadHolder downloadHolder = new DownloadHolder(downloadFile, latest.getString("game"), "game");
             filesNeeded.add(downloadHolder);
-
-            System.out.println("Game update needed: " + gameVersion );
+            System.out.println("A new game update hase been released," + gameVersion + ", you need to update." );
             System.out.println(downloadFile);
             updatebln = true;
         }
