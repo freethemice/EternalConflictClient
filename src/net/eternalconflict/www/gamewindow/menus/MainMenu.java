@@ -2,6 +2,7 @@ package net.eternalconflict.www.gamewindow.menus;
 
 import javafx.scene.input.KeyEvent;
 import org.lwjgl.opengl.GL11;
+import org.lwjglb.engine.Window;
 
 import java.awt.*;
 
@@ -16,5 +17,6 @@ public class MainMenu
         PAUSE,
         CHAT, Game;
     }
-    private STATE State = STATE.MENU;
+
+
 }

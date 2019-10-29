@@ -1,6 +1,9 @@
 package org.lwjglb.engine;
 
-import net.eternalconflict.www.gamewindow.menus.*;
+import net.eternalconflict.www.gamewindow.menus.MainMenu;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GameEngine implements Runnable {
 
@@ -23,7 +26,11 @@ public class GameEngine implements Runnable {
     private int fps;
     
     private String windowTitle;
-    
+
+    private MainMenu.STATE State = MainMenu.STATE.MENU;
+
+    private MainMenu menu;
+
 
     public GameEngine(String windowTitle, boolean vSync, Window.WindowOptions opts, IGameLogic gameLogic) throws Exception {
         this(windowTitle, 0, 0, vSync, opts, gameLogic);
@@ -73,23 +80,28 @@ public class GameEngine implements Runnable {
         float accumulator = 0f;
         float interval = 1f / TARGET_UPS;
 
+        menu = new MainMenu();
         boolean running = true;
         while (running && !window.windowShouldClose()) {
-            elapsedTime = timer.getElapsedTime();
-            accumulator += elapsedTime;
-
-            input();
-
+            if(State == MainMenu.STATE.GAME) {
+                elapsedTime = timer.getElapsedTime();
+                accumulator += elapsedTime;
+                input();
+            }
+            else if(State == MainMenu.STATE.MENU){
+               if(window.isKeyPressed(KeyEvent.VK_SPACE)){
+                   State = MainMenu.STATE.GAME;
+               }
+            }
             while (accumulator >= interval) {
                 update(interval);
                 accumulator -= interval;
             }
-
             render();
-
-            if ( !window.isvSync() ) {
+            if (!window.isvSync()) {
                 sync();
             }
+
         }
     }
 
